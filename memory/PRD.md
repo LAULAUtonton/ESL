@@ -1,65 +1,51 @@
 # THE PIT - English Language Learning Gamification Platform
 
 ## Original Problem Statement
-User has a gamification platform for learning English (2ESO curriculum) built as pure HTML/CSS/Vanilla JS for GitHub Pages deployment. Needs to finish and refine multiple learning stations.
-
-## Core Requirements
-1. Pure HTML/CSS/Vanilla JS - NO backend, NO database
-2. Each station has distinct color but shared gamification aesthetic
-3. All stations contribute to global leaderboard via `pit-score.js` (localStorage)
-4. Content aligned with 8-unit 2ESO curriculum
-5. Manga-style illustrations for visual engagement
+Gamification platform for learning English (2ESO curriculum) built as pure HTML/CSS/Vanilla JS for GitHub Pages. Multiple learning stations with global leaderboard.
 
 ## Architecture
 ```
 /app/gamification_project/
-├── index.html           # Main hub / game entry
+├── index.html                    # Main hub - dark theme, leaderboard, all stations
 └── stations/
-    ├── vocabulary.html   # Purple theme - 336 words, 6 activities
+    ├── vocabulary.html           # Purple - 336 words, 7 modes
     ├── vocabulary.js
     ├── vocabulary-icons.js
-    ├── writing.html      # Teal/Cyan theme - 6 writing modes
-    ├── reading.html      # Green theme - 24 texts, 3 modes, manga images
+    ├── writing.html              # Teal - 6 writing modes
+    ├── reading.html              # Green - 24 texts, manga illustrations, 3 modes
     ├── reading-bank.js
-    ├── speaking.html     # Blue theme - 16 dialogues, 3 modes
-    ├── listening.html    # (Existing, needs review)
-    ├── grammar.html      # (Existing, needs review)
-    ├── games.html        # (Existing, needs review)
-    ├── pit-score.js      # Global score tracker (localStorage)
-    └── icons/            # SVG assets
+    ├── speaking.html             # Blue - 16 dialogues, 4 modes (role play, listen & repeat, fill, order)
+    ├── listening.html            # Orange - 16 exercises, 3 modes (comprehension, dictation, note-taking)
+    ├── funnycorner.html          # Pink - 25 idioms, 4 modes (guess, match, situation, listen)
+    ├── games.html                # Red - language games
+    ├── grammar.html              # Gray - grammar practice
+    ├── to-be.html                # Gray - verb to be
+    ├── pronouns.html             # Gray - pronouns practice
+    ├── present-continuous.html   # Gray - present continuous
+    ├── question-words.html       # Gray - question words
+    ├── pit-score.js              # Global score tracker (localStorage)
+    └── icons/                    # SVG assets
 ```
 
-## What's Been Implemented
+## Completed Stations
+| Station | Color | Content | Modes | Score Integration |
+|---------|-------|---------|-------|-------------------|
+| Hub/Index | Dark/Gradient | Leaderboard, achievements | N/A | Reads all scores |
+| Vocabulary | Purple | 336 words, 8 units | 7 (Flashcards, Sorting, Quiz, Hangman, Memory, Sentences, Explore) | Yes |
+| Writing | Teal | 6 writing tasks | 6 modes with grammar check | Yes |
+| Reading | Green | 24 texts, manga illustrations | 3 (Comprehension, T/F, Vocabulary) | Yes |
+| Speaking | Blue | 16 dialogues, 8 units | 4 (Role Play, Listen & Repeat, Fill the Gap, Word Order) | Yes |
+| Listening | Orange | 16 exercises (2/unit: easy+hard) | 3 (Comprehension, Dictation, Note-taking) | Yes |
+| Funny Corner | Pink | 25 idioms, 5 categories | 4 (Guess Meaning, Match Up, Situation, Listen & Choose) | Yes |
 
-### Completed Stations
-| Station | Color | Features | pit-score.js | Date |
-|---------|-------|----------|-------------|------|
-| Vocabulary | Purple | 336 words, 8 units, 6 activities (flashcards, drag-drop, categories, etc.) | Yes | Pre-fork |
-| Writing | Teal/Cyan | 6 modes, grammar checking, vocab helper sidebar | Yes | Pre-fork |
-| Reading | Green (#22c55e) | 24 texts (8 units x 3 levels), 3 modes (Comprehension, T/F, Vocabulary), 24 manga illustrations, pit-score.js | Yes | Feb 2026 |
-| Speaking | Blue (#3b82f6) | 16 dialogues (8 units x 2), 3 modes (Role Play, Fill the Gap, Word Order), grammar focus, key phrases, speech recognition | Yes | Feb 2026 |
+## Backlog
+### P0
+- [ ] Challenge Station (red/fire) - Karaoke, Tongue Twisters, Who Am I, Multi-skill
 
-### Global Systems
-- `pit-score.js`: localStorage-based score tracker across all stations
-- Player data: name, totalScore, per-station scores, achievements
+### P1
+- [ ] Review/improve existing grammar mini-stations (to-be, pronouns, etc.)
+- [ ] Ensure all grammar stations use pit-score.js
 
-## Prioritized Backlog
-
-### P0 - High Priority
-- [ ] Global Leaderboard on `index.html` - Display cumulative scores from pit-score.js
-- [ ] Review/refine Listening Station - Ensure pit-score.js, unique colors, curriculum alignment
-
-### P1 - Medium Priority
-- [ ] Review/refine Grammar Station - Ensure pit-score.js integration
-- [ ] Review/refine Games Station - Ensure pit-score.js integration
-- [ ] Review remaining stations (to-be.html, pronouns.html, etc.)
-
-### P2 - Low Priority
-- [ ] Ensure all files ready for GitHub Pages push
-- [ ] File cleanup/organization
-- [ ] Mobile responsiveness pass across all stations
-
-## Testing Status
-- Reading Station: All tests PASS (100%)
-- Speaking Station: All tests PASS (100%)
-- Test report: /app/test_reports/iteration_1.json
+### P2
+- [ ] Mobile responsiveness polish
+- [ ] Achievement unlock logic in pit-score.js
