@@ -17,6 +17,9 @@
   --accent2: #c084fc;
   --text: #1f2937;
   --muted: #6b7280;
+  --success: #22c55e;
+  --error: #ef4444;
+  --warning: #f59e0b;
 }
 
 * { box-sizing: border-box; }
@@ -34,6 +37,7 @@ body {
   margin: 0 auto;
 }
 
+/* HEADER */
 header {
   background: var(--panel);
   border-radius: 20px;
@@ -43,34 +47,37 @@ header {
 }
 
 h1 {
-  margin: 0 0 10px 0;
-  font-size: clamp(24px, 4vw, 36px);
+  margin: 0 0 15px 0;
+  font-size: clamp(22px, 4vw, 32px);
   color: var(--bg3);
   letter-spacing: 2px;
 }
 
 .controls {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
   align-items: center;
+  margin-bottom: 15px;
 }
 
 select, button {
-  padding: 12px 18px;
+  padding: 10px 16px;
   border-radius: 12px;
   border: 2px solid var(--accent);
   font-family: inherit;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 13px;
   cursor: pointer;
   background: white;
   color: var(--bg3);
+  transition: all 0.2s;
 }
 
 button:hover {
   background: var(--accent);
   color: white;
+  transform: translateY(-2px);
 }
 
 .back-btn {
@@ -79,21 +86,76 @@ button:hover {
   border-color: var(--bg3);
 }
 
-.back-btn:hover {
-  background: #3b0764;
+/* MODE TABS */
+.mode-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
 }
 
-/* FLASHCARD GRID */
+.mode-tab {
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 2px solid var(--accent);
+  background: white;
+  color: var(--bg3);
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mode-tab:hover {
+  background: #f5f3ff;
+}
+
+.mode-tab.active {
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+}
+
+/* HUD */
+.hud {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.hud-item {
+  background: var(--accent);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.hud-item.success { background: var(--success); }
+.hud-item.error { background: var(--error); }
+
+/* ACTIVITY SCREENS */
+.activity-screen {
+  display: none;
+}
+
+.activity-screen.active {
+  display: block;
+}
+
+/* ==================== */
+/* FLASHCARDS MODE */
+/* ==================== */
+
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
 }
 
-/* FLASHCARD STYLES */
 .card {
   perspective: 1000px;
-  height: 320px;
+  height: 300px;
   cursor: pointer;
 }
 
@@ -121,66 +183,51 @@ button:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 24px;
+  padding: 20px;
   text-align: center;
 }
 
-/* FRONT OF CARD */
 .card-front {
   background: linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%);
   border: 3px solid var(--accent);
 }
 
 .card-icon {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 20px;
+  width: 70px;
+  height: 70px;
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
   border-radius: 50%;
-  padding: 16px;
-}
-
-.card-icon img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  filter: brightness(0) invert(1);
-}
-
-.card-icon .emoji {
-  font-size: 42px;
-  line-height: 1;
+  font-size: 36px;
 }
 
 .card-word {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 900;
   color: var(--bg3);
-  margin-bottom: 12px;
-  letter-spacing: 1px;
+  margin-bottom: 10px;
 }
 
 .card-pos {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   color: white;
   background: var(--accent);
-  padding: 6px 16px;
+  padding: 5px 14px;
   border-radius: 20px;
   text-transform: uppercase;
 }
 
 .card-hint {
-  margin-top: 16px;
-  font-size: 12px;
+  margin-top: 12px;
+  font-size: 11px;
   color: var(--muted);
   font-style: italic;
 }
 
-/* BACK OF CARD */
 .card-back {
   background: linear-gradient(135deg, var(--accent) 0%, var(--bg3) 100%);
   transform: rotateY(180deg);
@@ -188,59 +235,430 @@ button:hover {
 }
 
 .card-translation {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 900;
-  margin-bottom: 16px;
-  letter-spacing: 1px;
-}
-
-.card-category {
-  font-size: 12px;
-  font-weight: 700;
-  background: rgba(255,255,255,0.2);
-  padding: 8px 16px;
-  border-radius: 20px;
   margin-bottom: 12px;
 }
 
+.card-category {
+  font-size: 11px;
+  font-weight: 700;
+  background: rgba(255,255,255,0.2);
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
 .card-unit {
-  font-size: 14px;
+  font-size: 12px;
   opacity: 0.9;
 }
 
-.card-back .card-hint {
-  color: rgba(255,255,255,0.8);
+/* ==================== */
+/* SORTING GAME MODE */
+/* ==================== */
+
+.sorting-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
 }
 
-/* HUD */
-.hud {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 12px;
-}
-
-.hud-item {
-  background: var(--accent);
-  color: white;
-  padding: 8px 16px;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 700;
-}
-
-/* RESPONSIVE */
-@media (max-width: 600px) {
-  .grid {
+@media (max-width: 900px) {
+  .sorting-container {
     grid-template-columns: 1fr;
   }
-  .card {
-    height: 300px;
-  }
-  .card-word {
-    font-size: 24px;
-  }
 }
+
+.word-bank {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.word-bank h3 {
+  margin: 0 0 15px 0;
+  color: var(--bg3);
+  font-size: 18px;
+}
+
+.word-pool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-height: 100px;
+  padding: 15px;
+  background: #f5f3ff;
+  border-radius: 12px;
+  border: 2px dashed var(--accent);
+}
+
+.draggable-word {
+  padding: 10px 18px;
+  background: white;
+  border: 2px solid var(--accent);
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: grab;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.draggable-word:hover {
+  background: var(--accent);
+  color: white;
+  transform: scale(1.05);
+}
+
+.draggable-word.dragging {
+  opacity: 0.5;
+  cursor: grabbing;
+}
+
+.draggable-word.correct {
+  background: var(--success);
+  border-color: var(--success);
+  color: white;
+}
+
+.draggable-word.wrong {
+  background: var(--error);
+  border-color: var(--error);
+  color: white;
+}
+
+.categories-area {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.category-box {
+  background: white;
+  border-radius: 16px;
+  padding: 15px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+  min-height: 120px;
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.category-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.category-title {
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--bg3);
+}
+
+.category-dropzone {
+  min-height: 60px;
+  padding: 10px;
+  background: #f9fafb;
+  border: 2px dashed #d1d5db;
+  border-radius: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.category-dropzone.drag-over {
+  background: #f5f3ff;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
+}
+
+/* ==================== */
+/* CATEGORY QUIZ MODE */
+/* ==================== */
+
+.quiz-container {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.quiz-progress {
+  height: 10px;
+  background: #e5e7eb;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  overflow: hidden;
+}
+
+.quiz-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--success));
+  border-radius: 10px;
+  transition: width 0.3s;
+}
+
+.quiz-question {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--bg3);
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.quiz-word {
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--accent);
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #f5f3ff;
+  border-radius: 16px;
+}
+
+.quiz-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.quiz-option {
+  padding: 18px;
+  border: 3px solid #e5e7eb;
+  border-radius: 14px;
+  background: white;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.quiz-option:hover {
+  border-color: var(--accent);
+  background: #f5f3ff;
+}
+
+.quiz-option.selected {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: white;
+}
+
+.quiz-option.correct {
+  border-color: var(--success);
+  background: var(--success);
+  color: white;
+}
+
+.quiz-option.wrong {
+  border-color: var(--error);
+  background: var(--error);
+  color: white;
+}
+
+.quiz-option:disabled {
+  cursor: not-allowed;
+}
+
+.quiz-feedback {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.quiz-feedback.correct {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.quiz-feedback.wrong {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.quiz-next-btn {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.quiz-next-btn:hover {
+  background: var(--bg3);
+}
+
+/* ==================== */
+/* UNIT EXPANSION */
+/* ==================== */
+
+.unit-accordion {
+  background: white;
+  border-radius: 16px;
+  margin-bottom: 15px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+.unit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--bg3) 100%);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.unit-header:hover {
+  filter: brightness(1.1);
+}
+
+.unit-title {
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.unit-meta {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.unit-toggle {
+  font-size: 20px;
+  transition: transform 0.3s;
+}
+
+.unit-header.expanded .unit-toggle {
+  transform: rotate(180deg);
+}
+
+.unit-content {
+  display: none;
+  padding: 20px;
+}
+
+.unit-content.expanded {
+  display: block;
+}
+
+.unit-sets {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.set-box {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 15px;
+  border-left: 4px solid var(--accent);
+}
+
+.set-title {
+  font-weight: 800;
+  color: var(--bg3);
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.set-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.set-word {
+  padding: 6px 12px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* RESULTS MODAL */
+.results-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.results-modal.active {
+  display: flex;
+}
+
+.results-content {
+  background: white;
+  border-radius: 24px;
+  padding: 40px;
+  text-align: center;
+  max-width: 400px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+}
+
+.results-icon {
+  font-size: 60px;
+  margin-bottom: 20px;
+}
+
+.results-title {
+  font-size: 28px;
+  font-weight: 900;
+  color: var(--bg3);
+  margin-bottom: 10px;
+}
+
+.results-score {
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+
+.results-btn {
+  padding: 14px 30px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 16px;
+  cursor: pointer;
+}
+
 </style>
 </head>
 
@@ -248,7 +666,7 @@ button:hover {
 
 <div class="container">
   <header>
-    <h1>VOCABULARY FLASHCARDS</h1>
+    <h1>VOCABULARY STATION</h1>
     
     <div class="controls">
       <button class="back-btn" onclick="location.href='../index.html'">MAIN MENU</button>
@@ -256,18 +674,69 @@ button:hover {
         <option value="all">All Units</option>
       </select>
       <button id="shuffleBtn">SHUFFLE</button>
-      <button id="resetBtn">RESET ALL</button>
+      <button id="resetBtn">RESET</button>
+    </div>
+    
+    <div class="mode-tabs">
+      <button class="mode-tab active" data-mode="flashcards">📚 Flashcards</button>
+      <button class="mode-tab" data-mode="sorting">🎯 Sorting Game</button>
+      <button class="mode-tab" data-mode="quiz">❓ Category Quiz</button>
+      <button class="mode-tab" data-mode="explore">📖 Explore Units</button>
     </div>
     
     <div class="hud">
       <div class="hud-item">Cards: <span id="cardCount">0</span></div>
-      <div class="hud-item">Flipped: <span id="flippedCount">0</span></div>
+      <div class="hud-item" id="scoreBox">Score: <span id="score">0</span></div>
+      <div class="hud-item" id="streakBox">Streak: <span id="streak">0</span></div>
     </div>
   </header>
 
   <main>
-    <div class="grid" id="grid"></div>
+    <!-- FLASHCARDS MODE -->
+    <div id="flashcards-screen" class="activity-screen active">
+      <div class="grid" id="grid"></div>
+    </div>
+    
+    <!-- SORTING GAME MODE -->
+    <div id="sorting-screen" class="activity-screen">
+      <div class="sorting-container">
+        <div class="word-bank">
+          <h3>📦 Word Bank - Drag words to their category!</h3>
+          <div class="word-pool" id="wordPool"></div>
+        </div>
+        <div class="categories-area" id="categoriesArea"></div>
+      </div>
+    </div>
+    
+    <!-- CATEGORY QUIZ MODE -->
+    <div id="quiz-screen" class="activity-screen">
+      <div class="quiz-container">
+        <div class="quiz-progress">
+          <div class="quiz-progress-bar" id="quizProgressBar"></div>
+        </div>
+        <div class="quiz-question">Which category does this word belong to?</div>
+        <div class="quiz-word" id="quizWord">-</div>
+        <div class="quiz-options" id="quizOptions"></div>
+        <div class="quiz-feedback" id="quizFeedback" style="display:none"></div>
+        <button class="quiz-next-btn" id="quizNextBtn" style="display:none">Next Word →</button>
+      </div>
+    </div>
+    
+    <!-- EXPLORE UNITS MODE -->
+    <div id="explore-screen" class="activity-screen">
+      <div id="unitAccordions"></div>
+    </div>
   </main>
+</div>
+
+<!-- Results Modal -->
+<div class="results-modal" id="resultsModal">
+  <div class="results-content">
+    <div class="results-icon">🏆</div>
+    <div class="results-title">Great Job!</div>
+    <div class="results-score" id="finalScore">0/0</div>
+    <button class="results-btn" onclick="closeResults()">Play Again</button>
+  </div>
 </div>
 
 <script>
@@ -284,6 +753,9 @@ const VOCAB_DB = {
         {
           setId: "u1_verbs",
           label: "Verbs and opposites",
+          category: "verbs",
+          color: "#3b82f6",
+          emoji: "🔄",
           type: "pairs",
           items: [
             { a: "agree", b: "disagree", emoji: "🤝" },
@@ -299,17 +771,20 @@ const VOCAB_DB = {
         {
           setId: "u1_feelings",
           label: "Feelings",
+          category: "emotions",
+          color: "#ec4899",
+          emoji: "😊",
           type: "words",
           items: [
-            { word: "happy", emoji: "😊", icon: "happy.svg" },
-            { word: "unhappy", emoji: "😢", icon: "sad.svg" },
-            { word: "scared", emoji: "😨", icon: "scared.svg" },
-            { word: "surprised", emoji: "😲", icon: "surprised.svg" },
-            { word: "tired", emoji: "😴", icon: "sleepy.svg" },
-            { word: "bored", emoji: "😑", icon: "neutral.svg" },
-            { word: "excited", emoji: "🤩", icon: "excited.svg" },
-            { word: "worried", emoji: "😟", icon: "worried.svg" },
-            { word: "relaxed", emoji: "😌", icon: "relaxed.svg" }
+            { word: "happy", emoji: "😊" },
+            { word: "unhappy", emoji: "😢" },
+            { word: "scared", emoji: "😨" },
+            { word: "surprised", emoji: "😲" },
+            { word: "tired", emoji: "😴" },
+            { word: "bored", emoji: "😑" },
+            { word: "excited", emoji: "🤩" },
+            { word: "worried", emoji: "😟" },
+            { word: "relaxed", emoji: "😌" }
           ]
         }
       ]
@@ -321,34 +796,40 @@ const VOCAB_DB = {
         {
           setId: "u2_materials",
           label: "Materials",
+          category: "materials",
+          color: "#78716c",
+          emoji: "🧱",
           type: "words",
           items: [
-            { word: "cardboard", emoji: "📦", icon: "cardboard.svg" },
-            { word: "cotton", emoji: "🧶", icon: "wool.svg" },
-            { word: "glass", emoji: "🥛", icon: "glass.svg" },
-            { word: "leather", emoji: "👜", icon: "leather.svg" },
-            { word: "metal", emoji: "🔩", icon: "metal.svg" },
-            { word: "paper", emoji: "📄", icon: "cardboard.svg" },
-            { word: "plastic", emoji: "🧴", icon: "plastic.svg" },
-            { word: "wood", emoji: "🪵", icon: "wood_logs.svg" },
-            { word: "wool", emoji: "🐑", icon: "wool.svg" }
+            { word: "cardboard", emoji: "📦" },
+            { word: "cotton", emoji: "🧶" },
+            { word: "glass", emoji: "🥛" },
+            { word: "leather", emoji: "👜" },
+            { word: "metal", emoji: "🔩" },
+            { word: "paper", emoji: "📄" },
+            { word: "plastic", emoji: "🧴" },
+            { word: "wood", emoji: "🪵" },
+            { word: "wool", emoji: "🐑" }
           ]
         },
         {
           setId: "u2_art",
           label: "Art and artists",
+          category: "art",
+          color: "#8b5cf6",
+          emoji: "🎨",
           type: "words",
           items: [
-            { word: "dance", emoji: "💃", icon: "dancing.svg" },
-            { word: "design", emoji: "🎨", icon: "designing.svg" },
-            { word: "music", emoji: "🎵", icon: null },
-            { word: "paint", emoji: "🖌️", icon: "painting.svg" },
-            { word: "photograph", emoji: "📷", icon: null },
-            { word: "sculpture", emoji: "🗿", icon: null },
-            { word: "designer", emoji: "✏️", icon: "designing.svg" },
-            { word: "musician", emoji: "🎸", icon: null },
-            { word: "painter", emoji: "🎨", icon: "painting.svg" },
-            { word: "photographer", emoji: "📸", icon: null }
+            { word: "dance", emoji: "💃" },
+            { word: "design", emoji: "🎨" },
+            { word: "music", emoji: "🎵" },
+            { word: "paint", emoji: "🖌️" },
+            { word: "photograph", emoji: "📷" },
+            { word: "sculpture", emoji: "🗿" },
+            { word: "designer", emoji: "✏️" },
+            { word: "musician", emoji: "🎸" },
+            { word: "painter", emoji: "🎨" },
+            { word: "photographer", emoji: "📸" }
           ]
         }
       ]
@@ -360,25 +841,31 @@ const VOCAB_DB = {
         {
           setId: "u3_activities",
           label: "Outdoor activities",
+          category: "activities",
+          color: "#22c55e",
+          emoji: "🏃",
           type: "words",
           items: [
-            { word: "cycling", emoji: "🚴", icon: "cycling.svg" },
-            { word: "jogging", emoji: "🏃", icon: "jogging.svg" },
-            { word: "rowing", emoji: "🚣", icon: "rowing.svg" },
-            { word: "working out", emoji: "💪", icon: "working-out.svg" },
-            { word: "kite flying", emoji: "🪁", icon: "kite-flying.svg" },
-            { word: "free running", emoji: "🤸", icon: "freerunning.svg" }
+            { word: "cycling", emoji: "🚴" },
+            { word: "jogging", emoji: "🏃" },
+            { word: "rowing", emoji: "🚣" },
+            { word: "working out", emoji: "💪" },
+            { word: "kite flying", emoji: "🪁" },
+            { word: "free running", emoji: "🤸" }
           ]
         },
         {
           setId: "u3_events",
           label: "Outdoor events",
+          category: "events",
+          color: "#f59e0b",
+          emoji: "🎪",
           type: "words",
           items: [
-            { word: "festival", emoji: "🎪", icon: null },
-            { word: "market", emoji: "🛍️", icon: null },
-            { word: "sports event", emoji: "🏟️", icon: null },
-            { word: "concert", emoji: "🎤", icon: null }
+            { word: "festival", emoji: "🎪" },
+            { word: "market", emoji: "🛍️" },
+            { word: "sports event", emoji: "🏟️" },
+            { word: "concert", emoji: "🎤" }
           ]
         }
       ]
@@ -388,18 +875,32 @@ const VOCAB_DB = {
       title: "People and personality",
       sets: [
         {
-          setId: "u4_personality",
-          label: "Personality adjectives",
+          setId: "u4_positive",
+          label: "Positive traits",
+          category: "positive",
+          color: "#22c55e",
+          emoji: "👍",
           type: "words",
           items: [
-            { word: "patient", emoji: "🧘", icon: "patient.svg" },
-            { word: "lazy", emoji: "🦥", icon: "lazy.svg" },
-            { word: "generous", emoji: "🎁", icon: null },
-            { word: "polite", emoji: "🤵", icon: null },
-            { word: "confident", emoji: "💪", icon: null },
-            { word: "kind", emoji: "💝", icon: null },
-            { word: "mean", emoji: "😠", icon: "angry.svg" },
-            { word: "rude", emoji: "🙄", icon: "annoyed.svg" }
+            { word: "patient", emoji: "🧘" },
+            { word: "generous", emoji: "🎁" },
+            { word: "polite", emoji: "🤵" },
+            { word: "confident", emoji: "💪" },
+            { word: "kind", emoji: "💝" }
+          ]
+        },
+        {
+          setId: "u4_negative",
+          label: "Negative traits",
+          category: "negative",
+          color: "#ef4444",
+          emoji: "👎",
+          type: "words",
+          items: [
+            { word: "lazy", emoji: "🦥" },
+            { word: "mean", emoji: "😠" },
+            { word: "rude", emoji: "🙄" },
+            { word: "impatient", emoji: "😤" }
           ]
         }
       ]
@@ -410,14 +911,17 @@ const VOCAB_DB = {
       sets: [
         {
           setId: "u5_senses",
-          label: "Senses",
+          label: "The five senses",
+          category: "senses",
+          color: "#06b6d4",
+          emoji: "👁️",
           type: "words",
           items: [
-            { word: "sight", emoji: "👁️", icon: null },
-            { word: "hearing", emoji: "👂", icon: null },
-            { word: "smell", emoji: "👃", icon: null },
-            { word: "taste", emoji: "👅", icon: null },
-            { word: "touch", emoji: "✋", icon: null }
+            { word: "sight", emoji: "👁️" },
+            { word: "hearing", emoji: "👂" },
+            { word: "smell", emoji: "👃" },
+            { word: "taste", emoji: "👅" },
+            { word: "touch", emoji: "✋" }
           ]
         }
       ]
@@ -428,17 +932,32 @@ const VOCAB_DB = {
       sets: [
         {
           setId: "u6_body",
-          label: "Body and fitness",
+          label: "Body parts",
+          category: "body",
+          color: "#f43f5e",
+          emoji: "🫀",
           type: "words",
           items: [
-            { word: "brain", emoji: "🧠", icon: null },
-            { word: "heart", emoji: "❤️", icon: null },
-            { word: "lungs", emoji: "🫁", icon: null },
-            { word: "muscles", emoji: "💪", icon: null },
-            { word: "bones", emoji: "🦴", icon: null },
-            { word: "injury", emoji: "🩹", icon: null },
-            { word: "stretch", emoji: "🧘", icon: "stretch.svg" },
-            { word: "train", emoji: "🏋️", icon: "train.svg" }
+            { word: "brain", emoji: "🧠" },
+            { word: "heart", emoji: "❤️" },
+            { word: "lungs", emoji: "🫁" },
+            { word: "muscles", emoji: "💪" },
+            { word: "bones", emoji: "🦴" }
+          ]
+        },
+        {
+          setId: "u6_fitness",
+          label: "Fitness words",
+          category: "fitness",
+          color: "#22c55e",
+          emoji: "🏋️",
+          type: "words",
+          items: [
+            { word: "injury", emoji: "🩹" },
+            { word: "stretch", emoji: "🧘" },
+            { word: "train", emoji: "🏋️" },
+            { word: "exercise", emoji: "🤸" },
+            { word: "warm up", emoji: "🔥" }
           ]
         }
       ]
@@ -449,13 +968,17 @@ const VOCAB_DB = {
       sets: [
         {
           setId: "u7_learning",
-          label: "Learning",
+          label: "Learning verbs",
+          category: "learning",
+          color: "#3b82f6",
+          emoji: "📖",
           type: "pairs",
           items: [
             { a: "achieve", b: "achievement", emoji: "🏆" },
             { a: "decide", b: "decision", emoji: "🤔" },
             { a: "learn", b: "learning", emoji: "📖" },
-            { a: "solve", b: "solution", emoji: "💡" }
+            { a: "solve", b: "solution", emoji: "💡" },
+            { a: "improve", b: "improvement", emoji: "📈" }
           ]
         }
       ]
@@ -467,16 +990,21 @@ const VOCAB_DB = {
         {
           setId: "u8_jobs",
           label: "Jobs",
+          category: "jobs",
+          color: "#6366f1",
+          emoji: "💼",
           type: "words",
           items: [
-            { word: "astronaut", emoji: "👨‍🚀", icon: "astronauts.svg" },
-            { word: "builder", emoji: "👷", icon: null },
-            { word: "dentist", emoji: "🦷", icon: null },
-            { word: "engineer", emoji: "👨‍🔧", icon: null },
-            { word: "musician", emoji: "🎵", icon: null },
-            { word: "teacher", emoji: "👨‍🏫", icon: null },
-            { word: "lawyer", emoji: "⚖️", icon: null },
-            { word: "manager", emoji: "💼", icon: null }
+            { word: "astronaut", emoji: "👨‍🚀" },
+            { word: "builder", emoji: "👷" },
+            { word: "dentist", emoji: "🦷" },
+            { word: "engineer", emoji: "👨‍🔧" },
+            { word: "musician", emoji: "🎵" },
+            { word: "teacher", emoji: "👨‍🏫" },
+            { word: "lawyer", emoji: "⚖️" },
+            { word: "manager", emoji: "💼" },
+            { word: "doctor", emoji: "👨‍⚕️" },
+            { word: "firefighter", emoji: "🚒" }
           ]
         }
       ]
@@ -485,51 +1013,58 @@ const VOCAB_DB = {
 };
 
 // =====================
-// ICON PATH HELPERS
+// STATE
 // =====================
 
-function getIconPath(setId, iconFile) {
-  if (!iconFile) return null;
-  
-  // Determine category from setId
-  let category = "activities";
-  const id = setId.toLowerCase();
-  
-  if (id.includes("feel") || id.includes("personality")) {
-    category = "emotions";
-  } else if (id.includes("material")) {
-    category = "materials";
-  } else if (id.includes("job")) {
-    category = "jobs";
-  } else if (id.includes("body") || id.includes("fitness")) {
-    category = "activities";
+let currentMode = 'flashcards';
+let currentUnit = 'all';
+let allCards = [];
+let currentCards = [];
+let flippedSet = new Set();
+let score = 0;
+let streak = 0;
+
+// Quiz state
+let quizWords = [];
+let quizIndex = 0;
+let quizCorrect = 0;
+
+// =====================
+// HELPERS
+// =====================
+
+function shuffle(array) {
+  const a = array.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
   }
-  
-  return `icons/${category}/${iconFile}`;
+  return a;
 }
 
-// =====================
-// FLATTEN DATABASE
-// =====================
+function escapeHtml(str) {
+  return String(str || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
 
-function flattenVocab() {
+function flattenVocab(unitFilter = 'all') {
   const cards = [];
   
   for (const unit of VOCAB_DB.units) {
+    if (unitFilter !== 'all' && unit.unit !== Number(unitFilter)) continue;
+    
     for (const set of unit.sets) {
-      
       if (set.type === "pairs") {
         for (const pair of set.items) {
-          // Card for first word
           cards.push({
             unit: unit.unit,
             unitTitle: unit.title,
             setLabel: set.label,
+            category: set.category,
+            categoryColor: set.color,
             front: pair.a,
             back: pair.b,
             pos: "verb",
-            emoji: pair.emoji,
-            icon: null
+            emoji: pair.emoji
           });
         }
       }
@@ -540,11 +1075,12 @@ function flattenVocab() {
             unit: unit.unit,
             unitTitle: unit.title,
             setLabel: set.label,
+            category: set.category,
+            categoryColor: set.color,
             front: item.word,
             back: "",
             pos: getPOS(set.setId),
-            emoji: item.emoji,
-            icon: item.icon ? getIconPath(set.setId, item.icon) : null
+            emoji: item.emoji
           });
         }
       }
@@ -556,95 +1092,96 @@ function flattenVocab() {
 
 function getPOS(setId) {
   const id = setId.toLowerCase();
-  if (id.includes("verb")) return "verb";
-  if (id.includes("feel") || id.includes("personality")) return "adjective";
-  if (id.includes("sense")) return "noun";
+  if (id.includes("verb") || id.includes("learning")) return "verb";
+  if (id.includes("feel") || id.includes("personality") || id.includes("positive") || id.includes("negative")) return "adjective";
   return "noun";
 }
 
-function listUnits() {
-  return VOCAB_DB.units.map(u => ({
-    unit: u.unit,
-    title: u.title
-  }));
-}
-
-function shuffle(array) {
-  const a = array.slice();
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
+function getCategories(unitFilter = 'all') {
+  const cats = new Map();
+  
+  for (const unit of VOCAB_DB.units) {
+    if (unitFilter !== 'all' && unit.unit !== Number(unitFilter)) continue;
+    
+    for (const set of unit.sets) {
+      if (!cats.has(set.category)) {
+        cats.set(set.category, {
+          id: set.category,
+          label: set.label,
+          color: set.color,
+          emoji: set.emoji,
+          words: []
+        });
+      }
+      
+      const cat = cats.get(set.category);
+      if (set.type === "pairs") {
+        set.items.forEach(p => {
+          cat.words.push(p.a);
+          cat.words.push(p.b);
+        });
+      } else {
+        set.items.forEach(i => cat.words.push(i.word));
+      }
+    }
   }
-  return a;
+  
+  return Array.from(cats.values());
+}
+
+function updateHUD() {
+  document.getElementById('cardCount').textContent = currentCards.length;
+  document.getElementById('score').textContent = score;
+  document.getElementById('streak').textContent = streak;
 }
 
 // =====================
-// APP STATE & DOM
+// MODE SWITCHING
 // =====================
 
-const grid = document.getElementById("grid");
-const unitSelect = document.getElementById("unitSelect");
-const shuffleBtn = document.getElementById("shuffleBtn");
-const resetBtn = document.getElementById("resetBtn");
-const cardCountEl = document.getElementById("cardCount");
-const flippedCountEl = document.getElementById("flippedCount");
-
-let allCards = [];
-let currentCards = [];
-let flippedSet = new Set();
-
-// =====================
-// INITIALIZE
-// =====================
-
-function initUnits() {
-  const units = listUnits();
-  unitSelect.innerHTML = `<option value="all">All Units</option>` +
-    units.map(u => `<option value="${u.unit}">Unit ${u.unit}: ${u.title}</option>`).join("");
+function setMode(mode) {
+  currentMode = mode;
+  
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.mode-tab[data-mode="${mode}"]`).classList.add('active');
+  
+  document.querySelectorAll('.activity-screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(`${mode}-screen`).classList.add('active');
+  
+  if (mode === 'flashcards') renderFlashcards();
+  if (mode === 'sorting') initSortingGame();
+  if (mode === 'quiz') initQuiz();
+  if (mode === 'explore') renderExplore();
 }
 
-function escapeHtml(str) {
-  return String(str || "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
+document.querySelectorAll('.mode-tab').forEach(tab => {
+  tab.addEventListener('click', () => setMode(tab.dataset.mode));
+});
 
 // =====================
-// RENDER CARDS
+// FLASHCARDS
 // =====================
 
-function render() {
+function renderFlashcards() {
+  const grid = document.getElementById('grid');
+  
   grid.innerHTML = currentCards.map((card, idx) => {
     const isFlipped = flippedSet.has(idx);
-    
-    // Icon or emoji
-    let iconHtml;
-    if (card.icon) {
-      iconHtml = `<img src="${escapeHtml(card.icon)}" alt="${escapeHtml(card.front)}" onerror="this.parentElement.innerHTML='<span class=\\'emoji\\'>${card.emoji || '📝'}</span>'">`;
-    } else {
-      iconHtml = `<span class="emoji">${card.emoji || '📝'}</span>`;
-    }
     
     return `
     <div class="card ${isFlipped ? 'flipped' : ''}" data-index="${idx}" onclick="flipCard(${idx})">
       <div class="card-inner">
-        
         <div class="card-face card-front">
-          <div class="card-icon">${iconHtml}</div>
+          <div class="card-icon" style="background: ${card.categoryColor}">${card.emoji}</div>
           <div class="card-word">${escapeHtml(card.front)}</div>
           <div class="card-pos">${escapeHtml(card.pos)}</div>
           <div class="card-hint">Click to flip</div>
         </div>
-        
         <div class="card-face card-back">
           <div class="card-translation">${card.back ? escapeHtml(card.back) : escapeHtml(card.front)}</div>
           <div class="card-category">${escapeHtml(card.setLabel)}</div>
           <div class="card-unit">Unit ${card.unit}: ${escapeHtml(card.unitTitle)}</div>
-          <div class="card-hint">Click to flip back</div>
         </div>
-        
       </div>
     </div>
     `;
@@ -653,59 +1190,339 @@ function render() {
   updateHUD();
 }
 
-function updateHUD() {
-  cardCountEl.textContent = currentCards.length;
-  flippedCountEl.textContent = flippedSet.size;
-}
-
-// =====================
-// CARD INTERACTIONS
-// =====================
-
 window.flipCard = function(idx) {
   if (flippedSet.has(idx)) {
     flippedSet.delete(idx);
   } else {
     flippedSet.add(idx);
   }
-  render();
+  renderFlashcards();
 };
 
 // =====================
-// CONTROLS
+// SORTING GAME
 // =====================
 
-function loadCards() {
-  const unitVal = unitSelect.value;
+let sortingCategories = [];
+let sortingWords = [];
+
+function initSortingGame() {
+  sortingCategories = getCategories(currentUnit).slice(0, 4);
   
-  if (unitVal === "all") {
-    currentCards = allCards.slice();
-  } else {
-    currentCards = allCards.filter(c => c.unit === Number(unitVal));
-  }
+  // Get words from all categories
+  sortingWords = [];
+  sortingCategories.forEach(cat => {
+    const words = shuffle(cat.words).slice(0, 3);
+    words.forEach(w => {
+      sortingWords.push({ word: w, category: cat.id, placed: false });
+    });
+  });
+  sortingWords = shuffle(sortingWords);
   
-  flippedSet.clear();
-  render();
+  renderSortingGame();
 }
 
-unitSelect.addEventListener("change", loadCards);
+function renderSortingGame() {
+  const pool = document.getElementById('wordPool');
+  const area = document.getElementById('categoriesArea');
+  
+  // Render word pool
+  pool.innerHTML = sortingWords
+    .filter(w => !w.placed)
+    .map((w, i) => `
+      <div class="draggable-word" 
+           draggable="true" 
+           data-word="${escapeHtml(w.word)}" 
+           data-category="${w.category}"
+           ondragstart="dragStart(event)"
+           ondragend="dragEnd(event)">
+        ${escapeHtml(w.word)}
+      </div>
+    `).join("");
+  
+  // Render categories
+  area.innerHTML = sortingCategories.map(cat => `
+    <div class="category-box">
+      <div class="category-header">
+        <div class="category-icon" style="background: ${cat.color}">${cat.emoji}</div>
+        <div class="category-title">${escapeHtml(cat.label)}</div>
+      </div>
+      <div class="category-dropzone" 
+           data-category="${cat.id}"
+           ondragover="dragOver(event)"
+           ondragleave="dragLeave(event)"
+           ondrop="dropWord(event)">
+      </div>
+    </div>
+  `).join("");
+  
+  updateHUD();
+}
 
-shuffleBtn.addEventListener("click", () => {
-  currentCards = shuffle(currentCards);
-  flippedSet.clear();
-  render();
+window.dragStart = function(e) {
+  e.target.classList.add('dragging');
+  e.dataTransfer.setData('text/plain', JSON.stringify({
+    word: e.target.dataset.word,
+    category: e.target.dataset.category
+  }));
+};
+
+window.dragEnd = function(e) {
+  e.target.classList.remove('dragging');
+};
+
+window.dragOver = function(e) {
+  e.preventDefault();
+  e.currentTarget.classList.add('drag-over');
+};
+
+window.dragLeave = function(e) {
+  e.currentTarget.classList.remove('drag-over');
+};
+
+window.dropWord = function(e) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  
+  const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+  const dropCategory = e.currentTarget.dataset.category;
+  const isCorrect = data.category === dropCategory;
+  
+  // Find and update the word
+  const wordObj = sortingWords.find(w => w.word === data.word && !w.placed);
+  if (wordObj) {
+    wordObj.placed = true;
+    
+    // Add to dropzone
+    const wordEl = document.createElement('div');
+    wordEl.className = `draggable-word ${isCorrect ? 'correct' : 'wrong'}`;
+    wordEl.textContent = data.word;
+    e.currentTarget.appendChild(wordEl);
+    
+    // Update score
+    if (isCorrect) {
+      score += 10;
+      streak++;
+    } else {
+      score = Math.max(0, score - 5);
+      streak = 0;
+    }
+    
+    updateHUD();
+    
+    // Remove from pool
+    const poolEl = document.querySelector(`.word-pool .draggable-word[data-word="${data.word}"]`);
+    if (poolEl) poolEl.remove();
+    
+    // Check if done
+    if (sortingWords.every(w => w.placed)) {
+      setTimeout(() => {
+        const correct = document.querySelectorAll('.draggable-word.correct').length;
+        showResults(correct, sortingWords.length);
+      }, 500);
+    }
+  }
+};
+
+// =====================
+// CATEGORY QUIZ
+// =====================
+
+function initQuiz() {
+  const categories = getCategories(currentUnit);
+  quizWords = [];
+  
+  categories.forEach(cat => {
+    cat.words.slice(0, 5).forEach(word => {
+      quizWords.push({
+        word: word,
+        correctCategory: cat.label,
+        categoryId: cat.id
+      });
+    });
+  });
+  
+  quizWords = shuffle(quizWords).slice(0, 10);
+  quizIndex = 0;
+  quizCorrect = 0;
+  
+  renderQuizQuestion();
+}
+
+function renderQuizQuestion() {
+  if (quizIndex >= quizWords.length) {
+    showResults(quizCorrect, quizWords.length);
+    return;
+  }
+  
+  const q = quizWords[quizIndex];
+  const categories = getCategories(currentUnit);
+  
+  // Get 4 options including the correct one
+  let options = [q.correctCategory];
+  const otherCats = categories.filter(c => c.label !== q.correctCategory);
+  shuffle(otherCats).slice(0, 3).forEach(c => options.push(c.label));
+  options = shuffle(options);
+  
+  document.getElementById('quizWord').textContent = q.word;
+  document.getElementById('quizProgressBar').style.width = `${(quizIndex / quizWords.length) * 100}%`;
+  document.getElementById('quizFeedback').style.display = 'none';
+  document.getElementById('quizNextBtn').style.display = 'none';
+  
+  document.getElementById('quizOptions').innerHTML = options.map(opt => `
+    <button class="quiz-option" onclick="selectQuizOption(this, '${escapeHtml(opt)}', '${escapeHtml(q.correctCategory)}')">${escapeHtml(opt)}</button>
+  `).join("");
+  
+  updateHUD();
+}
+
+window.selectQuizOption = function(btn, selected, correct) {
+  const isCorrect = selected === correct;
+  
+  document.querySelectorAll('.quiz-option').forEach(b => {
+    b.disabled = true;
+    if (b.textContent === correct) b.classList.add('correct');
+  });
+  
+  if (isCorrect) {
+    btn.classList.add('correct');
+    quizCorrect++;
+    score += 10;
+    streak++;
+    document.getElementById('quizFeedback').textContent = '✅ Correct!';
+    document.getElementById('quizFeedback').className = 'quiz-feedback correct';
+  } else {
+    btn.classList.add('wrong');
+    score = Math.max(0, score - 5);
+    streak = 0;
+    document.getElementById('quizFeedback').textContent = `❌ Wrong! It belongs to "${correct}"`;
+    document.getElementById('quizFeedback').className = 'quiz-feedback wrong';
+  }
+  
+  document.getElementById('quizFeedback').style.display = 'block';
+  document.getElementById('quizNextBtn').style.display = 'block';
+  
+  updateHUD();
+};
+
+document.getElementById('quizNextBtn').addEventListener('click', () => {
+  quizIndex++;
+  renderQuizQuestion();
 });
 
-resetBtn.addEventListener("click", () => {
-  flippedSet.clear();
-  render();
-});
+// =====================
+// EXPLORE UNITS
+// =====================
+
+function renderExplore() {
+  const container = document.getElementById('unitAccordions');
+  
+  const units = currentUnit === 'all' 
+    ? VOCAB_DB.units 
+    : VOCAB_DB.units.filter(u => u.unit === Number(currentUnit));
+  
+  container.innerHTML = units.map(unit => `
+    <div class="unit-accordion">
+      <div class="unit-header" onclick="toggleUnit(this)">
+        <div>
+          <div class="unit-title">Unit ${unit.unit}: ${escapeHtml(unit.title)}</div>
+          <div class="unit-meta">${unit.sets.length} categories • ${countWords(unit)} words</div>
+        </div>
+        <div class="unit-toggle">▼</div>
+      </div>
+      <div class="unit-content">
+        <div class="unit-sets">
+          ${unit.sets.map(set => `
+            <div class="set-box" style="border-left-color: ${set.color}">
+              <div class="set-title">${set.emoji} ${escapeHtml(set.label)}</div>
+              <div class="set-words">
+                ${getSetWords(set).map(w => `<span class="set-word">${escapeHtml(w)}</span>`).join("")}
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    </div>
+  `).join("");
+}
+
+function countWords(unit) {
+  let count = 0;
+  unit.sets.forEach(set => {
+    if (set.type === 'pairs') count += set.items.length * 2;
+    else count += set.items.length;
+  });
+  return count;
+}
+
+function getSetWords(set) {
+  if (set.type === 'pairs') {
+    const words = [];
+    set.items.forEach(p => { words.push(p.a); words.push(p.b); });
+    return words;
+  }
+  return set.items.map(i => i.word);
+}
+
+window.toggleUnit = function(header) {
+  header.classList.toggle('expanded');
+  header.nextElementSibling.classList.toggle('expanded');
+};
+
+// =====================
+// RESULTS
+// =====================
+
+function showResults(correct, total) {
+  document.getElementById('finalScore').textContent = `${correct}/${total}`;
+  document.getElementById('resultsModal').classList.add('active');
+}
+
+window.closeResults = function() {
+  document.getElementById('resultsModal').classList.remove('active');
+  setMode(currentMode);
+};
 
 // =====================
 // INIT
 // =====================
 
-allCards = flattenVocab();
+function initUnits() {
+  const select = document.getElementById('unitSelect');
+  select.innerHTML = `<option value="all">All Units</option>` +
+    VOCAB_DB.units.map(u => `<option value="${u.unit}">Unit ${u.unit}: ${escapeHtml(u.title)}</option>`).join("");
+}
+
+function loadCards() {
+  currentUnit = document.getElementById('unitSelect').value;
+  allCards = flattenVocab(currentUnit);
+  currentCards = allCards.slice();
+  flippedSet.clear();
+  
+  if (currentMode === 'flashcards') renderFlashcards();
+  if (currentMode === 'sorting') initSortingGame();
+  if (currentMode === 'quiz') initQuiz();
+  if (currentMode === 'explore') renderExplore();
+}
+
+document.getElementById('unitSelect').addEventListener('change', loadCards);
+
+document.getElementById('shuffleBtn').addEventListener('click', () => {
+  currentCards = shuffle(currentCards);
+  flippedSet.clear();
+  if (currentMode === 'flashcards') renderFlashcards();
+  if (currentMode === 'sorting') initSortingGame();
+  if (currentMode === 'quiz') initQuiz();
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  score = 0;
+  streak = 0;
+  flippedSet.clear();
+  loadCards();
+});
+
+// Start
 initUnits();
 loadCards();
 
