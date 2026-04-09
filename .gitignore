@@ -1,113 +1,57 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# IDE and editors
-.idea/
-.vscode/
-
 # Dependencies
 node_modules/
-/node_modules
-/.pnp
+.pnp
 .pnp.js
 .yarn/install-state.gz
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
 
-# Testing
-/coverage
-
-# Next.js
-/.next/
-/out/
-next-env.d.ts
-*.tsbuildinfo
-
-# Production builds
+# Build output
 /build
-dist/
-dist
+/dist
+/out
+/.next
 
-# Environment files (comprehensive coverage)
+# Environment
+*.env
+*.env.*
 
-*token.json*
-*credentials.json*
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
 
-# Logs and debug files
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-dump.rdb
-
-# System files
+# OS
 .DS_Store
-*.pem
+Thumbs.db
 
 # Python
 __pycache__/
-*pyc*
+*.pyc
 venv/
 .venv/
 
-# Development tools
-chainlit.md
-.chainlit
-.ipynb_checkpoints/
-.ac
+# Testing & dev
+/coverage
+/test_reports
+/test_result.md
+*.tsbuildinfo
 
-# Deployment
-.vercel
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Data and databases
-agenthub/agents/youtube/db
+# Archives
+*.zip
+*.tar.gz
+*.tar
+*.tgz
 
-# Archive files and large assets
-**/*.zip
-**/*.tar.gz
-**/*.tar
-**/*.tgz
-*.pack
-*.deb
-*.dylib
-
-# Build caches
-.cache/
-
+# Secrets
+*token.json*
+*credentials.json*
 memory/test_credentials.md
 
-# Mobile development
-android-sdk/-e 
-# Environment files
-*.env
-*.env.*
--e 
-# Environment files
-*.env
-*.env.*
--e 
-# Environment files
-*.env
-*.env.*
--e 
-# Environment files
-*.env
-*.env.*
--e 
-# Environment files
-*.env
-*.env.*
--e 
-# Environment files
-*.env
-*.env.*
--e 
-# Environment files
-*.env
-*.env.*
--e 
-# Environment files
-*.env
-*.env.*
+# Cache
+.cache/
+.ruff_cache/
