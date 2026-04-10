@@ -1,603 +1,485 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Challenge Station - THE PIT</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-:root{--bg1:#fef2f2;--bg2:#ef4444;--bg3:#7f1d1d;--panel:#fff;--accent:#ef4444;--accent2:#f87171;--text:#1f2937;--muted:#6b7280;--success:#16a34a;--error:#ef4444;--warning:#f59e0b;--fire1:#ef4444;--fire2:#f59e0b;--fire3:#eab308}
-*{box-sizing:border-box}
-body{margin:0;font-family:'Inter',system-ui,sans-serif;background:linear-gradient(135deg,#1a0000 0%,#3b0000 30%,#7f1d1d 60%,#991b1b 100%);min-height:100vh;padding:15px;color:#fff}
-.container{max-width:1100px;margin:0 auto}
-header{background:rgba(0,0,0,.4);backdrop-filter:blur(12px);border:1px solid rgba(239,68,68,.2);border-radius:16px;padding:16px 24px;margin-bottom:16px}
-h1{margin:0 0 12px;font-family:'Orbitron',sans-serif;font-size:clamp(20px,3vw,28px);background:linear-gradient(90deg,var(--fire1),var(--fire2),var(--fire3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:2px}
-.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
-select,button{padding:8px 14px;border-radius:10px;border:2px solid var(--accent);font-family:inherit;font-weight:600;font-size:13px;cursor:pointer;background:rgba(255,255,255,.05);color:#fff;transition:all .2s}
-button:hover:not(:disabled){background:var(--accent);color:#fff}
-button:disabled{opacity:.4;cursor:not-allowed}
-.back-btn{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2)}
-.mode-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
-.mode-tab{padding:10px 16px;border-radius:10px;border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:#fff;font-weight:700;font-size:12px;cursor:pointer}
-.mode-tab:hover{border-color:var(--accent);background:rgba(239,68,68,.15)}
-.mode-tab.active{background:linear-gradient(135deg,var(--fire1),var(--fire2));color:#fff;border-color:transparent}
-.hud{display:flex;gap:10px;flex-wrap:wrap}
-.hud-item{background:linear-gradient(135deg,rgba(239,68,68,.3),rgba(127,29,29,.5));border:1px solid rgba(239,68,68,.3);color:#fff;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700}
-/* LOGIN */
-.login-box{background:rgba(0,0,0,.6);backdrop-filter:blur(16px);border:2px solid rgba(239,68,68,.3);border-radius:20px;padding:36px 30px;max-width:480px;margin:40px auto;text-align:center}
-.login-box h2{margin-bottom:8px;font-family:'Orbitron',sans-serif;font-size:24px;background:linear-gradient(90deg,var(--fire1),var(--fire2),var(--fire3));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.login-box .sub{color:#94a3b8;font-size:14px;margin-bottom:20px;line-height:1.5}
-.login-box input{width:100%;padding:12px;border:2px solid rgba(239,68,68,.3);border-radius:10px;font-size:16px;margin-bottom:16px;background:rgba(255,255,255,.05);color:#fff}
-.login-box input::placeholder{color:#64748b}
-.login-modes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;text-align:left}
-.login-mode-card{padding:12px;border:1px solid rgba(255,255,255,.1);border-radius:12px;font-size:12px;line-height:1.5;color:#94a3b8;background:rgba(255,255,255,.03)}
-.login-mode-card strong{display:block;color:var(--accent2);font-size:13px;margin-bottom:4px}
-.start-btn{width:100%;padding:14px;font-size:16px;background:linear-gradient(135deg,var(--fire1),var(--fire2));border:none;border-radius:12px;color:#fff;font-weight:800;font-family:'Orbitron',sans-serif;cursor:pointer;letter-spacing:1px;transition:all .2s}
-.start-btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(239,68,68,.4)}
-.screen{display:none}.screen.active{display:block}
-/* AREA */
-.area{display:grid;grid-template-columns:1fr 280px;gap:16px}
-@media(max-width:900px){.area{grid-template-columns:1fr}.login-modes{grid-template-columns:1fr}}
-.main-panel{background:rgba(0,0,0,.3);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:24px}
-.howto{background:rgba(239,68,68,.1);border:2px solid rgba(239,68,68,.3);border-radius:12px;padding:12px 16px;margin-bottom:16px;font-size:13px;line-height:1.6;color:#fca5a5}
-.howto strong{color:var(--accent2)}
-/* KARAOKE */
-.karaoke-area{text-align:center}
-.lyrics-box{background:rgba(0,0,0,.5);border:2px solid rgba(239,68,68,.2);border-radius:16px;padding:24px;min-height:120px;margin-bottom:16px;position:relative;overflow:hidden}
-.lyrics-prev{font-size:14px;color:#64748b;margin-bottom:8px;opacity:.5}
-.lyrics-current{font-size:22px;font-weight:800;color:#fff;margin-bottom:8px;line-height:1.4;transition:all .3s}
-.lyrics-current.correct{color:#4ade80}
-.lyrics-current.wrong{color:#f87171}
-.lyrics-next{font-size:14px;color:#64748b;margin-top:8px;opacity:.5}
-.lyrics-progress{height:4px;background:rgba(255,255,255,.1);border-radius:4px;margin-top:12px}
-.lyrics-progress-fill{height:100%;background:linear-gradient(90deg,var(--fire1),var(--fire2));border-radius:4px;transition:width .3s}
-.karaoke-input{width:100%;max-width:500px;padding:14px;border:2px solid rgba(239,68,68,.3);border-radius:12px;font-size:16px;background:rgba(255,255,255,.05);color:#fff;font-family:inherit;margin-bottom:12px}
-.karaoke-input:focus{border-color:var(--accent);outline:none}
-.karaoke-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
-.mic-btn{padding:12px 20px;border:none;background:#dc2626;color:#fff;border-radius:12px;font-weight:700;cursor:pointer;transition:all .2s}
-.mic-btn.recording{animation:pulse 1s infinite}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-/* TONGUE TWISTERS */
-.twister-card{background:rgba(0,0,0,.5);border:2px solid rgba(239,68,68,.2);border-radius:16px;padding:24px;text-align:center;margin-bottom:16px}
-.twister-text{font-size:20px;font-weight:800;color:#fff;line-height:1.5;margin-bottom:12px}
-.twister-text.blurred{filter:blur(8px);user-select:none}
-.difficulty-stars{display:flex;justify-content:center;gap:4px;margin-bottom:12px}
-.star{font-size:18px;color:#64748b}.star.active{color:#fbbf24}
-/* WHO AM I */
-.desc-card{background:rgba(0,0,0,.5);border:2px solid rgba(239,68,68,.2);border-radius:16px;padding:24px;margin-bottom:16px}
-.desc-text{font-size:15px;line-height:1.7;color:#e2e8f0;margin-bottom:16px}
-.desc-clue{font-size:12px;color:var(--accent2);font-weight:700;margin-bottom:4px}
-.options{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
-.opt{padding:12px 18px;border:2px solid rgba(255,255,255,.1);border-radius:12px;background:rgba(255,255,255,.03);font-size:14px;font-weight:600;cursor:pointer;text-align:left;transition:all .2s;color:#fff}
-.opt:hover{border-color:var(--accent);background:rgba(239,68,68,.1)}
-.opt.correct{background:rgba(34,197,94,.2);border-color:#22c55e;color:#4ade80}
-.opt.wrong{background:rgba(239,68,68,.2);border-color:#ef4444;color:#f87171}
-.opt .opt-letter{display:inline-block;width:26px;height:26px;line-height:26px;text-align:center;background:rgba(239,68,68,.3);color:#fff;border-radius:50%;font-size:12px;font-weight:800;margin-right:10px}
-/* MULTI-SKILL */
-.timer-bar{height:6px;background:rgba(255,255,255,.1);border-radius:6px;margin-bottom:16px}
-.timer-fill{height:100%;background:linear-gradient(90deg,#22c55e,#eab308,#ef4444);border-radius:6px;transition:width .1s}
-.skill-badge{display:inline-block;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;margin-bottom:12px}
-.skill-vocab{background:rgba(139,92,246,.2);color:#a78bfa}
-.skill-grammar{background:rgba(107,114,128,.2);color:#9ca3af}
-.skill-listening{background:rgba(245,158,11,.2);color:#fbbf24}
-.skill-reading{background:rgba(34,197,94,.2);color:#4ade80}
-/* FEEDBACK */
-.fb{padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;margin-bottom:8px}
-.fb.ok{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.3)}
-.fb.bad{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3)}
-.fb.info{background:rgba(239,68,68,.1);color:#fca5a5;border:1px solid rgba(239,68,68,.2)}
-/* SIDE */
-.side{display:flex;flex-direction:column;gap:12px}
-.card{background:rgba(0,0,0,.3);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px}
-.card h4{margin:0 0 10px;font-size:13px;color:var(--accent2);font-weight:800}
-.stat-row{display:flex;justify-content:space-between;font-size:12px;margin:6px 0;color:#94a3b8}
-.stat-row span:last-child{font-weight:700;color:var(--accent2)}
-.pbar{height:8px;background:rgba(255,255,255,.08);border-radius:8px;overflow:hidden;margin-bottom:6px}
-.pfill{height:100%;background:linear-gradient(90deg,var(--fire1),var(--fire2));border-radius:8px;transition:width .3s}
-/* MODAL */
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;align-items:center;justify-content:center}
-.modal.active{display:flex}
-.modal-box{background:linear-gradient(145deg,#1a0000,#3b0000);border:2px solid rgba(239,68,68,.3);border-radius:20px;padding:32px;text-align:center;max-width:400px}
-.modal-title{font-size:24px;font-weight:800;color:#fff;margin-bottom:8px;font-family:'Orbitron',sans-serif}
-.modal-score{font-size:40px;font-weight:800;background:linear-gradient(90deg,var(--fire1),var(--fire2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:16px}
-.modal-btn{padding:12px 24px;background:linear-gradient(135deg,var(--fire1),var(--fire2));color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer;margin:4px}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Challenge Station</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(circle at top, #ff5f6d 0%, #6a0dad 45%, #1f0b38 100%);
+      color: white;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 24px;
+      background: rgba(0, 0, 0, 0.28);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+    }
+
+    .title {
+      font-size: 34px;
+      letter-spacing: 2px;
+      margin: 0;
+    }
+
+    .backBtn {
+      text-decoration: none;
+      background: white;
+      color: #4b1f7a;
+      padding: 10px 18px;
+      border-radius: 14px;
+      font-weight: 800;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+    }
+
+    .container {
+      width: min(1100px, 92%);
+      margin: 26px auto 40px;
+    }
+
+    .hero {
+      background: rgba(255,255,255,0.10);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.28);
+      margin-bottom: 24px;
+    }
+
+    .hero h2 {
+      margin-top: 0;
+      font-size: 28px;
+    }
+
+    .hero p {
+      font-family: Arial, sans-serif;
+      font-size: 17px;
+      line-height: 1.5;
+      margin-bottom: 0;
+    }
+
+    .menuGrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-bottom: 26px;
+    }
+
+    .menuCard {
+      background: rgba(255,255,255,0.10);
+      border-radius: 22px;
+      padding: 22px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.28);
+    }
+
+    .menuCard:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.35);
+    }
+
+    .menuCard h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+
+    .menuCard p {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+
+    .panel {
+      display: none;
+      background: rgba(255,255,255,0.10);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.28);
+      margin-bottom: 24px;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .panel h2 {
+      margin-top: 0;
+      font-size: 28px;
+    }
+
+    .panel p, .panel li {
+      font-family: Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    select, button {
+      border: none;
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-size: 16px;
+    }
+
+    select {
+      min-width: 260px;
+      background: white;
+      color: #2d124a;
+    }
+
+    button {
+      background: #ffffff;
+      color: #4b1f7a;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.95;
+    }
+
+    .secondaryBtn {
+      background: rgba(255,255,255,0.18);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .songInfo {
+      margin: 12px 0 18px;
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(0,0,0,0.22);
+    }
+
+    .songInfo h3 {
+      margin: 0 0 6px;
+      font-size: 24px;
+    }
+
+    .songInfo p {
+      margin: 0;
+    }
+
+    audio {
+      width: 100%;
+      margin: 10px 0 18px;
+    }
+
+    .lyricsBox {
+      background: rgba(0,0,0,0.26);
+      border-radius: 18px;
+      padding: 18px;
+      min-height: 240px;
+      max-height: 360px;
+      overflow-y: auto;
+    }
+
+    .lyricsLine {
+      margin: 10px 0;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 18px;
+      line-height: 1.4;
+      opacity: 0.78;
+      transition: all .2s ease;
+    }
+
+    .lyricsLine.active {
+      background: rgba(255,255,255,0.18);
+      opacity: 1;
+      transform: scale(1.01);
+    }
+
+    .scoreBox {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(0,0,0,0.22);
+      font-size: 18px;
+    }
+
+    .placeholderBox {
+      background: rgba(0,0,0,0.22);
+      border-radius: 18px;
+      padding: 18px;
+      margin-top: 16px;
+    }
+
+    .footerNote {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      opacity: 0.85;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 700px) {
+      .title {
+        font-size: 26px;
+      }
+
+      .hero h2,
+      .panel h2 {
+        font-size: 22px;
+      }
+
+      .lyricsLine {
+        font-size: 16px;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-<div id="login" class="screen active">
-<div class="login-box">
-  <h2 data-testid="challenge-title">CHALLENGE STATION</h2>
-  <p class="sub">The ultimate test! Combine all your English skills in fun, intense challenges.</p>
-  <div class="login-modes">
-    <div class="login-mode-card"><strong>Karaoke</strong>Sing along to song lyrics! Speech recognition scores your pronunciation in real-time.</div>
-    <div class="login-mode-card"><strong>Tongue Twisters</strong>Listen to tricky phrases, then try to say them back. How fast and accurate can you be?</div>
-    <div class="login-mode-card"><strong>Who Am I?</strong>Read clues about famous people and characters. Guess correctly before time runs out!</div>
-    <div class="login-mode-card"><strong>Multi-Skill Blitz</strong>Rapid-fire questions from vocabulary, grammar, listening, and reading. Beat the clock!</div>
-  </div>
-  <input type="text" id="nameInput" data-testid="name-input" placeholder="Your name" onkeydown="if(event.key==='Enter')startApp()">
-  <button class="start-btn" data-testid="start-btn" onclick="startApp()">ENTER THE CHALLENGE</button>
-</div>
-</div>
 
-<div id="main" class="screen">
-<header>
-  <h1>CHALLENGE STATION</h1>
-  <div class="controls">
-    <button class="back-btn" data-testid="menu-btn" onclick="location.href='../index.html'">MENU</button>
-    <button data-testid="next-btn" onclick="nextRound()">Next Challenge</button>
+  <div class="topbar">
+    <h1 class="title">CHALLENGE STATION</h1>
+    <a class="backBtn" href="../index.html">BACK TO THE PIT</a>
   </div>
-  <div class="mode-tabs" data-testid="mode-tabs">
-    <button class="mode-tab active" data-mode="karaoke">Karaoke</button>
-    <button class="mode-tab" data-mode="twister">Tongue Twisters</button>
-    <button class="mode-tab" data-mode="whoami">Who Am I?</button>
-    <button class="mode-tab" data-mode="blitz">Multi-Skill Blitz</button>
-  </div>
-  <div class="hud">
-    <div class="hud-item">Player: <span id="pName" data-testid="player-name">-</span></div>
-    <div class="hud-item">Score: <span id="hScore" data-testid="score-display">0</span></div>
-    <div class="hud-item">Streak: <span id="hStreak" data-testid="streak-display">0</span></div>
-    <div class="hud-item">Challenges: <span id="hDone" data-testid="done-display">0</span></div>
-  </div>
-</header>
 
-<div class="area">
-<div class="main-panel">
-  <!-- KARAOKE -->
-  <div id="karaoke-mode" class="mode-content">
-    <div class="howto"><strong>Karaoke:</strong> Lyrics appear line by line. Click LISTEN to hear the line, then type or speak it. Score points for matching the lyrics!</div>
-    <div class="karaoke-area">
-      <div class="lyrics-box">
-        <div class="lyrics-prev" id="lyricsPrev" data-testid="lyrics-prev"></div>
-        <div class="lyrics-current" id="lyricsCurrent" data-testid="lyrics-current">Press START to begin!</div>
-        <div class="lyrics-next" id="lyricsNext" data-testid="lyrics-next"></div>
-        <div class="lyrics-progress"><div class="lyrics-progress-fill" id="lyricsProgress" data-testid="lyrics-progress"></div></div>
-      </div>
-      <div class="karaoke-btns">
-        <button data-testid="karaoke-listen-btn" onclick="listenKaraoke()">LISTEN</button>
-        <button class="mic-btn" id="karaokeMic" data-testid="karaoke-mic-btn" onclick="micKaraoke()">MIC</button>
-      </div>
-      <input class="karaoke-input" id="karaokeInput" data-testid="karaoke-input" placeholder="Type or speak the lyrics..." onkeydown="if(event.key==='Enter')submitKaraoke()">
-      <div style="margin-bottom:12px"><button data-testid="karaoke-submit-btn" onclick="submitKaraoke()">SUBMIT LINE</button></div>
-      <div class="fb info" id="karaokeFb" data-testid="karaoke-feedback">Choose a song and press START!</div>
+  <div class="container">
+    <div class="hero">
+      <h2>Ultimate Multi-Skill Zone</h2>
+      <p>
+        Welcome to the Challenge Station. Here students can sing, speak, guess, and compete.
+        Start with Karaoke Mode below, then expand this page with more challenge mini-games later.
+      </p>
     </div>
-  </div>
 
-  <!-- TONGUE TWISTERS -->
-  <div id="twister-mode" class="mode-content" style="display:none">
-    <div class="howto"><strong>Tongue Twisters:</strong> Listen to the tongue twister, then try to say it back. The text is hidden — use your ears! Click REVEAL if you're stuck (fewer points).</div>
-    <div class="twister-card">
-      <div class="difficulty-stars" id="twisterStars" data-testid="twister-stars"></div>
-      <div class="twister-text blurred" id="twisterText" data-testid="twister-text">Loading...</div>
-      <div style="margin:12px 0">
-        <button data-testid="twister-listen-btn" onclick="listenTwister()">LISTEN</button>
-        <button data-testid="twister-reveal-btn" onclick="revealTwister()" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2)">REVEAL</button>
+    <div class="menuGrid">
+      <div class="menuCard" onclick="showPanel('karaokePanel')">
+        <h3>🎤 Karaoke</h3>
+        <p>Choose a song, play the instrumental, and sing with the lyrics on screen.</p>
+      </div>
+
+      <div class="menuCard" onclick="showPanel('tonguePanel')">
+        <h3>🗣 Tongue Twisters</h3>
+        <p>Practice pronunciation with fast and funny phrases.</p>
+      </div>
+
+      <div class="menuCard" onclick="showPanel('whoamiPanel')">
+        <h3>❓ Who Am I?</h3>
+        <p>Guess the secret identity using clues and questions.</p>
+      </div>
+
+      <div class="menuCard" onclick="showPanel('quizPanel')">
+        <h3>🔥 Mega Quiz</h3>
+        <p>Mix listening, speaking, vocabulary, and grammar into one challenge.</p>
       </div>
     </div>
-    <div style="display:flex;gap:8px;max-width:500px;margin:0 auto 12px">
-      <input class="karaoke-input" id="twisterInput" data-testid="twister-input" placeholder="Type what you heard..." onkeydown="if(event.key==='Enter')submitTwister()">
-      <button class="mic-btn" id="twisterMic" data-testid="twister-mic-btn" onclick="micTwister()">MIC</button>
+
+    <!-- KARAOKE PANEL -->
+    <div id="karaokePanel" class="panel active">
+      <h2>🎤 Karaoke Mode</h2>
+
+      <div class="row">
+        <select id="songSelect">
+          <option value="">Choose a song</option>
+        </select>
+
+        <button onclick="loadSelectedSong()">LOAD SONG</button>
+        <button class="secondaryBtn" onclick="stopSong()">STOP</button>
+      </div>
+
+      <div class="songInfo">
+        <h3 id="songTitle">No song selected</h3>
+        <p id="songArtist">Choose a song from the menu</p>
+      </div>
+
+      <audio id="karaokeAudio" controls></audio>
+
+      <div id="lyricsBox" class="lyricsBox">
+        <p style="font-family: Arial, sans-serif;">Lyrics will appear here.</p>
+      </div>
+
+      <div class="scoreBox">
+        <strong>Karaoke Score:</strong> <span id="karaokeScore">0</span>
+        <div style="margin-top:10px;">
+          <button onclick="addKaraokePoints(10)">+10</button>
+          <button onclick="addKaraokePoints(25)">+25</button>
+          <button onclick="resetKaraokeScore()">Reset Score</button>
+        </div>
+      </div>
     </div>
-    <div style="text-align:center"><button data-testid="twister-submit-btn" onclick="submitTwister()">CHECK</button></div>
-    <div class="fb info" id="twisterFb" data-testid="twister-feedback">Press LISTEN, then try to repeat it!</div>
-  </div>
 
-  <!-- WHO AM I -->
-  <div id="whoami-mode" class="mode-content" style="display:none">
-    <div class="howto"><strong>Who Am I?</strong> Read the clues about a famous person or character. Choose the correct answer. More clues appear if you wait!</div>
-    <div class="desc-card">
-      <div class="desc-clue" id="whoClueLabel" data-testid="who-clue-label">Clue 1</div>
-      <div class="desc-text" id="whoDesc" data-testid="who-desc">Loading...</div>
-      <button data-testid="who-more-btn" onclick="moreClues()">More Clues (-5 pts)</button>
+    <!-- TONGUE TWISTER PANEL -->
+    <div id="tonguePanel" class="panel">
+      <h2>🗣 Tongue Twisters</h2>
+      <p>Use this section later for speaking speed challenges.</p>
+      <div class="placeholderBox">
+        <ul>
+          <li>She sells seashells by the seashore.</li>
+          <li>Red lorry, yellow lorry.</li>
+          <li>Peter Piper picked a peck of pickled peppers.</li>
+          <li>How can a clam cram in a clean cream can?</li>
+        </ul>
+      </div>
     </div>
-    <div class="options" id="whoOpts" data-testid="who-options"></div>
-    <div class="fb info" id="whoFb" data-testid="who-feedback">Read the clues and guess who it is!</div>
-  </div>
 
-  <!-- MULTI-SKILL BLITZ -->
-  <div id="blitz-mode" class="mode-content" style="display:none">
-    <div class="howto"><strong>Multi-Skill Blitz:</strong> 10 rapid-fire questions from all skill areas. You have 15 seconds per question. Score as many as you can!</div>
-    <div class="timer-bar"><div class="timer-fill" id="blitzTimer" data-testid="blitz-timer" style="width:100%"></div></div>
-    <div id="blitzSkill" class="skill-badge skill-vocab" data-testid="blitz-skill">VOCABULARY</div>
-    <div class="desc-card">
-      <div class="desc-clue" id="blitzQNum" data-testid="blitz-q-num">Question 1 / 10</div>
-      <div class="desc-text" id="blitzQ" data-testid="blitz-question" style="font-size:17px;font-weight:700">Loading...</div>
+    <!-- WHO AM I PANEL -->
+    <div id="whoamiPanel" class="panel">
+      <h2>❓ Who Am I?</h2>
+      <p>Use this section later for character guessing and clue games.</p>
+      <div class="placeholderBox">
+        <p><strong>Example clue:</strong> I work in a hospital and help sick people.</p>
+        <p><strong>Answer:</strong> Doctor</p>
+      </div>
     </div>
-    <div class="options" id="blitzOpts" data-testid="blitz-options"></div>
-    <div class="fb info" id="blitzFb" data-testid="blitz-feedback">Answer quickly! 15 seconds per question.</div>
-  </div>
-</div>
 
-<div class="side">
-  <div class="card">
-    <h4>Progress</h4>
-    <div class="pbar"><div class="pfill" id="progBar" data-testid="progress-bar"></div></div>
-    <div class="stat-row"><span>Correct</span><span id="sCorrect" data-testid="correct-count">0</span></div>
-    <div class="stat-row"><span>Best Streak</span><span id="sBest" data-testid="best-streak">0</span></div>
-    <div class="stat-row"><span>Total Points</span><span id="sTotal" data-testid="total-points">0</span></div>
-  </div>
-  <div class="card">
-    <h4>Challenge Tip</h4>
-    <div id="tipBox" data-testid="tip-box" style="font-size:12px;line-height:1.6;color:#94a3b8">
-      Focus on key words rather than every single word. Even 70% accuracy earns points!
+    <!-- QUIZ PANEL -->
+    <div id="quizPanel" class="panel">
+      <h2>🔥 Mega Quiz</h2>
+      <p>Use this section later for multi-skill challenge rounds.</p>
+      <div class="placeholderBox">
+        <p>Ideas:</p>
+        <ul>
+          <li>Grammar speed rounds</li>
+          <li>Vocabulary battles</li>
+          <li>Listening clues</li>
+          <li>Mixed bonus questions</li>
+        </ul>
+      </div>
     </div>
+
+    <p class="footerNote">
+      Tip: Put your karaoke audio files in <strong>stations/audio/karaoke/</strong> and your song list in <strong>stations/karaoke-db.js</strong>.
+    </p>
   </div>
-</div>
-</div>
-</div>
-</div>
 
-<div class="modal" id="doneModal">
-<div class="modal-box">
-  <div class="modal-title">Challenge Complete!</div>
-  <div class="modal-score" id="finalScore" data-testid="final-score">0</div>
-  <p id="modalMsg" style="color:#94a3b8"></p>
-  <button class="modal-btn" data-testid="modal-next-btn" onclick="nextRound()">Next Challenge</button>
-  <button class="modal-btn" onclick="closeModal()" style="background:rgba(255,255,255,.1)">Close</button>
-</div>
-</div>
+  <script src="./karaoke-db.js"></script>
+  <script>
+    const songSelect = document.getElementById("songSelect");
+    const songTitle = document.getElementById("songTitle");
+    const songArtist = document.getElementById("songArtist");
+    const karaokeAudio = document.getElementById("karaokeAudio");
+    const lyricsBox = document.getElementById("lyricsBox");
+    const karaokeScore = document.getElementById("karaokeScore");
 
-<script src="pit-score.js"></script>
-<script>
-// KARAOKE SONGS - age-appropriate, educational
-const SONGS=[
-{title:'Count on Me',artist:'Bruno Mars (adapted)',lines:['If you ever find yourself stuck in the middle of the sea','I will sail the world to find you','If you ever find yourself lost in the dark and you can\'t see','I will be the light to guide you','We find out what we are made of','When we are called to help our friends in need','You can count on me like one two three','I\'ll be there','And I know when I need it','I can count on you like four three two','And you\'ll be there','Cause that\'s what friends are supposed to do']},
-{title:'Imagine',artist:'John Lennon (adapted)',lines:['Imagine there is no heaven','It is easy if you try','No hell below us','Above us only sky','Imagine all the people','Living for today','Imagine there are no countries','It is not hard to do','Nothing to kill or die for','And no religion too','Imagine all the people','Living life in peace']},
-{title:'Three Little Birds',artist:'Bob Marley (adapted)',lines:['Don\'t worry about a thing','Cause every little thing is gonna be alright','Singing don\'t worry about a thing','Cause every little thing is gonna be alright','Rise up this morning','Smiled with the rising sun','Three little birds','Sit by my doorstep','Singing sweet songs','Of melodies pure and true','Saying this is my message to you']},
-{title:'What a Wonderful World',artist:'Louis Armstrong (adapted)',lines:['I see trees of green','Red roses too','I see them bloom','For me and you','And I think to myself','What a wonderful world','I see skies of blue','And clouds of white','The bright blessed day','The dark sacred night','And I think to myself','What a wonderful world']}
-];
+    let currentSong = null;
+    let currentLyricsNodes = [];
 
-// TONGUE TWISTERS
-const TWISTERS=[
-{text:'She sells seashells by the seashore.',difficulty:1,tip:'Focus on the "sh" and "s" sounds.'},
-{text:'Peter Piper picked a peck of pickled peppers.',difficulty:2,tip:'Keep the "p" sounds crisp and separate.'},
-{text:'How much wood would a woodchuck chuck if a woodchuck could chuck wood?',difficulty:3,tip:'The rhythm matters more than speed here.'},
-{text:'Red lorry, yellow lorry, red lorry, yellow lorry.',difficulty:2,tip:'The "r" and "l" switch is the challenge!'},
-{text:'I scream, you scream, we all scream for ice cream.',difficulty:1,tip:'"I scream" and "ice cream" sound almost the same!'},
-{text:'The sixth sick sheikh\'s sixth sheep is sick.',difficulty:3,tip:'One of the hardest! Take it very slowly.'},
-{text:'Betty Botter bought some butter but she said the butter is bitter.',difficulty:2,tip:'Watch the "b" and "t" combinations.'},
-{text:'Fuzzy Wuzzy was a bear. Fuzzy Wuzzy had no hair.',difficulty:1,tip:'The "z" sound is the fun part!'},
-{text:'I saw Susie sitting in a shoe shine shop.',difficulty:2,tip:'The "s" and "sh" sounds alternate.'},
-{text:'How can a clam cram in a clean cream can?',difficulty:2,tip:'The "cl" and "cr" clusters are tricky.'},
-{text:'Six slippery snails slid slowly seaward.',difficulty:2,tip:'All those "s" sounds — keep them clear!'},
-{text:'Eleven benevolent elephants.',difficulty:1,tip:'The "l" and "v" sounds keep switching.'},
-{text:'A proper copper coffee pot.',difficulty:1,tip:'Short and sweet — focus on "p" sounds.'},
-{text:'Toy boat. Toy boat. Toy boat.',difficulty:2,tip:'Say it three times fast — harder than you think!'},
-{text:'Unique New York. Unique New York.',difficulty:2,tip:'Your tongue wants to say "You Nork" — fight it!'}
-];
+    function showPanel(panelId) {
+      document.querySelectorAll(".panel").forEach(panel => {
+        panel.classList.remove("active");
+      });
+      document.getElementById(panelId).classList.add("active");
+    }
 
-// WHO AM I
-const WHOAMI=[
-{clues:['I am a fictional wizard.','I have a lightning bolt scar on my forehead.','I went to a school called Hogwarts.','My best friends are Ron and Hermione.'],answer:'Harry Potter',opts:['Spider-Man','Harry Potter','Frodo Baggins','Luke Skywalker']},
-{clues:['I was born in Stratford-upon-Avon, England.','I wrote plays and sonnets.','My works include Romeo and Juliet.','I am often called the greatest writer in the English language.'],answer:'William Shakespeare',opts:['Charles Dickens','William Shakespeare','Jane Austen','Mark Twain']},
-{clues:['I am a singer from Barbados.','My real name is Robyn.','I sang "Umbrella" and "Diamonds".','I also have a very successful beauty brand called Fenty.'],answer:'Rihanna',opts:['Beyonce','Taylor Swift','Rihanna','Adele']},
-{clues:['I am a fictional character who lives in a pineapple.','I live under the sea in a place called Bikini Bottom.','I work as a cook at the Krusty Krab.','My best friend is a starfish named Patrick.'],answer:'SpongeBob SquarePants',opts:['SpongeBob SquarePants','Nemo','Shrek','Mickey Mouse']},
-{clues:['I am a scientist who was born in Germany.','I developed the theory of relativity.','My famous equation is E equals MC squared.','I won the Nobel Prize in Physics in 1921.'],answer:'Albert Einstein',opts:['Isaac Newton','Albert Einstein','Stephen Hawking','Nikola Tesla']},
-{clues:['I am a young Swedish climate activist.','I started protesting outside the Swedish parliament.','I gave a famous speech saying How dare you.','I was named Time Person of the Year in 2019.'],answer:'Greta Thunberg',opts:['Malala Yousafzai','Greta Thunberg','Emma Watson','Billie Eilish']},
-{clues:['I am a fictional ogre.','I live in a swamp.','My best friend is a talking donkey.','I married a princess named Fiona.'],answer:'Shrek',opts:['Shrek','Hulk','Beast','Donkey Kong']},
-{clues:['I am a Portuguese football player.','I have played for Manchester United, Real Madrid, and Juventus.','I have won multiple Ballon d\'Or awards.','My famous celebration is a jumping spin.'],answer:'Cristiano Ronaldo',opts:['Lionel Messi','Cristiano Ronaldo','Neymar','Kylian Mbappe']},
-{clues:['I am a British author.','I wrote a series of seven fantasy books.','I created the world of Hogwarts.','My initials are J.K.'],answer:'J.K. Rowling',opts:['J.K. Rowling','Roald Dahl','J.R.R. Tolkien','Enid Blyton']},
-{clues:['I am a fictional superhero.','I was bitten by a radioactive spider.','My real name is Peter Parker.','I live in New York City and can climb walls.'],answer:'Spider-Man',opts:['Batman','Iron Man','Spider-Man','Superman']}
-];
+    function populateSongMenu() {
+      if (!Array.isArray(karaokeSongs)) return;
 
-// BLITZ QUESTIONS (multi-skill)
-const BLITZ=[
-{skill:'vocab',q:'What is the opposite of "generous"?',opts:['Kind','Selfish','Brave','Happy'],ans:1},
-{skill:'grammar',q:'"If I _____ rich, I would travel the world."',opts:['am','was','were','be'],ans:2},
-{skill:'vocab',q:'Which word means "very tired"?',opts:['Exhausted','Excited','Enormous','Excellent'],ans:0},
-{skill:'grammar',q:'"She has been working here _____ 2019."',opts:['for','since','during','while'],ans:1},
-{skill:'reading',q:'What does "break the ice" mean?',opts:['Destroy something frozen','Start a conversation','Take a rest','Feel very cold'],ans:1},
-{skill:'vocab',q:'A "decade" is a period of...',opts:['10 days','10 months','10 years','100 years'],ans:2},
-{skill:'grammar',q:'"I wish I _____ speak French."',opts:['can','could','will','should'],ans:1},
-{skill:'vocab',q:'What is a synonym of "beautiful"?',opts:['Ugly','Stunning','Boring','Quiet'],ans:1},
-{skill:'reading',q:'"He let the cat out of the bag" means he...',opts:['Lost his pet','Revealed a secret','Made a mess','Went outside'],ans:1},
-{skill:'grammar',q:'"They _____ to London next summer."',opts:['going','goes','are going','is going'],ans:2},
-{skill:'vocab',q:'"Courageous" means the same as...',opts:['Nervous','Brave','Angry','Careful'],ans:1},
-{skill:'grammar',q:'"I _____ never been to Japan."',opts:['has','have','am','was'],ans:1},
-{skill:'vocab',q:'A "pedestrian" is someone who...',opts:['Drives a car','Rides a bike','Walks on foot','Flies a plane'],ans:2},
-{skill:'reading',q:'"It costs an arm and a leg" means it is...',opts:['Painful','Very expensive','Broken','Heavy'],ans:1},
-{skill:'grammar',q:'"The film _____ by Steven Spielberg."',opts:['directed','was directed','is directing','has direct'],ans:1},
-{skill:'vocab',q:'Which is NOT a type of weather?',opts:['Drizzle','Hail','Bench','Fog'],ans:2},
-{skill:'grammar',q:'"You _____ study harder if you want to pass."',opts:['must','can','might','would'],ans:0},
-{skill:'vocab',q:'"Enormous" means...',opts:['Tiny','Very big','Fast','Colourful'],ans:1},
-{skill:'reading',q:'"Under the weather" means feeling...',opts:['Cold','Wet','Slightly ill','Excited'],ans:2},
-{skill:'grammar',q:'"I _____ TV when the phone rang."',opts:['watch','watched','was watching','am watching'],ans:2}
-];
+      karaokeSongs.forEach(song => {
+        const option = document.createElement("option");
+        option.value = song.id;
+        option.textContent = song.title;
+        songSelect.appendChild(option);
+      });
+    }
 
-const SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
-const speechOK=!!SpeechRecognition;
+    function loadSelectedSong() {
+      const selectedId = songSelect.value;
+      if (!selectedId) return;
 
-let playerName='',currentMode='karaoke',score=0,streak=0,bestStreak=0,correctCount=0,done=0;
-// Karaoke
-let currentSong=null,lineIdx=0;
-// Twister
-let twisterIdx=0,twisterRevealed=false;
-// WhoAmI
-let whoIdx=0,clueLevel=0,whoQueue=[];
-// Blitz
-let blitzQueue=[],blitzIdx=0,blitzTimerRef=null,blitzTimeLeft=15;
+      const song = karaokeSongs.find(s => s.id === selectedId);
+      if (!song) return;
 
-function init(){
-  if(typeof PIT_SCORE!=='undefined'){const p=PIT_SCORE.getPlayer();if(p.name){playerName=p.name;score=p.stations.challenge?.score||0;done=p.stations.challenge?.completed||0}}
-  document.querySelectorAll('.mode-tab').forEach(t=>t.addEventListener('click',()=>{
-    document.querySelectorAll('.mode-tab').forEach(x=>x.classList.remove('active'));
-    t.classList.add('active');currentMode=t.dataset.mode;
-    document.querySelectorAll('.mode-content').forEach(m=>m.style.display='none');
-    document.getElementById(currentMode+'-mode').style.display='block';
-    nextRound();
-  }));
-  if(playerName)startApp();
-}
+      currentSong = song;
+      songTitle.textContent = song.title;
+      songArtist.textContent = song.artist || "Unknown Artist";
+      karaokeAudio.src = song.audio;
+      renderLyrics(song);
+      karaokeAudio.currentTime = 0;
+      karaokeAudio.play().catch(() => {});
+    }
 
-function startApp(){
-  const inp=document.getElementById('nameInput');
-  if(!playerName&&inp){playerName=inp.value.trim();if(!playerName){alert('Enter your name');return}if(typeof PIT_SCORE!=='undefined')PIT_SCORE.setName(playerName)}
-  document.getElementById('login').classList.remove('active');
-  document.getElementById('main').classList.add('active');
-  document.getElementById('pName').textContent=playerName;
-  nextRound();
-}
+    function renderLyrics(song) {
+      lyricsBox.innerHTML = "";
+      currentLyricsNodes = [];
 
-function speak(t,cb){if(!('speechSynthesis' in window)){if(cb)cb();return}window.speechSynthesis.cancel();const m=new SpeechSynthesisUtterance(t);m.lang='en-US';m.rate=0.9;if(cb)m.onend=cb;window.speechSynthesis.speak(m)}
-function normalize(t){return t.toLowerCase().replace(/[^a-z0-9\s]/g,' ').replace(/\s+/g,' ').trim()}
-function similarity(a,b){if(!a||!b)return 0;const aw=normalize(a).split(' ').filter(Boolean);const bw=new Set(normalize(b).split(' ').filter(Boolean));return aw.length?aw.filter(w=>bw.has(w)).length/aw.length:0}
-function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
-function esc(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML}
+      if (!song.lyrics || song.lyrics.length === 0) {
+        lyricsBox.innerHTML = "<p style='font-family: Arial, sans-serif;'>No lyrics available.</p>";
+        return;
+      }
 
-function nextRound(){
-  closeModal();
-  if(currentMode==='karaoke')setupKaraoke();
-  else if(currentMode==='twister')setupTwister();
-  else if(currentMode==='whoami')setupWhoAmI();
-  else setupBlitz();
-  updateStats();
-}
+      song.lyrics.forEach((line, index) => {
+        const p = document.createElement("p");
+        p.className = "lyricsLine";
+        p.dataset.index = index;
+        p.textContent = typeof line === "string" ? line : line.text;
+        lyricsBox.appendChild(p);
+        currentLyricsNodes.push(p);
+      });
+    }
 
-// ===== KARAOKE =====
-function setupKaraoke(){
-  currentSong=SONGS[Math.floor(Math.random()*SONGS.length)];lineIdx=0;
-  document.getElementById('lyricsPrev').textContent='';
-  document.getElementById('lyricsCurrent').textContent=currentSong.title+' - '+currentSong.artist;
-  document.getElementById('lyricsCurrent').className='lyrics-current';
-  document.getElementById('lyricsNext').textContent='Press LISTEN to hear the first line';
-  document.getElementById('lyricsProgress').style.width='0%';
-  document.getElementById('karaokeInput').value='';
-  document.getElementById('karaokeFb').textContent='Line 1 of '+currentSong.lines.length+'. Press LISTEN!';
-  document.getElementById('karaokeFb').className='fb info';
-  document.getElementById('tipBox').textContent='Song: "'+currentSong.title+'". Listen to each line, then type or speak it. 70% match = points!';
-}
+    function updateActiveLyric() {
+      if (!currentSong || !currentSong.lyrics) return;
 
-function listenKaraoke(){
-  if(!currentSong||lineIdx>=currentSong.lines.length)return;
-  const line=currentSong.lines[lineIdx];
-  document.getElementById('lyricsCurrent').textContent=line;
-  document.getElementById('lyricsCurrent').className='lyrics-current';
-  if(lineIdx>0)document.getElementById('lyricsPrev').textContent=currentSong.lines[lineIdx-1];
-  if(lineIdx<currentSong.lines.length-1)document.getElementById('lyricsNext').textContent=currentSong.lines[lineIdx+1];
-  else document.getElementById('lyricsNext').textContent='(Last line!)';
-  speak(line);
-  document.getElementById('karaokeFb').textContent='Now type or speak what you heard!';
-  document.getElementById('karaokeFb').className='fb info';
-}
+      const time = karaokeAudio.currentTime;
+      let activeIndex = -1;
 
-function micKaraoke(){doMic(document.getElementById('karaokeInput'),document.getElementById('karaokeMic'),document.getElementById('karaokeFb'))}
+      for (let i = 0; i < currentSong.lyrics.length; i++) {
+        const entry = currentSong.lyrics[i];
+        if (typeof entry === "object" && typeof entry.time === "number" && time >= entry.time) {
+          activeIndex = i;
+        }
+      }
 
-function submitKaraoke(){
-  if(!currentSong||lineIdx>=currentSong.lines.length)return;
-  const input=document.getElementById('karaokeInput').value.trim();
-  if(!input)return;
-  const target=currentSong.lines[lineIdx];
-  const acc=similarity(target,input);
-  if(acc>=0.7){
-    score+=10;streak++;correctCount++;if(streak>bestStreak)bestStreak=streak;
-    document.getElementById('lyricsCurrent').className='lyrics-current correct';
-    document.getElementById('karaokeFb').textContent='Great! '+Math.round(acc*100)+'% match! +10 points';
-    document.getElementById('karaokeFb').className='fb ok';
-  }else{
-    streak=0;
-    document.getElementById('lyricsCurrent').className='lyrics-current wrong';
-    document.getElementById('karaokeFb').innerHTML='Not quite ('+Math.round(acc*100)+'%). Correct: <strong>'+esc(target)+'</strong>';
-    document.getElementById('karaokeFb').className='fb bad';
-  }
-  document.getElementById('lyricsProgress').style.width=((lineIdx+1)/currentSong.lines.length*100)+'%';
-  document.getElementById('karaokeInput').value='';
-  updateStats();
-  lineIdx++;
-  if(lineIdx>=currentSong.lines.length){setTimeout(()=>completeRound(),1200)}
-  else{setTimeout(()=>{document.getElementById('karaokeFb').textContent='Line '+(lineIdx+1)+' of '+currentSong.lines.length+'. Press LISTEN!';document.getElementById('karaokeFb').className='fb info'},1500)}
-}
+      currentLyricsNodes.forEach((node, i) => {
+        node.classList.toggle("active", i === activeIndex);
+      });
 
-// ===== TONGUE TWISTERS =====
-function setupTwister(){
-  twisterIdx=Math.floor(Math.random()*TWISTERS.length);twisterRevealed=false;
-  const tw=TWISTERS[twisterIdx];
-  document.getElementById('twisterText').textContent=tw.text;
-  document.getElementById('twisterText').classList.add('blurred');
-  document.getElementById('twisterStars').innerHTML=Array.from({length:3},(_, i)=>'<span class="star '+(i<tw.difficulty?'active':'')+'">&#9733;</span>').join('');
-  document.getElementById('twisterInput').value='';
-  document.getElementById('twisterFb').textContent='Difficulty: '+['','Easy','Medium','Hard'][tw.difficulty]+'. Press LISTEN!';
-  document.getElementById('twisterFb').className='fb info';
-  document.getElementById('tipBox').textContent=tw.tip;
-}
+      if (activeIndex >= 0 && currentLyricsNodes[activeIndex]) {
+        currentLyricsNodes[activeIndex].scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+      }
+    }
 
-function listenTwister(){speak(TWISTERS[twisterIdx].text)}
-function revealTwister(){twisterRevealed=true;document.getElementById('twisterText').classList.remove('blurred');document.getElementById('twisterFb').textContent='Revealed! (reduced points). Try to memorise it.';document.getElementById('twisterFb').className='fb info'}
-function micTwister(){doMic(document.getElementById('twisterInput'),document.getElementById('twisterMic'),document.getElementById('twisterFb'))}
+    function stopSong() {
+      karaokeAudio.pause();
+      karaokeAudio.currentTime = 0;
+      currentLyricsNodes.forEach(node => node.classList.remove("active"));
+    }
 
-function submitTwister(){
-  const input=document.getElementById('twisterInput').value.trim();
-  if(!input)return;
-  const target=TWISTERS[twisterIdx].text;
-  const acc=similarity(target,input);
-  const pts=twisterRevealed?5:15;
-  document.getElementById('twisterText').classList.remove('blurred');
-  if(acc>=0.7){
-    score+=pts;streak++;correctCount++;if(streak>bestStreak)bestStreak=streak;
-    document.getElementById('twisterFb').textContent='Correct! '+Math.round(acc*100)+'% match! +'+pts+' points';
-    document.getElementById('twisterFb').className='fb ok';
-  }else{
-    streak=0;
-    document.getElementById('twisterFb').innerHTML='Not quite ('+Math.round(acc*100)+'%). It was: <strong>'+esc(target)+'</strong>';
-    document.getElementById('twisterFb').className='fb bad';
-  }
-  updateStats();
-  setTimeout(()=>setupTwister(),2000);
-}
+    function addKaraokePoints(points) {
+      const current = Number(karaokeScore.textContent) || 0;
+      const updated = current + points;
+      karaokeScore.textContent = updated;
 
-// ===== WHO AM I =====
-function setupWhoAmI(){
-  whoQueue=shuffle(WHOAMI).slice(0,5);whoIdx=0;clueLevel=0;
-  showWhoQ();
-}
+      if (window.pitScore && typeof window.pitScore.addPoints === "function") {
+        try {
+          window.pitScore.addPoints("challenge", points);
+        } catch (e) {}
+      }
+    }
 
-function showWhoQ(){
-  if(whoIdx>=whoQueue.length){completeRound();return}
-  clueLevel=0;
-  const item=whoQueue[whoIdx];
-  document.getElementById('whoClueLabel').textContent='Clue 1 of '+item.clues.length;
-  document.getElementById('whoDesc').textContent=item.clues[0];
-  const letters=['A','B','C','D'];
-  const opts=shuffle([...item.opts]);
-  document.getElementById('whoOpts').innerHTML=opts.map((o,i)=>
-    '<button class="opt" data-testid="who-opt-'+i+'" onclick="answerWho(this,\''+o.replace(/'/g,"\\'")+'\')"><span class="opt-letter">'+letters[i]+'</span>'+esc(o)+'</button>'
-  ).join('');
-  document.getElementById('whoFb').textContent='Question '+(whoIdx+1)+'/'+whoQueue.length+'. Read the clue and guess!';
-  document.getElementById('whoFb').className='fb info';
-  updateProgress();
-}
+    function resetKaraokeScore() {
+      karaokeScore.textContent = "0";
+    }
 
-window.moreClues=function(){
-  const item=whoQueue[whoIdx];
-  if(clueLevel>=item.clues.length-1){document.getElementById('whoFb').textContent='No more clues!';return}
-  clueLevel++;
-  let allClues='';for(let i=0;i<=clueLevel;i++)allClues+=item.clues[i]+' ';
-  document.getElementById('whoDesc').textContent=allClues.trim();
-  document.getElementById('whoClueLabel').textContent='Clue '+(clueLevel+1)+' of '+item.clues.length;
-};
+    karaokeAudio.addEventListener("timeupdate", updateActiveLyric);
 
-window.answerWho=function(btn,chosen){
-  const item=whoQueue[whoIdx];
-  document.querySelectorAll('#whoOpts .opt').forEach(b=>{b.disabled=true;if(b.textContent.slice(1)===item.answer)b.classList.add('correct')});
-  const pts=Math.max(20-clueLevel*5,5);
-  if(chosen===item.answer){
-    score+=pts;streak++;correctCount++;if(streak>bestStreak)bestStreak=streak;
-    document.getElementById('whoFb').textContent='Correct! It\'s '+item.answer+'! +'+pts+' points';
-    document.getElementById('whoFb').className='fb ok';
-  }else{
-    btn.classList.add('wrong');streak=0;
-    document.getElementById('whoFb').textContent='Not quite. It was '+item.answer+'!';
-    document.getElementById('whoFb').className='fb bad';
-  }
-  updateStats();
-  setTimeout(()=>{whoIdx++;showWhoQ()},2000);
-};
-
-// ===== BLITZ =====
-function setupBlitz(){
-  blitzQueue=shuffle(BLITZ).slice(0,10);blitzIdx=0;
-  if(blitzTimerRef)clearInterval(blitzTimerRef);
-  showBlitzQ();
-}
-
-function showBlitzQ(){
-  if(blitzIdx>=blitzQueue.length){completeRound();return}
-  const q=blitzQueue[blitzIdx];
-  blitzTimeLeft=15;
-  document.getElementById('blitzTimer').style.width='100%';
-  document.getElementById('blitzQNum').textContent='Question '+(blitzIdx+1)+' / '+blitzQueue.length;
-  document.getElementById('blitzQ').textContent=q.q;
-  const skillMap={vocab:'VOCABULARY',grammar:'GRAMMAR',listening:'LISTENING',reading:'READING'};
-  const skillClass={vocab:'skill-vocab',grammar:'skill-grammar',listening:'skill-listening',reading:'skill-reading'};
-  document.getElementById('blitzSkill').textContent=skillMap[q.skill]||q.skill;
-  document.getElementById('blitzSkill').className='skill-badge '+(skillClass[q.skill]||'');
-  const letters=['A','B','C','D'];
-  document.getElementById('blitzOpts').innerHTML=q.opts.map((o,i)=>
-    '<button class="opt" data-testid="blitz-opt-'+i+'" onclick="answerBlitz(this,'+i+')"><span class="opt-letter">'+letters[i]+'</span>'+esc(o)+'</button>'
-  ).join('');
-  document.getElementById('blitzFb').textContent='Answer quickly!';
-  document.getElementById('blitzFb').className='fb info';
-  if(blitzTimerRef)clearInterval(blitzTimerRef);
-  blitzTimerRef=setInterval(()=>{
-    blitzTimeLeft-=0.1;
-    document.getElementById('blitzTimer').style.width=Math.max(blitzTimeLeft/15*100,0)+'%';
-    if(blitzTimeLeft<=0){clearInterval(blitzTimerRef);timeoutBlitz()}
-  },100);
-  updateProgress();
-}
-
-function timeoutBlitz(){
-  const q=blitzQueue[blitzIdx];
-  document.querySelectorAll('#blitzOpts .opt').forEach((b,i)=>{b.disabled=true;if(i===q.ans)b.classList.add('correct')});
-  streak=0;
-  document.getElementById('blitzFb').textContent='Time\'s up! The answer was: '+q.opts[q.ans];
-  document.getElementById('blitzFb').className='fb bad';
-  updateStats();
-  setTimeout(()=>{blitzIdx++;showBlitzQ()},1500);
-}
-
-window.answerBlitz=function(btn,chosen){
-  if(blitzTimerRef)clearInterval(blitzTimerRef);
-  const q=blitzQueue[blitzIdx];
-  document.querySelectorAll('#blitzOpts .opt').forEach((b,i)=>{b.disabled=true;if(i===q.ans)b.classList.add('correct')});
-  const timeBonus=Math.round(blitzTimeLeft);
-  if(chosen===q.ans){
-    const pts=10+timeBonus;
-    score+=pts;streak++;correctCount++;if(streak>bestStreak)bestStreak=streak;
-    document.getElementById('blitzFb').textContent='Correct! +'+pts+' points ('+timeBonus+' time bonus)';
-    document.getElementById('blitzFb').className='fb ok';
-  }else{
-    btn.classList.add('wrong');streak=0;
-    document.getElementById('blitzFb').textContent='Wrong! The answer was: '+q.opts[q.ans];
-    document.getElementById('blitzFb').className='fb bad';
-  }
-  updateStats();
-  setTimeout(()=>{blitzIdx++;showBlitzQ()},1500);
-};
-
-// ===== MIC =====
-function doMic(inputEl,btnEl,fbEl){
-  if(!speechOK){fbEl.textContent='Voice not supported. Type instead.';fbEl.className='fb bad';return}
-  const rec=new SpeechRecognition();rec.lang='en-US';rec.interimResults=false;
-  btnEl.classList.add('recording');btnEl.textContent='REC';
-  fbEl.textContent='Listening...';fbEl.className='fb info';
-  rec.onresult=e=>{inputEl.value=e.results[0][0].transcript;btnEl.classList.remove('recording');btnEl.textContent='MIC';fbEl.textContent='Got it! Press SUBMIT/CHECK.'};
-  rec.onerror=()=>{btnEl.classList.remove('recording');btnEl.textContent='MIC';fbEl.textContent='Could not hear. Try again or type.';fbEl.className='fb bad'};
-  rec.onend=()=>{btnEl.classList.remove('recording');btnEl.textContent='MIC'};
-  rec.start();
-}
-
-function completeRound(){
-  if(blitzTimerRef)clearInterval(blitzTimerRef);
-  done++;
-  if(typeof PIT_SCORE!=='undefined'){PIT_SCORE.addScore('challenge',score);PIT_SCORE.updateStation('challenge',{completed:done})}
-  document.getElementById('finalScore').textContent=score+' pts';
-  document.getElementById('modalMsg').textContent=correctCount>=5?'Amazing performance!':correctCount>=3?'Good effort!':'Keep practising!';
-  document.getElementById('doneModal').classList.add('active');
-  updateStats();
-}
-
-function closeModal(){document.getElementById('doneModal').classList.remove('active')}
-
-function updateStats(){
-  document.getElementById('hScore').textContent=score;
-  document.getElementById('hStreak').textContent=streak;
-  document.getElementById('hDone').textContent=done;
-  document.getElementById('sCorrect').textContent=correctCount;
-  document.getElementById('sBest').textContent=bestStreak;
-  document.getElementById('sTotal').textContent=score;
-  updateProgress();
-}
-
-function updateProgress(){
-  let total=1,cur=0;
-  if(currentMode==='karaoke'){total=currentSong?currentSong.lines.length:1;cur=lineIdx}
-  else if(currentMode==='whoami'){total=whoQueue.length||1;cur=whoIdx}
-  else if(currentMode==='blitz'){total=blitzQueue.length||1;cur=blitzIdx}
-  else{total=1;cur=0}
-  document.getElementById('progBar').style.width=Math.min(cur/total*100,100)+'%';
-}
-
-init();
-</script>
+    populateSongMenu();
+  </script>
 </body>
 </html>
