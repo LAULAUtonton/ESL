@@ -185,6 +185,12 @@ button:disabled {
   font-size: 30px;
 }
 
+img.card-icon {
+  object-fit: contain;
+  border-radius: 0;
+  background: none;
+}
+
 .card-word {
   font-size: 22px;
   font-weight: 800;
@@ -791,22 +797,22 @@ const VOCAB_DB = {
           emoji: "&#128522;",
           type: "words",
           items: [
-            { word: "happy", example: "I feel happy when I see my friends." },
-            { word: "sad", example: "She was sad about the news." },
-            { word: "scared", example: "The dog was scared of thunder." },
-            { word: "surprised", example: "We were surprised by the party." },
-            { word: "tired", example: "I'm tired after the exam." },
-            { word: "bored", example: "He gets bored easily." },
-            { word: "excited", example: "They are excited about the trip." },
-            { word: "worried", example: "Don't be worried about the test." },
-            { word: "relaxed", example: "I feel relaxed on holiday." },
-            { word: "angry", example: "She was angry with her brother." },
-            { word: "nervous", example: "I'm nervous before presentations." },
-            { word: "proud", example: "My parents are proud of me." },
-            { word: "disappointed", example: "He was disappointed with the result." },
-            { word: "confused", example: "I'm confused by this exercise." },
-            { word: "embarrassed", example: "She felt embarrassed." },
-            { word: "jealous", example: "Don't be jealous of others." }
+            { word: "happy", icon: "emotions/happy.svg", example: "I feel happy when I see my friends." },
+            { word: "sad", icon: "emotions/sad.svg", example: "She was sad about the news." },
+            { word: "scared", icon: "emotions/scared.svg", example: "The dog was scared of thunder." },
+            { word: "surprised", icon: "emotions/surprised.svg", example: "We were surprised by the party." },
+            { word: "tired", icon: "emotions/sleepy.svg", example: "I'm tired after the exam." },
+            { word: "bored", icon: "emotions/lazy.svg", example: "He gets bored easily." },
+            { word: "excited", icon: "emotions/excited.svg", example: "They are excited about the trip." },
+            { word: "worried", icon: "emotions/worried.svg", example: "Don't be worried about the test." },
+            { word: "relaxed", icon: "emotions/relaxed.svg", example: "I feel relaxed on holiday." },
+            { word: "angry", icon: "emotions/angry.svg", example: "She was angry with her brother." },
+            { word: "nervous", icon: "emotions/nervous.svg", example: "I'm nervous before presentations." },
+            { word: "proud", icon: "emotions/joyful.svg", example: "My parents are proud of me." },
+            { word: "disappointed", icon: "emotions/crying.svg", example: "He was disappointed with the result." },
+            { word: "confused", icon: "emotions/confused.svg", example: "I'm confused by this exercise." },
+            { word: "embarrassed", icon: "emotions/shy.svg", example: "She felt embarrassed." },
+            { word: "jealous", icon: "emotions/annoyed.svg", example: "Don't be jealous of others." }
           ]
         },
         {
@@ -1488,7 +1494,7 @@ function flattenVocab(unitF='all', catF='all') {
         });
       } else {
         set.items.forEach(i => {
-          cards.push({ unit: unit.unit, unitTitle: unit.title, setLabel: set.label, category: set.category, color: set.color, front: i.word, back: '', pos: getPOS(set.category), example: i.example || '' });
+          cards.push({ unit: unit.unit, unitTitle: unit.title, setLabel: set.label, category: set.category, color: set.color, front: i.word, back: '', pos: getPOS(set.category), example: i.example || '', icon: i.icon || '' });
         });
       }
     }
@@ -1552,7 +1558,7 @@ function renderFlashcards() {
     <div class="card ${flippedSet.has(i)?'flipped':''}" onclick="flipCard(${i})">
       <div class="card-inner">
         <div class="card-face card-front">
-          <div class="card-icon" style="background:${c.color}">&#128218;</div>
+          ${c.icon ? `<img class="card-icon" src="icons/${c.icon}" alt="${esc(c.front)}">` : `<div class="card-icon" style="background:${c.color}">&#128218;</div>`}
           <div class="card-word">${esc(c.front)}</div>
           <div class="card-pos">${esc(c.pos)}</div>
         </div>
