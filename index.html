@@ -1,447 +1,719 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>THE PIT</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE PIT - English Language Arena</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
 
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet" />
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:#0a0a1a;
+  color:#fff;
+  min-height:100vh;
+  overflow-x:hidden;
+}
 
-  <style>
-    html, body {
-      margin: 0;
-      height: 100vh;
-      font-family: 'Orbitron', sans-serif;
-      background: radial-gradient(circle, #ff7eb3 0%, #6d5acb 45%, #3c1c6b 100%);
-      color: white;
-      overflow: hidden;
-    }
+/* ANIMATED BG */
+.bg-glow{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 600px 400px at 20% 30%, rgba(139,92,246,.12) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 350px at 80% 60%, rgba(236,72,153,.08) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 300px at 50% 80%, rgba(245,158,11,.06) 0%, transparent 70%);
+}
 
-    /* ================= LOGIN ================= */
+/* GRID PATTERN */
+.bg-grid{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
+  background-size:60px 60px;
+}
 
-    .loginOverlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.9);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
+.container{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:20px 16px}
 
-    .loginBox {
-      background: white;
-      padding: 40px;
-      border-radius: 22px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 18px;
-      color: #3c1c6b;
-    }
+/* LOGIN */
+.login-overlay{
+  position:fixed;inset:0;z-index:9999;
+  background:rgba(5,5,20,.95);
+  display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(20px);
+}
 
-    .loginBox input {
-      padding: 12px;
-      border-radius: 12px;
-      border: none;
-      width: 220px;
-      text-align: center;
-    }
+.login-box{
+  background:linear-gradient(145deg,#12122a,#1a1a35);
+  border:1px solid rgba(139,92,246,.2);
+  border-radius:20px;padding:40px 36px;
+  text-align:center;max-width:440px;width:92%;
+  box-shadow:0 30px 80px rgba(0,0,0,.6);
+}
 
-    .loginBox button {
-      padding: 10px 24px;
-      border: none;
-      border-radius: 14px;
-      background: #6d5acb;
-      color: white;
-      cursor: pointer;
-      font-family: 'Orbitron', sans-serif;
-    }
+.login-box h1{
+  font-family:'Orbitron',sans-serif;font-size:40px;font-weight:900;
+  background:linear-gradient(135deg,#f472b6,#a78bfa,#60a5fa);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:6px;letter-spacing:3px;
+}
 
-    /* ================= TOP ================= */
+.login-box .subtitle{
+  font-size:13px;color:#a78bfa;font-weight:700;letter-spacing:4px;
+  text-transform:uppercase;margin-bottom:16px;
+}
 
-    .top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 30px;
-    }
+.login-box p{color:#94a3b8;font-size:14px;margin-bottom:28px;line-height:1.6}
 
-    .info {
-      display: flex;
-      gap: 25px;
-      font-size: 20px;
-      align-items: center;
-    }
+.login-input{
+  width:100%;padding:14px 18px;border-radius:12px;
+  border:2px solid rgba(139,92,246,.25);background:rgba(255,255,255,.04);
+  color:#fff;font-size:16px;font-family:inherit;margin-bottom:16px;
+  transition:border-color .2s;
+}
+.login-input:focus{border-color:#a78bfa;outline:none;background:rgba(139,92,246,.06)}
+.login-input::placeholder{color:#4b5563}
 
-    .timerBox {
-      background: rgba(0,0,0,0.45);
-      padding: 8px 16px;
-      border-radius: 12px;
-    }
+.login-btn{
+  width:100%;padding:15px;border:none;border-radius:12px;
+  background:linear-gradient(135deg,#8b5cf6,#6366f1);
+  color:#fff;font-size:15px;font-weight:800;cursor:pointer;
+  font-family:'Orbitron',sans-serif;letter-spacing:2px;
+  transition:all .2s;
+}
+.login-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(139,92,246,.4)}
 
-    /* ===== BIG CONTROLS ===== */
+/* HEADER */
+.header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 0;margin-bottom:20px;flex-wrap:wrap;gap:12px;
+}
 
-    .controls {
-      display: flex;
-      gap: 18px;
-    }
+.logo{
+  font-family:'Orbitron',sans-serif;font-size:26px;font-weight:900;
+  background:linear-gradient(135deg,#f472b6,#a78bfa,#60a5fa);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:2px;
+}
 
-    .bigCtrl {
-      width: 65px;
-      height: 65px;
-      background: white;
-      border-radius: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.7);
-      transition: .2s;
-    }
+.header-right{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 
-    .bigCtrl:hover {
-      transform: scale(1.12);
-    }
+.header-stat{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:10px;padding:8px 14px;font-size:12px;font-weight:600;color:#94a3b8;
+}
+.header-stat .val{color:#a78bfa;font-weight:800;margin-left:3px}
 
-    .bigCtrl svg {
-      width: 70%;
-      height: 70%;
-      fill: #3c1c6b;
-      stroke: #3c1c6b;
-      stroke-width: 2;
-    }
+.exit-btn{
+  padding:7px 14px;border-radius:8px;border:1px solid rgba(239,68,68,.3);
+  background:transparent;color:#ef4444;font-weight:700;font-size:11px;
+  cursor:pointer;transition:all .2s;letter-spacing:0.5px;
+}
+.exit-btn:hover{background:rgba(239,68,68,.15)}
 
-    /* ================= TITLE ================= */
+/* TAB NAV */
+.tabs{
+  display:flex;gap:4px;margin-bottom:24px;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
+  border-radius:12px;padding:4px;
+}
+.tab{
+  padding:10px 20px;border-radius:9px;font-size:13px;font-weight:700;
+  color:#64748b;cursor:pointer;transition:all .2s;border:none;background:none;
+  flex:1;text-align:center;
+}
+.tab:hover{color:#a78bfa}
+.tab.active{background:linear-gradient(135deg,rgba(139,92,246,.2),rgba(99,102,241,.15));color:#a78bfa;border:1px solid rgba(139,92,246,.2)}
 
-    .title {
-      text-align: center;
-      font-size: 50px;
-      margin-top: 4px;
-    }
+/* SCORE BANNER */
+.score-banner{
+  background:linear-gradient(135deg,rgba(139,92,246,.1),rgba(99,102,241,.06));
+  border:1px solid rgba(139,92,246,.15);border-radius:16px;
+  padding:20px 24px;margin-bottom:24px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+}
 
-    /* ================= PROGRESS BAR ================= */
+.score-main{text-align:left}
+.score-label{font-size:11px;color:#64748b;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
+.score-value{
+  font-family:'Orbitron',sans-serif;font-size:40px;font-weight:900;
+  background:linear-gradient(135deg,#fbbf24,#f59e0b);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
 
-    .bar {
-      width: 80%;
-      margin: auto;
-      height: 18px;
-      background: rgba(255,255,255,0.25);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.5);
-    }
+.score-details{display:flex;gap:24px;flex-wrap:wrap}
+.score-detail{text-align:center}
+.score-detail .num{font-size:22px;font-weight:800;color:#fff}
+.score-detail .lbl{font-size:10px;color:#4b5563;font-weight:600;margin-top:2px;text-transform:uppercase;letter-spacing:0.5px}
 
-    .fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg,#ff7eb3,#ffffff);
-    }
+/* PROGRESS BAR */
+.global-progress{margin-bottom:28px}
+.gp-label{display:flex;justify-content:space-between;font-size:11px;color:#64748b;font-weight:700;margin-bottom:6px}
+.gp-bar{height:8px;background:rgba(255,255,255,.06);border-radius:10px;overflow:hidden}
+.gp-fill{
+  height:100%;border-radius:10px;
+  background:linear-gradient(90deg,#8b5cf6,#6366f1,#3b82f6,#22c55e,#f59e0b,#ec4899);
+  background-size:200% 100%;animation:shimmer 3s linear infinite;
+  transition:width .5s;
+}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
-    .percent {
-      width: 80%;
-      margin: auto;
-      text-align: right;
-      font-size: 15px;
-      margin-top: 6px;
-      font-weight: 600;
-    }
+/* SECTION TITLE */
+.section-title{
+  font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;
+  color:#4b5563;letter-spacing:3px;margin-bottom:14px;
+  display:flex;align-items:center;gap:10px;text-transform:uppercase;
+}
+.section-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.06)}
 
-    /* ================= STATIONS ================= */
+/* STATIONS GRID */
+.stations-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:12px;margin-bottom:28px;
+}
 
-    .main {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: calc(100vh - 230px);
-    }
+.station-card{
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:14px;padding:18px;
+  text-decoration:none;color:#fff;
+  transition:all .25s;cursor:pointer;
+  position:relative;overflow:hidden;
+}
 
-    .row {
-      display: flex;
-      gap: 24px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+.station-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 30px rgba(0,0,0,.25);
+  border-color:rgba(255,255,255,.12);
+}
 
-    .stationWrap {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-decoration: none;
-    }
+.station-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  border-radius:14px 14px 0 0;
+}
 
-    .station {
-      width: 155px;
-      height: 155px;
-      background: white;
-      border-radius: 20px;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 14px 35px rgba(0,0,0,0.7);
-      transition: .2s;
-    }
+.station-card[data-color="purple"]::before{background:linear-gradient(90deg,#8b5cf6,#a78bfa)}
+.station-card[data-color="purple"]:hover{border-color:rgba(139,92,246,.3);background:rgba(139,92,246,.06)}
 
-    .station:hover {
-      transform: scale(1.08);
-    }
+.station-card[data-color="teal"]::before{background:linear-gradient(90deg,#14b8a6,#2dd4bf)}
+.station-card[data-color="teal"]:hover{border-color:rgba(20,184,166,.3);background:rgba(20,184,166,.06)}
 
-    .station img {
-      position: absolute;
-      width: 110%;
-      height: 110%;
-      object-fit: contain;
-    }
+.station-card[data-color="green"]::before{background:linear-gradient(90deg,#22c55e,#4ade80)}
+.station-card[data-color="green"]:hover{border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
 
-    .stationText {
-      color: #3c1c6b;
-      font-size: 20px;
-      text-align: center;
-      padding: 10px;
-      font-weight: 600;
-    }
+.station-card[data-color="blue"]::before{background:linear-gradient(90deg,#3b82f6,#60a5fa)}
+.station-card[data-color="blue"]:hover{border-color:rgba(59,130,246,.3);background:rgba(59,130,246,.06)}
 
-    .stationLabel {
-      margin-top: 12px;
-      font-size: 26px;
-      letter-spacing: 4px;
-      color: white;
-      font-weight: 900;
-      -webkit-text-stroke: 1px black;
-      text-shadow: 0 0 12px rgba(255,255,255,0.9);
-      text-align: center;
-    }
+.station-card[data-color="orange"]::before{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.station-card[data-color="orange"]:hover{border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.06)}
 
-    /* ================= BIG MINI CONSOLE ================= */
+.station-card[data-color="pink"]::before{background:linear-gradient(90deg,#ec4899,#f472b6)}
+.station-card[data-color="pink"]:hover{border-color:rgba(236,72,153,.3);background:rgba(236,72,153,.06)}
 
-    .miniConsole {
-      position: fixed;
-      bottom: 22px;
-      right: 22px;
-      background: rgba(0,0,0,0.75);
-      padding: 20px 24px;
-      border-radius: 22px;
-      display: flex;
-      gap: 22px;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.8);
-    }
+.station-card[data-color="red"]::before{background:linear-gradient(90deg,#ef4444,#f87171)}
+.station-card[data-color="red"]:hover{border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.06)}
 
-    .smallCtrl {
-      width: 70px;
-      height: 70px;
-      background: white;
-      border-radius: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow:
-        0 10px 25px rgba(0,0,0,0.7),
-        inset 0 0 6px rgba(0,0,0,0.2);
-      transition: .2s;
-    }
+.station-card[data-color="gray"]::before{background:linear-gradient(90deg,#6b7280,#9ca3af)}
+.station-card[data-color="gray"]:hover{border-color:rgba(107,114,128,.3);background:rgba(107,114,128,.06)}
 
-    .smallCtrl:hover {
-      transform: scale(1.15);
-    }
+.station-icon{
+  width:42px;height:42px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;font-weight:900;margin-bottom:10px;
+}
 
-    .smallCtrl svg {
-      width: 75%;
-      height: 75%;
-      fill: #6d5acb;
-    }
+.station-card[data-color="purple"] .station-icon{background:rgba(139,92,246,.12);color:#a78bfa}
+.station-card[data-color="teal"] .station-icon{background:rgba(20,184,166,.12);color:#2dd4bf}
+.station-card[data-color="green"] .station-icon{background:rgba(34,197,94,.12);color:#4ade80}
+.station-card[data-color="blue"] .station-icon{background:rgba(59,130,246,.12);color:#60a5fa}
+.station-card[data-color="orange"] .station-icon{background:rgba(245,158,11,.12);color:#fbbf24}
+.station-card[data-color="pink"] .station-icon{background:rgba(236,72,153,.12);color:#f472b6}
+.station-card[data-color="red"] .station-icon{background:rgba(239,68,68,.12);color:#f87171}
+.station-card[data-color="gray"] .station-icon{background:rgba(107,114,128,.12);color:#9ca3af}
 
-    @media (max-width: 900px) {
-      .station { width: 130px; height: 130px; }
-      .bigCtrl { width: 55px; height: 55px; }
-      .smallCtrl { width: 60px; height: 60px; }
-      .stationLabel { font-size: 22px; }
-      .stationText { font-size: 18px; }
-    }
-  </style>
+.station-name{font-weight:800;font-size:14px;margin-bottom:4px}
+.station-desc{font-size:11px;color:#64748b;line-height:1.4;margin-bottom:8px}
+.station-score{font-size:11px;font-weight:700;color:#4b5563}
+.station-score span{color:#fbbf24}
+
+/* LEADERBOARD */
+.lb-panel{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
+  border-radius:16px;padding:24px;margin-bottom:24px;
+}
+
+.lb-header{
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
+  margin-bottom:20px;
+}
+
+.lb-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+.lb-btn{
+  padding:8px 16px;border-radius:10px;font-size:12px;font-weight:700;
+  cursor:pointer;transition:all .2s;border:1px solid rgba(139,92,246,.3);
+  background:rgba(139,92,246,.1);color:#a78bfa;font-family:inherit;
+}
+.lb-btn:hover{background:rgba(139,92,246,.2);transform:translateY(-1px)}
+.lb-btn.accent{background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;border:none}
+.lb-btn.accent:hover{box-shadow:0 6px 20px rgba(139,92,246,.3)}
+
+.lb-table{width:100%;border-collapse:collapse}
+.lb-table th{
+  text-align:left;font-size:10px;color:#4b5563;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;padding:8px 12px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.lb-table td{
+  padding:10px 12px;font-size:13px;font-weight:600;color:#e2e8f0;
+  border-bottom:1px solid rgba(255,255,255,.03);
+}
+.lb-table tr:hover td{background:rgba(255,255,255,.02)}
+.lb-rank{
+  width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;
+  border-radius:8px;font-size:12px;font-weight:800;
+}
+.lb-rank.gold{background:rgba(251,191,36,.15);color:#fbbf24}
+.lb-rank.silver{background:rgba(148,163,184,.15);color:#94a3b8}
+.lb-rank.bronze{background:rgba(245,158,11,.15);color:#f59e0b}
+.lb-rank.default{background:rgba(255,255,255,.05);color:#64748b}
+
+.lb-player-name{font-weight:800;color:#fff}
+.lb-player-name.you{color:#a78bfa}
+.lb-date{font-size:11px;color:#4b5563}
+
+.lb-empty{
+  text-align:center;padding:40px;color:#4b5563;font-size:14px;line-height:1.7;
+}
+
+/* SHARE CODE */
+.share-section{
+  background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);
+  border-radius:14px;padding:20px;margin-bottom:24px;
+}
+
+.share-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+
+.share-input{
+  flex:1;min-width:200px;padding:10px 14px;border-radius:10px;
+  border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);
+  color:#fff;font-size:13px;font-family:'Courier New',monospace;
+}
+.share-input:focus{border-color:#a78bfa;outline:none}
+
+.share-label{
+  font-size:12px;font-weight:700;color:#94a3b8;margin-bottom:8px;
+  display:flex;align-items:center;gap:6px;
+}
+
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:#22c55e;color:#fff;padding:12px 24px;border-radius:12px;
+  font-size:13px;font-weight:700;z-index:10000;
+  transition:transform .3s;pointer-events:none;
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ACHIEVEMENTS */
+.achievements-grid{
+  display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;
+}
+
+.ach-badge{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 14px;border-radius:10px;
+  border:1px solid rgba(255,255,255,.06);
+  background:rgba(255,255,255,.02);
+  font-size:11px;font-weight:600;color:#4b5563;
+}
+
+.ach-badge.unlocked{
+  border-color:rgba(251,191,36,.2);background:rgba(251,191,36,.06);color:#fbbf24;
+}
+
+.ach-icon{font-size:16px}
+
+/* FOOTER */
+.footer{
+  text-align:center;padding:20px 0;
+  font-size:11px;color:#1f2937;
+  border-top:1px solid rgba(255,255,255,.03);
+  margin-top:20px;letter-spacing:0.5px;
+}
+
+/* VIEW */
+.view{display:none}
+.view.active{display:block}
+
+@media(max-width:600px){
+  .stations-grid{grid-template-columns:1fr 1fr}
+  .score-value{font-size:32px}
+  .score-banner{flex-direction:column;text-align:center}
+  .header{justify-content:center;text-align:center}
+  .tabs{flex-wrap:nowrap;overflow-x:auto}
+  .tab{white-space:nowrap;flex:0 0 auto;padding:10px 14px}
+  .lb-table{font-size:12px}
+}
+</style>
 </head>
-
 <body>
 
-  <!-- LOGIN -->
-  <div class="loginOverlay" id="loginOverlay">
-    <div class="loginBox">
-      <h2>ENTER YOUR NAME</h2>
-      <input type="text" id="playerName" />
-      <button onclick="startGame()">START</button>
+<div class="bg-glow"></div>
+<div class="bg-grid"></div>
+
+<!-- LOGIN -->
+<div class="login-overlay" id="loginOverlay" data-testid="login-overlay">
+  <div class="login-box">
+    <h1 data-testid="pit-title">THE PIT</h1>
+    <div class="subtitle">English Language Arena</div>
+    <p>Practice vocabulary, reading, writing, speaking, listening, grammar and more. Track your score and compete with classmates.</p>
+    <input class="login-input" type="text" id="nameInput" data-testid="name-input" placeholder="Enter your name to begin" onkeydown="if(event.key==='Enter')startGame()">
+    <button class="login-btn" data-testid="start-btn" onclick="startGame()">ENTER THE PIT</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+  <div class="header">
+    <div class="logo" data-testid="logo">THE PIT</div>
+    <div class="header-right">
+      <div class="header-stat">Player: <span class="val" id="playerDisp" data-testid="player-display">-</span></div>
+      <div class="header-stat">Visited: <span class="val" id="stationsVisited" data-testid="stations-visited">0</span> / 9</div>
+      <button class="exit-btn" data-testid="exit-btn" onclick="exitGame()">LOG OUT</button>
     </div>
   </div>
 
-  <!-- TOP -->
-  <div class="top">
-    <div class="info">
-      <div class="timerBox" id="timer">00:00</div>
-      <div id="score">Score: 0</div>
-      <div id="playerDisplay"></div>
+  <!-- TAB NAVIGATION -->
+  <div class="tabs" data-testid="tab-nav">
+    <button class="tab active" data-testid="tab-stations" onclick="switchView('stations')">Stations</button>
+    <button class="tab" data-testid="tab-leaderboard" onclick="switchView('leaderboard')">Leaderboard</button>
+    <button class="tab" data-testid="tab-achievements" onclick="switchView('achievements')">Achievements</button>
+  </div>
+
+  <!-- ===== STATIONS VIEW ===== -->
+  <div id="view-stations" class="view active">
+
+    <!-- SCORE BANNER -->
+    <div class="score-banner" data-testid="score-banner">
+      <div class="score-main">
+        <div class="score-label">Total Score</div>
+        <div class="score-value" id="totalScore" data-testid="total-score">0</div>
+      </div>
+      <div class="score-details">
+        <div class="score-detail"><div class="num" id="totalSessions" data-testid="total-sessions">0</div><div class="lbl">Sessions</div></div>
+        <div class="score-detail"><div class="num" id="totalAch" data-testid="total-achievements">0</div><div class="lbl">Badges</div></div>
+        <div class="score-detail"><div class="num" id="lastActive" data-testid="last-active">-</div><div class="lbl">Last Active</div></div>
+      </div>
     </div>
 
-    <div class="controls">
-      <div class="bigCtrl" onclick="startTimer()">
-        <svg viewBox="0 0 24 24"><polygon points="6,4 20,12 6,20"/></svg>
-      </div>
+    <!-- GLOBAL PROGRESS -->
+    <div class="global-progress">
+      <div class="gp-label"><span>Overall Progress</span><span id="gpPct" data-testid="progress-pct">0%</span></div>
+      <div class="gp-bar"><div class="gp-fill" id="gpFill" data-testid="progress-fill"></div></div>
+    </div>
 
-      <div class="bigCtrl" onclick="pauseTimer()">
-        <svg viewBox="0 0 24 24">
-          <rect x="5" y="4" width="5" height="16"/>
-          <rect x="14" y="4" width="5" height="16"/>
-        </svg>
-      </div>
+    <!-- CORE STATIONS -->
+    <div class="section-title">Core Stations</div>
+    <div class="stations-grid" data-testid="core-stations">
+      <a href="./stations/vocabulary.html" class="station-card" data-color="purple" data-testid="station-vocabulary">
+        <div class="station-icon">Aa</div>
+        <div class="station-name">Vocabulary</div>
+        <div class="station-desc">336 words, 8 units. Flashcards, sorting, quizzes, hangman and more.</div>
+        <div class="station-score">Score: <span id="sc-vocabulary">0</span></div>
+      </a>
+      <a href="./stations/writing.html" class="station-card" data-color="teal" data-testid="station-writing">
+        <div class="station-icon">Wr</div>
+        <div class="station-name">Writing</div>
+        <div class="station-desc">Practice writing with grammar tools and 6 creative modes.</div>
+        <div class="station-score">Score: <span id="sc-writing">0</span></div>
+      </a>
+      <a href="./stations/reading.html" class="station-card" data-color="green" data-testid="station-reading">
+        <div class="station-icon">Rd</div>
+        <div class="station-name">Reading</div>
+        <div class="station-desc">24 texts with manga illustrations and comprehension modes.</div>
+        <div class="station-score">Score: <span id="sc-reading">0</span></div>
+      </a>
+      <a href="./stations/speaking.html" class="station-card" data-color="blue" data-testid="station-speaking">
+        <div class="station-icon">Sp</div>
+        <div class="station-name">Speaking</div>
+        <div class="station-desc">16 dialogues with role play, listen & repeat, fill the gap.</div>
+        <div class="station-score">Score: <span id="sc-speaking">0</span></div>
+      </a>
+      <a href="./stations/listening.html" class="station-card" data-color="orange" data-testid="station-listening">
+        <div class="station-icon">Li</div>
+        <div class="station-name">Listening</div>
+        <div class="station-desc">16 audio exercises. Comprehension, dictation, note-taking.</div>
+        <div class="station-score">Score: <span id="sc-listening">0</span></div>
+      </a>
+    </div>
 
-      <div class="bigCtrl" onclick="exitGame()">
-        <svg viewBox="0 0 24 24">
-          <line x1="5" y1="5" x2="19" y2="19"/>
-          <line x1="19" y1="5" x2="5" y2="19"/>
-        </svg>
-      </div>
+    <!-- FUN STATIONS -->
+    <div class="section-title">Fun Stations</div>
+    <div class="stations-grid" data-testid="fun-stations">
+      <a href="./stations/funnycorner.html" class="station-card" data-color="pink" data-testid="station-funnycorner">
+        <div class="station-icon">Ha</div>
+        <div class="station-name">The Funny Corner</div>
+        <div class="station-desc">25 idioms & expressions. Guess, match, and listen challenges.</div>
+        <div class="station-score">Score: <span id="sc-funnycorner">0</span></div>
+      </a>
+      <a href="./stations/games.html" class="station-card" data-color="red" data-testid="station-games">
+        <div class="station-icon">Gm</div>
+        <div class="station-name">Games</div>
+        <div class="station-desc">Fun language games to test your skills and compete.</div>
+        <div class="station-score">Score: <span id="sc-games">0</span></div>
+      </a>
+      <a href="./stations/challenge.html" class="station-card" data-color="red" data-testid="station-challenge">
+        <div class="station-icon" style="background:rgba(239,68,68,.15);color:#f87171">Ch</div>
+        <div class="station-name">Challenge</div>
+        <div class="station-desc">Karaoke, tongue twisters, Who Am I, multi-skill blitz.</div>
+        <div class="station-score">Score: <span id="sc-challenge">0</span></div>
+      </a>
+    </div>
+
+    <!-- GRAMMAR -->
+    <div class="section-title">Grammar Practice</div>
+    <div class="stations-grid" data-testid="grammar-stations">
+      <a href="./stations/grammar.html" class="station-card" data-color="gray" data-testid="station-grammar">
+        <div class="station-icon">Gr</div>
+        <div class="station-name">Grammar</div>
+        <div class="station-desc">6 topics: To Be, Pronouns, Tenses, Question Words, Past Simple, Comparatives.</div>
+        <div class="station-score">Score: <span id="sc-grammar">0</span></div>
+      </a>
     </div>
   </div>
 
-  <div class="title">THE PIT</div>
-
-  <div class="bar"><div class="fill" id="fill"></div></div>
-  <div class="percent" id="percent">0%</div>
-
-  <!-- STATIONS -->
-  <div class="main">
-
-    <div class="row">
-      <a href="./stations/listening.html" class="stationWrap">
-        <div class="station"><img src="./stations/listening.png" alt="Listening"></div>
-        <div class="stationLabel">LISTEN</div>
-      </a>
-
-      <a href="./stations/grammar.html" class="stationWrap">
-        <div class="station"><img src="./stations/challenge.png" alt="Grammar"></div>
-        <div class="stationLabel">GRAMMAR</div>
-      </a>
-
-      <a href="./stations/present-continuous.html" class="stationWrap">
-        <div class="station"><img src="./stations/challenge.png" alt="Present Continuous"></div>
-        <div class="stationLabel">PRESENT</div>
-      </a>
-
-      <a href="./stations/games.html" class="stationWrap">
-        <div class="station"><img src="./stations/games.png" alt="Games"></div>
-        <div class="stationLabel">GAMES</div>
-      </a>
-    </div>
-
-    <div class="row">
-      <div class="stationWrap">
-        <div class="station">
-          <div class="stationText">COMING SOON</div>
+  <!-- ===== LEADERBOARD VIEW ===== -->
+  <div id="view-leaderboard" class="view">
+    <div class="lb-panel">
+      <div class="lb-header">
+        <div>
+          <div class="section-title" style="margin-bottom:4px">Class Leaderboard</div>
+          <div style="font-size:12px;color:#4b5563">Share your code with classmates to compete!</div>
         </div>
-        <div class="stationLabel">READ</div>
-      </div>
-
-      <div class="stationWrap">
-        <div class="station">
-          <div class="stationText">COMING SOON</div>
+        <div class="lb-actions">
+          <button class="lb-btn accent" data-testid="lb-save-btn" onclick="saveMyScore()">Save My Score</button>
         </div>
-        <div class="stationLabel">WRITE</div>
+      </div>
+      <table class="lb-table" data-testid="leaderboard-table">
+        <thead><tr><th>#</th><th>Player</th><th>Score</th><th>Date</th></tr></thead>
+        <tbody id="lbBody" data-testid="leaderboard-body"></tbody>
+      </table>
+      <div class="lb-empty" id="lbEmpty" data-testid="leaderboard-empty" style="display:none">
+        No players yet! Save your score and share your code with classmates.
       </div>
     </div>
 
+    <!-- SHARE SECTION -->
+    <div class="share-section" data-testid="share-section">
+      <div class="share-label">Your Score Code (share this with classmates)</div>
+      <div class="share-row">
+        <input class="share-input" id="myCode" data-testid="my-code" readonly placeholder="Click 'Generate Code' to get your code">
+        <button class="lb-btn accent" data-testid="generate-code-btn" onclick="generateCode()">Generate Code</button>
+        <button class="lb-btn" data-testid="copy-code-btn" onclick="copyCode()">Copy</button>
+      </div>
+
+      <div class="share-label" style="margin-top:16px">Import a Classmate's Code</div>
+      <div class="share-row">
+        <input class="share-input" id="importInput" data-testid="import-input" placeholder="Paste your classmate's code here...">
+        <button class="lb-btn accent" data-testid="import-btn" onclick="importClassmate()">Import</button>
+      </div>
+      <div id="importMsg" data-testid="import-message" style="font-size:12px;color:#4b5563;margin-top:4px"></div>
+    </div>
   </div>
 
-  <!-- MINI CONSOLE -->
-  <div class="miniConsole">
-    <div class="smallCtrl" onclick="resetTimer()">
-      <svg viewBox="0 0 24 24">
-        <path d="M12 5a7 7 0 1 1-6.2 4H3l4-4 4 4H8.8A5.5 5.5 0 1 0 12 6z"/>
-      </svg>
+  <!-- ===== ACHIEVEMENTS VIEW ===== -->
+  <div id="view-achievements" class="view">
+    <div class="score-banner" style="margin-bottom:24px">
+      <div class="score-main">
+        <div class="score-label">Badges Unlocked</div>
+        <div class="score-value" id="achCount" data-testid="achievement-count">0</div>
+      </div>
+      <div style="font-size:13px;color:#94a3b8;max-width:400px;line-height:1.6">
+        Play across all stations to unlock achievements. Score points, maintain streaks, and explore every corner of THE PIT!
+      </div>
     </div>
 
-    <div class="smallCtrl" onclick="toggleMusic()">
-      <svg viewBox="0 0 24 24">
-        <path d="M3 9v6h4l5 5V4L7 9H3z"/>
-      </svg>
-    </div>
+    <div class="achievements-grid" id="achGrid" data-testid="achievements-grid"></div>
   </div>
 
-  <audio id="music" loop>
-    <source src="./stations/audio/music.mp3" type="audio/mpeg" />
-  </audio>
+  <div class="footer" data-testid="footer">THE PIT &mdash; English Language Arena &mdash; 2ESO Curriculum</div>
+</div>
 
-  <script>
-    function startGame() {
-      const name = document.getElementById("playerName").value.trim();
-      if (!name) {
-        alert("Enter name");
-        return;
-      }
-      localStorage.setItem("playerName", name);
-      document.getElementById("playerDisplay").innerText = "Player: " + name;
-      document.getElementById("loginOverlay").style.display = "none";
-    }
+<!-- React root (hidden, not used) -->
+<div id="root"></div>
 
-    window.onload = function () {
-      const saved = localStorage.getItem("playerName");
-      if (saved) {
-        document.getElementById("playerDisplay").innerText = "Player: " + saved;
-        document.getElementById("loginOverlay").style.display = "none";
-      }
-    };
+<!-- TOAST -->
+<div class="toast" id="toast" data-testid="toast"></div>
 
-    let time = 0;
-    let interval = null;
+<script src="./stations/pit-score.js"></script>
+<script>
+const ACHIEVEMENTS = [
+  {id:'first_100',name:'First Steps',desc:'Score 100 points',icon:'&#9733;'},
+  {id:'score_500',name:'Rising Star',desc:'Score 500 points',icon:'&#9734;'},
+  {id:'score_1000',name:'Champion',desc:'Score 1000 points',icon:'&#127942;'},
+  {id:'all_stations',name:'Explorer',desc:'Visit all 9 stations',icon:'&#127758;'},
+  {id:'vocab_master',name:'Word Wizard',desc:'Score 200 in Vocabulary',icon:'&#128218;'},
+  {id:'writer',name:'Author',desc:'Complete 10 writing tasks',icon:'&#9997;'},
+  {id:'reader',name:'Bookworm',desc:'Read 5 texts',icon:'&#128214;'},
+  {id:'challenger',name:'Challenger',desc:'Complete 5 challenges',icon:'&#128293;'},
+  {id:'streak_10',name:'On Fire',desc:'Get a 10-answer streak',icon:'&#128165;'}
+];
 
-    function startTimer() {
-      if (interval) return;
-      interval = setInterval(() => {
-        time++;
-        updateUI();
-      }, 1000);
-    }
+function startGame() {
+  const name = document.getElementById('nameInput').value.trim();
+  if (!name) { document.getElementById('nameInput').style.borderColor = '#ef4444'; return; }
+  if (typeof PIT_SCORE !== 'undefined') PIT_SCORE.setName(name);
+  document.getElementById('loginOverlay').style.display = 'none';
+  loadStats();
+}
 
-    function pauseTimer() {
-      clearInterval(interval);
-      interval = null;
-    }
+function exitGame() {
+  if (typeof PIT_SCORE !== 'undefined') PIT_SCORE.reset();
+  location.reload();
+}
 
-    function resetTimer() {
-      pauseTimer();
-      time = 0;
-      updateUI();
-    }
+function switchView(view) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('view-' + view).classList.add('active');
+  document.querySelector('[data-testid="tab-' + view + '"]').classList.add('active');
+  if (view === 'leaderboard') loadLeaderboard();
+}
 
-    function exitGame() {
-      pauseTimer();
-      localStorage.removeItem("playerName");
-      location.reload();
-    }
+function loadStats() {
+  if (typeof PIT_SCORE === 'undefined') return;
+  const player = PIT_SCORE.getPlayer();
 
-    function updateUI() {
-      const m = Math.floor(time / 60).toString().padStart(2, "0");
-      const s = (time % 60).toString().padStart(2, "0");
-      document.getElementById("timer").innerText = m + ":" + s;
-      document.getElementById("score").innerText = "Score: " + Math.floor(time / 2);
+  document.getElementById('playerDisp').textContent = player.name || '-';
 
-      const p = Math.min((time / 300) * 100, 100);
-      document.getElementById("fill").style.width = p + "%";
-      document.getElementById("percent").innerText = Math.floor(p) + "%";
-    }
+  const stationKeys = ['vocabulary','writing','reading','speaking','listening','grammar','games','funnycorner','challenge'];
+  stationKeys.forEach(k => {
+    const el = document.getElementById('sc-' + k);
+    if (el && player.stations[k]) el.textContent = player.stations[k].score;
+  });
 
-    const music = document.getElementById("music");
+  document.getElementById('totalScore').textContent = player.totalScore;
 
-    function toggleMusic() {
-      if (music.paused) {
-        music.play();
-      } else {
-        music.pause();
-      }
-    }
-  </script>
+  const totalSessions = Object.values(player.stations).reduce((s, st) => s + (st.sessions || 0), 0);
+  document.getElementById('totalSessions').textContent = totalSessions;
 
+  const visited = Object.values(player.stations).filter(s => s.sessions > 0).length;
+  document.getElementById('stationsVisited').textContent = visited;
+
+  if (player.lastActive) {
+    const d = new Date(player.lastActive);
+    document.getElementById('lastActive').textContent = d.toLocaleDateString('en-GB', {day:'numeric',month:'short'});
+  }
+
+  const maxScore = stationKeys.length * 200;
+  const pct = Math.min(Math.round(player.totalScore / maxScore * 100), 100);
+  document.getElementById('gpPct').textContent = pct + '%';
+  document.getElementById('gpFill').style.width = pct + '%';
+
+  // Achievements
+  const achGrid = document.getElementById('achGrid');
+  achGrid.innerHTML = ACHIEVEMENTS.map(a => {
+    const unlocked = player.achievements && player.achievements.includes(a.id);
+    return '<div class="ach-badge ' + (unlocked ? 'unlocked' : '') + '" data-testid="ach-' + a.id + '">' +
+      '<span class="ach-icon">' + a.icon + '</span>' +
+      '<span>' + a.name + '<br><small style="font-weight:400;font-size:10px;color:inherit;opacity:.7">' + a.desc + '</small></span>' +
+    '</div>';
+  }).join('');
+
+  const achUnlocked = (player.achievements || []).length;
+  document.getElementById('totalAch').textContent = achUnlocked;
+  document.getElementById('achCount').textContent = achUnlocked + ' / ' + ACHIEVEMENTS.length;
+
+  // Auto-save to leaderboard
+  PIT_SCORE.saveToLeaderboard();
+}
+
+// ===== LEADERBOARD =====
+function loadLeaderboard() {
+  const board = PIT_SCORE.getLeaderboard();
+  const player = PIT_SCORE.getPlayer();
+  const body = document.getElementById('lbBody');
+  const empty = document.getElementById('lbEmpty');
+
+  if (board.length === 0) {
+    body.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  body.innerHTML = board.map((e, i) => {
+    const rankClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : 'default';
+    const isYou = player.name && e.name.toLowerCase() === player.name.toLowerCase();
+    const date = e.date ? new Date(e.date).toLocaleDateString('en-GB', {day:'numeric',month:'short'}) : '-';
+    return '<tr>' +
+      '<td><span class="lb-rank ' + rankClass + '">' + (i + 1) + '</span></td>' +
+      '<td class="lb-player-name ' + (isYou ? 'you' : '') + '">' + esc(e.name) + (isYou ? ' (you)' : '') + '</td>' +
+      '<td style="color:#fbbf24;font-weight:800">' + e.score + '</td>' +
+      '<td class="lb-date">' + date + '</td>' +
+    '</tr>';
+  }).join('');
+}
+
+function saveMyScore() {
+  PIT_SCORE.saveToLeaderboard();
+  loadLeaderboard();
+  showToast('Score saved to leaderboard!');
+}
+
+function generateCode() {
+  const code = PIT_SCORE.exportCode();
+  document.getElementById('myCode').value = code;
+  showToast('Code generated! Share it with classmates.');
+}
+
+function copyCode() {
+  const input = document.getElementById('myCode');
+  if (!input.value) { generateCode(); return; }
+  navigator.clipboard.writeText(input.value).then(() => showToast('Copied to clipboard!')).catch(() => {
+    input.select();
+    document.execCommand('copy');
+    showToast('Copied!');
+  });
+}
+
+function importClassmate() {
+  const code = document.getElementById('importInput').value.trim();
+  if (!code) { document.getElementById('importMsg').textContent = 'Paste a code first!'; return; }
+  const name = PIT_SCORE.importCode(code);
+  if (name) {
+    document.getElementById('importMsg').textContent = 'Added ' + name + ' to the leaderboard!';
+    document.getElementById('importMsg').style.color = '#22c55e';
+    document.getElementById('importInput').value = '';
+    loadLeaderboard();
+    showToast(name + ' added to leaderboard!');
+  } else {
+    document.getElementById('importMsg').textContent = 'Invalid code. Ask your classmate to generate a new one.';
+    document.getElementById('importMsg').style.color = '#ef4444';
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function esc(t) {
+  const d = document.createElement('div');
+  d.textContent = t;
+  return d.innerHTML;
+}
+
+// Auto-load
+window.addEventListener('DOMContentLoaded', () => {
+  if (typeof PIT_SCORE === 'undefined') return;
+  const player = PIT_SCORE.getPlayer();
+  if (player && player.name) {
+    document.getElementById('loginOverlay').style.display = 'none';
+    loadStats();
+  }
+});
+</script>
 </body>
 </html>
