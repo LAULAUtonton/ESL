@@ -186,6 +186,8 @@ button:disabled {
 }
 
 img.card-icon {
+  width: 60px;
+  height: 60px;
   object-fit: contain;
   border-radius: 0;
   background: none;
@@ -1558,7 +1560,7 @@ function renderFlashcards() {
     <div class="card ${flippedSet.has(i)?'flipped':''}" onclick="flipCard(${i})">
       <div class="card-inner">
         <div class="card-face card-front">
-          ${c.icon ? `<img class="card-icon" src="icons/${c.icon}" alt="${esc(c.front)}">` : `<div class="card-icon" style="background:${c.color}">&#128218;</div>`}
+          ${c.icon ? `<img class="card-icon" role="img" src="icons/${c.icon}" alt="${esc(c.front)}">` : `<div class="card-icon" style="background:${c.color}">&#128218;</div>`}
           <div class="card-word">${esc(c.front)}</div>
           <div class="card-pos">${esc(c.pos)}</div>
         </div>
