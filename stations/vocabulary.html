@@ -1495,9 +1495,20 @@ function flattenVocab(unitF='all', catF='all') {
           cards.push({ unit: unit.unit, unitTitle: unit.title, setLabel: set.label, category: set.category, color: set.color, front: p.a, back: p.b, pos: 'verb', example: '' });
         });
       } else {
-        set.items.forEach(i => {
-          cards.push({ unit: unit.unit, unitTitle: unit.title, setLabel: set.label, category: set.category, color: set.color, front: i.word, back: '', pos: getPOS(set.category), example: i.example || '', icon: i.icon || '' });
-        });
+        const defaultIcon = "default.svg";
+set.items.forEach(i => {
+  cards.push({
+    unit: unit.unit,
+    unitTitle: unit.title,
+    setLabel: set.label,
+    category: set.category,
+    color: set.color,
+    front: i.word,
+    back: '',
+    pos: getPOS(set.category),
+    example: i.example || '',
+    icon: (i.icon && i.icon.length) ? i.icon : defaultIcon
+  });
       }
     }
   }
