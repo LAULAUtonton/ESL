@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ESL Vocab & Icon Demo</title>
+  <style>
+    .vocab-card {
+      display: inline-block;
+      width: 120px;
+      margin: 8px;
+      padding: 8px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      text-align: center;
+      font-family: sans-serif;
+      background: #fafcff;
+    }
+    .vocab-card img {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h2>ESL Vocabulary Cards</h2>
+  <div id="vocab-list"></div>
+
+  <script>
+    // === CONFIGURATION ===
+    const ICON_BASE = "stations/icons/";
+
+    const ICON_PATHS = {
+      jobs: ICON_BASE + "jobs/",
+      materials: ICON_BASE + "materials/",
+      personality: ICON_BASE + "personality/",
+      emotions: ICON_BASE + "emotions/",
+      activities: ICON_BASE + "activities/"
+    };
+
+    // Normalizes word to filename (e.g. 'working out' → 'working-out')
+    function normalize(word) {
+      return String(word ?? "")
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, "-")
+        .replace(/[^\w-]/g, "");
+    }
+
+    // Category decision from setId or custom string
+    function categoryFromLabel(labelOrSetId) {
+      const id = String(labelOrSetId || "").toLowerCase();
+      if (id.includes("job")) return "jobs";
+      if (id.includes("material")) return "materials";
+      if (id.includes("personality")) return "personality";
+      if (id.includes("feel") || id.includes("emotion")) return "emotions";
+      return "activities";
+    }
+
+    // Gets the expected icon path or icons/default.svg as fallback
+    function getIconPath(category, word) {
+      const folder = ICON_PATHS[category];
+      if (!folder) return "stations/icons/default.svg";
+      return folder + normalize(word) + ".svg";
+    }
+
+    // === SAMPLE VOCABULARY (edit/expand!) ===
+    const vocabSet = {
+      setId: "u1_feelings",
+      label: "Feelings",
+      items: ["happy", "sad", "scared", "excited", "tired", "relaxed"]
+    };
+
+    // === RENDER FUNCTION ===
+    function renderVocab(setObj) {
+      const category = categoryFromLabel(setObj.setId);
+      return setObj.items.map(word => {
+        const iconSrc = getIconPath(category, word);
+        return `
+          <div class="vocab-card">
+            <img src="${iconSrc}" alt="${word}" 
+                 onerror="this.onerror=null;this.src='stations/icons/default.svg'">
+            <div>${word}</div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    document.getElementById("vocab-list").innerHTML = renderVocab(vocabSet);
+  </script>
+</body>
+</html>
