@@ -155,7 +155,7 @@ button:disabled{opacity:.4;cursor:not-allowed}
       </div>
       <div class="karaoke-btns">
         <button data-testid="karaoke-listen-btn" onclick="listenKaraoke()">LISTEN</button>
-        <button data-testid="karaoke-original-btn" onclick="openOriginalSong()">ORIGINAL SONG</button>
+        <a id="karaokeOriginalLink" data-testid="karaoke-original-btn" href="#" target="_blank" rel="noopener noreferrer" style="padding:8px 14px;border-radius:10px;border:2px solid var(--accent);font-family:inherit;font-weight:600;font-size:13px;cursor:pointer;background:rgba(255,255,255,.05);color:#fff;transition:all .2s;text-decoration:none;display:inline-block">&#9654; YOUTUBE</a>
         <button class="mic-btn" id="karaokeMic" data-testid="karaoke-mic-btn" onclick="micKaraoke()">MIC</button>
       </div>
       <input class="karaoke-input" id="karaokeInput" data-testid="karaoke-input" placeholder="Type or speak the lyrics..." onkeydown="if(event.key==='Enter')submitKaraoke()">
@@ -374,7 +374,8 @@ function setupKaraoke(){
   document.getElementById('karaokeInput').value='';
   document.getElementById('karaokeFb').textContent='Line 1 of '+currentSong.lines.length+'. Press LISTEN!';
   document.getElementById('karaokeFb').className='fb info';
-  document.getElementById('tipBox').textContent='Song: "'+currentSong.title+'". Listen to each line, then type or speak it. Use ORIGINAL SONG to hear the real track.';
+  document.getElementById('tipBox').textContent='Song: "'+currentSong.title+'". Listen to each line, then type or speak it. Click YOUTUBE to hear the real track.';
+  const lnk=document.getElementById('karaokeOriginalLink');if(lnk){lnk.href=currentSong.original||'#';lnk.style.opacity=currentSong.original?'1':'0.4';lnk.style.pointerEvents=currentSong.original?'auto':'none'}
 }
 
 function listenKaraoke(){
