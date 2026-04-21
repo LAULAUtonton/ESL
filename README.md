@@ -10,11 +10,11 @@ An interactive English language learning platform built for the 2ESO curriculum.
 | **Writing** | 6 creative writing modes with grammar checking tools. |
 | **Reading** | 24 texts with manga illustrations. Comprehension, true/false, vocabulary modes. |
 | **Speaking** | 16 dialogues with role play, listen & repeat, fill the gap, word order. |
-| **Listening** | 16 audio exercises. Comprehension, dictation, note-taking modes. |
+| **Listening** | 18 audio exercises. Comprehension, dictation, note-taking modes. |
 | **Grammar** | 6 topics: To Be, Pronouns, Present Simple & Continuous, Question Words, Past Simple, Comparatives. |
 | **The Funny Corner** | 25 idioms & expressions. Guess meaning, match up, situation, listen & choose. |
 | **Games** | Language games to reinforce skills. |
-| **Challenge** | Karaoke, tongue twisters, Who Am I?, multi-skill blitz. |
+| **Challenge** | Karaoke (with links to real songs), tongue twisters, Who Am I?, multi-skill blitz. |
 
 ## Features
 

@@ -155,6 +155,7 @@ button:disabled{opacity:.4;cursor:not-allowed}
       </div>
       <div class="karaoke-btns">
         <button data-testid="karaoke-listen-btn" onclick="listenKaraoke()">LISTEN</button>
+        <button data-testid="karaoke-original-btn" onclick="openOriginalSong()">ORIGINAL SONG</button>
         <button class="mic-btn" id="karaokeMic" data-testid="karaoke-mic-btn" onclick="micKaraoke()">MIC</button>
       </div>
       <input class="karaoke-input" id="karaokeInput" data-testid="karaoke-input" placeholder="Type or speak the lyrics..." onkeydown="if(event.key==='Enter')submitKaraoke()">
@@ -244,7 +245,11 @@ const SONGS=[
 {title:'Count on Me',artist:'Bruno Mars (adapted)',lines:['If you ever find yourself stuck in the middle of the sea','I will sail the world to find you','If you ever find yourself lost in the dark and you can\'t see','I will be the light to guide you','We find out what we are made of','When we are called to help our friends in need','You can count on me like one two three','I\'ll be there','And I know when I need it','I can count on you like four three two','And you\'ll be there','Cause that\'s what friends are supposed to do']},
 {title:'Imagine',artist:'John Lennon (adapted)',lines:['Imagine there is no heaven','It is easy if you try','No hell below us','Above us only sky','Imagine all the people','Living for today','Imagine there are no countries','It is not hard to do','Nothing to kill or die for','And no religion too','Imagine all the people','Living life in peace']},
 {title:'Three Little Birds',artist:'Bob Marley (adapted)',lines:['Don\'t worry about a thing','Cause every little thing is gonna be alright','Singing don\'t worry about a thing','Cause every little thing is gonna be alright','Rise up this morning','Smiled with the rising sun','Three little birds','Sit by my doorstep','Singing sweet songs','Of melodies pure and true','Saying this is my message to you']},
-{title:'What a Wonderful World',artist:'Louis Armstrong (adapted)',lines:['I see trees of green','Red roses too','I see them bloom','For me and you','And I think to myself','What a wonderful world','I see skies of blue','And clouds of white','The bright blessed day','The dark sacred night','And I think to myself','What a wonderful world']}
+{title:'What a Wonderful World',artist:'Louis Armstrong (adapted)',lines:['I see trees of green','Red roses too','I see them bloom','For me and you','And I think to myself','What a wonderful world','I see skies of blue','And clouds of white','The bright blessed day','The dark sacred night','And I think to myself','What a wonderful world']},
+{title:'Yellow Submarine',artist:'The Beatles (adapted)',original:'https://www.youtube.com/watch?v=m2uTFF_3MaA',lines:['In the town where I was born','Lived a man who sailed to sea','And he told us of his life','In the land of submarines','We all live in a yellow submarine','Yellow submarine yellow submarine']},
+{title:'Stand By Me',artist:'Ben E. King (adapted)',original:'https://www.youtube.com/watch?v=hwZNL7QVJjE',lines:['When the night has come','And the land is dark','And the moon is the only light we will see','No I won\'t be afraid','Just as long as you stand stand by me']},
+{title:'Walking on Sunshine',artist:'Katrina and the Waves (adapted)',original:'https://www.youtube.com/watch?v=iPUmE-tne5U',lines:['I used to think maybe you loved me now baby I\'m sure','And I just can\'t wait till the day when you knock on my door','I\'m walking on sunshine','And don\'t it feel good']},
+{title:'Firework',artist:'Katy Perry (adapted)',original:'https://www.youtube.com/watch?v=QGJuMBdaqIw',lines:['Do you ever feel like a plastic bag','Drifting through the wind wanting to start again','You just gotta ignite the light and let it shine','Baby you\'re a firework']}
 ];
 
 // TONGUE TWISTERS
@@ -263,7 +268,12 @@ const TWISTERS=[
 {text:'Eleven benevolent elephants.',difficulty:1,tip:'The "l" and "v" sounds keep switching.'},
 {text:'A proper copper coffee pot.',difficulty:1,tip:'Short and sweet — focus on "p" sounds.'},
 {text:'Toy boat. Toy boat. Toy boat.',difficulty:2,tip:'Say it three times fast — harder than you think!'},
-{text:'Unique New York. Unique New York.',difficulty:2,tip:'Your tongue wants to say "You Nork" — fight it!'}
+{text:'Unique New York. Unique New York.',difficulty:2,tip:'Your tongue wants to say "You Nork" — fight it!'},
+{text:'Truly rural. Truly rural.',difficulty:3,tip:'Keep the "tr" and "r" sounds separated.'},
+{text:'Irish wristwatch, Swiss wristwatch.',difficulty:3,tip:'Very tricky consonant clusters — slow first!'},
+{text:'Lesser leather never weathered wetter weather better.',difficulty:3,tip:'Focus on the vowel shifts in leather and weather.'},
+{text:'Fred fed Ted bread, and Ted fed Fred bread.',difficulty:2,tip:'Keep the names clear and keep a steady rhythm.'},
+{text:'If two witches were watching two watches, which witch would watch which watch?',difficulty:3,tip:'Mark the stressed words before saying it fast.'}
 ];
 
 // WHO AM I
@@ -364,7 +374,7 @@ function setupKaraoke(){
   document.getElementById('karaokeInput').value='';
   document.getElementById('karaokeFb').textContent='Line 1 of '+currentSong.lines.length+'. Press LISTEN!';
   document.getElementById('karaokeFb').className='fb info';
-  document.getElementById('tipBox').textContent='Song: "'+currentSong.title+'". Listen to each line, then type or speak it. 70% match = points!';
+  document.getElementById('tipBox').textContent='Song: "'+currentSong.title+'". Listen to each line, then type or speak it. Use ORIGINAL SONG to hear the real track.';
 }
 
 function listenKaraoke(){
@@ -378,6 +388,15 @@ function listenKaraoke(){
   speak(line);
   document.getElementById('karaokeFb').textContent='Now type or speak what you heard!';
   document.getElementById('karaokeFb').className='fb info';
+}
+
+function openOriginalSong(){
+  if(!currentSong||!currentSong.original){
+    document.getElementById('karaokeFb').textContent='No original link for this song yet. Try Next Challenge.';
+    document.getElementById('karaokeFb').className='fb info';
+    return;
+  }
+  window.open(currentSong.original,'_blank','noopener,noreferrer');
 }
 
 function micKaraoke(){doMic(document.getElementById('karaokeInput'),document.getElementById('karaokeMic'),document.getElementById('karaokeFb'))}
