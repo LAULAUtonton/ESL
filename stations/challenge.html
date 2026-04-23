@@ -241,6 +241,7 @@ button:disabled{opacity:.4;cursor:not-allowed}
 </div>
 
 <script src="pit-score.js"></script>
+<script src="karaoke-db.js"></script>
 <script>
 // KARAOKE SONGS - age-appropriate, educational
 const SONGS=[
@@ -249,6 +250,8 @@ const SONGS=[
 {title:'Three Little Birds',artist:'Bob Marley (adapted)',original:'https://www.youtube.com/watch?v=zaGUr6wzyT8',lines:['Don\'t worry about a thing','Cause every little thing is gonna be alright','Singing don\'t worry about a thing','Cause every little thing is gonna be alright','Rise up this morning','Smiled with the rising sun','Three little birds','Sit by my doorstep','Singing sweet songs','Of melodies pure and true','Saying this is my message to you']},
 {title:'What a Wonderful World',artist:'Louis Armstrong (adapted)',original:'https://www.youtube.com/watch?v=CWzrABouyeE',lines:['I see trees of green','Red roses too','I see them bloom','For me and you','And I think to myself','What a wonderful world','I see skies of blue','And clouds of white','The bright blessed day','The dark sacred night','And I think to myself','What a wonderful world']}
 ];
+// Merge extra songs from karaoke-db.js (skip duplicates by title)
+if(typeof karaokeSongs!=='undefined'){karaokeSongs.forEach(s=>{if(!SONGS.some(x=>x.title===s.title))SONGS.push({title:s.title,artist:s.artist,original:s.original,lines:s.lyrics});});}
 
 // TONGUE TWISTERS
 const TWISTERS=[
