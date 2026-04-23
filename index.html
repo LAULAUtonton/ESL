@@ -167,14 +167,14 @@ body{
 
 /* STATIONS GRID */
 .stations-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:12px;margin-bottom:28px;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:14px;margin-bottom:28px;
 }
 
 .station-card{
   background:rgba(255,255,255,.03);
   border:1px solid rgba(255,255,255,.06);
-  border-radius:14px;padding:18px;
+  border-radius:14px;padding:22px;
   text-decoration:none;color:#fff;
   transition:all .25s;cursor:pointer;
   position:relative;overflow:hidden;
@@ -216,9 +216,9 @@ body{
 .station-card[data-color="gray"]:hover{border-color:rgba(107,114,128,.3);background:rgba(107,114,128,.06)}
 
 .station-icon{
-  width:42px;height:42px;border-radius:10px;
+  width:48px;height:48px;border-radius:11px;
   display:flex;align-items:center;justify-content:center;
-  font-size:18px;font-weight:900;margin-bottom:10px;
+  font-size:20px;font-weight:900;margin-bottom:12px;
 }
 
 .station-card[data-color="purple"] .station-icon{background:rgba(139,92,246,.12);color:#a78bfa}
@@ -230,9 +230,9 @@ body{
 .station-card[data-color="red"] .station-icon{background:rgba(239,68,68,.12);color:#f87171}
 .station-card[data-color="gray"] .station-icon{background:rgba(107,114,128,.12);color:#9ca3af}
 
-.station-name{font-weight:800;font-size:14px;margin-bottom:4px}
-.station-desc{font-size:11px;color:#64748b;line-height:1.4;margin-bottom:8px}
-.station-score{font-size:11px;font-weight:700;color:#4b5563}
+.station-name{font-weight:800;font-size:16px;margin-bottom:5px}
+.station-desc{font-size:13px;color:#64748b;line-height:1.45;margin-bottom:10px}
+.station-score{font-size:13px;font-weight:700;color:#4b5563}
 .station-score span{color:#fbbf24}
 
 /* LEADERBOARD */
@@ -411,8 +411,8 @@ body{
       <div class="gp-bar"><div class="gp-fill" id="gpFill" data-testid="progress-fill"></div></div>
     </div>
 
-    <!-- CORE STATIONS -->
-    <div class="section-title">Core Stations</div>
+    <!-- LANGUAGE STATIONS -->
+    <div class="section-title">Language Stations</div>
     <div class="stations-grid" data-testid="core-stations">
       <a href="./stations/vocabulary.html" class="station-card" data-color="purple" data-testid="station-vocabulary">
         <div class="station-icon">Aa</div>
@@ -420,17 +420,17 @@ body{
         <div class="station-desc">336 words, 8 units. Flashcards, sorting, quizzes, hangman and more.</div>
         <div class="station-score">Score: <span id="sc-vocabulary">0</span></div>
       </a>
-      <a href="./stations/writing.html" class="station-card" data-color="teal" data-testid="station-writing">
-        <div class="station-icon">Wr</div>
-        <div class="station-name">Writing</div>
-        <div class="station-desc">Practice writing with grammar tools and 6 creative modes.</div>
-        <div class="station-score">Score: <span id="sc-writing">0</span></div>
-      </a>
       <a href="./stations/reading.html" class="station-card" data-color="green" data-testid="station-reading">
         <div class="station-icon">Rd</div>
         <div class="station-name">Reading</div>
         <div class="station-desc">24 texts with manga illustrations and comprehension modes.</div>
         <div class="station-score">Score: <span id="sc-reading">0</span></div>
+      </a>
+      <a href="./stations/writing.html" class="station-card" data-color="teal" data-testid="station-writing">
+        <div class="station-icon">Wr</div>
+        <div class="station-name">Writing</div>
+        <div class="station-desc">Practice writing with grammar tools and 6 creative modes.</div>
+        <div class="station-score">Score: <span id="sc-writing">0</span></div>
       </a>
       <a href="./stations/speaking.html" class="station-card" data-color="blue" data-testid="station-speaking">
         <div class="station-icon">Sp</div>
@@ -444,10 +444,16 @@ body{
         <div class="station-desc">16 audio exercises. Comprehension, dictation, note-taking.</div>
         <div class="station-score">Score: <span id="sc-listening">0</span></div>
       </a>
+      <a href="./stations/grammar.html" class="station-card" data-color="gray" data-testid="station-grammar">
+        <div class="station-icon">Gr</div>
+        <div class="station-name">Grammar</div>
+        <div class="station-desc">6 topics: To Be, Pronouns, Tenses, Question Words, Past Simple, Comparatives.</div>
+        <div class="station-score">Score: <span id="sc-grammar">0</span></div>
+      </a>
     </div>
 
-    <!-- FUN STATIONS -->
-    <div class="section-title">Fun Stations</div>
+    <!-- FUN & CHALLENGE -->
+    <div class="section-title">Fun &amp; Challenge</div>
     <div class="stations-grid" data-testid="fun-stations">
       <a href="./stations/funnycorner.html" class="station-card" data-color="pink" data-testid="station-funnycorner">
         <div class="station-icon">Ha</div>
@@ -466,17 +472,6 @@ body{
         <div class="station-name">Challenge</div>
         <div class="station-desc">Karaoke, tongue twisters, Who Am I, multi-skill blitz.</div>
         <div class="station-score">Score: <span id="sc-challenge">0</span></div>
-      </a>
-    </div>
-
-    <!-- GRAMMAR -->
-    <div class="section-title">Grammar Practice</div>
-    <div class="stations-grid" data-testid="grammar-stations">
-      <a href="./stations/grammar.html" class="station-card" data-color="gray" data-testid="station-grammar">
-        <div class="station-icon">Gr</div>
-        <div class="station-name">Grammar</div>
-        <div class="station-desc">6 topics: To Be, Pronouns, Tenses, Question Words, Past Simple, Comparatives.</div>
-        <div class="station-score">Score: <span id="sc-grammar">0</span></div>
       </a>
     </div>
   </div>
