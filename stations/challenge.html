@@ -103,13 +103,12 @@ button:disabled{opacity:.4;cursor:not-allowed}
 .modal-title{font-size:24px;font-weight:800;color:#fff;margin-bottom:8px;font-family:'Orbitron',sans-serif}
 .modal-score{font-size:40px;font-weight:800;background:linear-gradient(90deg,var(--fire1),var(--fire2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:16px}
 .modal-btn{padding:12px 24px;background:linear-gradient(135deg,var(--fire1),var(--fire2));color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer;margin:4px}
-/* YOUTUBE MODAL */
-.yt-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:2000;align-items:center;justify-content:center;flex-direction:column}
-.yt-modal.active{display:flex}
-.yt-modal-inner{position:relative;width:min(90vw,854px);max-height:90vh}
-.yt-modal-inner iframe{display:block;width:100%;aspect-ratio:16/9;border:none;border-radius:12px}
-.yt-close{position:absolute;top:-40px;right:0;background:rgba(255,255,255,.15);border:none;color:#fff;font-size:22px;width:36px;height:36px;border-radius:50%;cursor:pointer;line-height:36px;text-align:center;transition:background .2s}
-.yt-close:hover{background:rgba(239,68,68,.7)}
+/* INLINE YOUTUBE PLAYER */
+.yt-inline{display:none;margin-top:16px;border-radius:14px;overflow:hidden;border:2px solid rgba(239,68,68,.3);position:relative}
+.yt-inline.active{display:block}
+.yt-inline iframe{display:block;width:100%;aspect-ratio:16/9;border:none}
+.yt-hide-btn{display:block;width:100%;padding:8px;background:rgba(0,0,0,.5);border:none;color:#94a3b8;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:1px;transition:background .2s}
+.yt-hide-btn:hover{background:rgba(239,68,68,.3);color:#fff}
 </style>
 </head>
 <body>
@@ -170,6 +169,10 @@ button:disabled{opacity:.4;cursor:not-allowed}
       <input class="karaoke-input" id="karaokeInput" data-testid="karaoke-input" placeholder="Type or speak the lyrics..." onkeydown="if(event.key==='Enter')submitKaraoke()">
       <div style="margin-bottom:12px"><button data-testid="karaoke-submit-btn" onclick="submitKaraoke()">SUBMIT LINE</button></div>
       <div class="fb info" id="karaokeFb" data-testid="karaoke-feedback">Choose a song and press START!</div>
+      <div class="yt-inline" id="ytInline">
+        <iframe id="ytFrame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <button class="yt-hide-btn" onclick="closeYouTube()">▲ HIDE VIDEO</button>
+      </div>
     </div>
   </div>
 
@@ -245,13 +248,6 @@ button:disabled{opacity:.4;cursor:not-allowed}
   <button class="modal-btn" data-testid="modal-next-btn" onclick="nextRound()">Next Challenge</button>
   <button class="modal-btn" onclick="closeModal()" style="background:rgba(255,255,255,.1)">Close</button>
 </div>
-</div>
-
-<div class="yt-modal" id="ytModal" onclick="closeYouTube(event)">
-  <div class="yt-modal-inner" id="ytModalInner">
-    <button class="yt-close" onclick="closeYouTube()" title="Close">✕</button>
-    <iframe id="ytFrame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-  </div>
 </div>
 
 <script src="pit-score.js"></script>
@@ -386,19 +382,21 @@ function setupKaraoke(){
   document.getElementById('karaokeFb').className='fb info';
   document.getElementById('tipBox').textContent='Song: "'+currentSong.title+'". Listen to each line, then type or speak it. 70% match = points!';
   document.getElementById('tubeItBtn').style.display=currentSong.original?'':'none';
+  closeYouTube();
 }
 
 function tubeIt(){
   if(!currentSong||!currentSong.original)return;
   const m=currentSong.original.match(/[?&]v=([^&]+)/);
   if(!m)return;
+  const inline=document.getElementById('ytInline');
+  if(inline.classList.contains('active')){closeYouTube();return;}
   document.getElementById('ytFrame').src='https://www.youtube.com/embed/'+m[1]+'?autoplay=1&rel=0';
-  document.getElementById('ytModal').classList.add('active');
+  inline.classList.add('active');
 }
 
 function closeYouTube(e){
-  if(e&&document.getElementById('ytModalInner').contains(e.target))return;
-  document.getElementById('ytModal').classList.remove('active');
+  document.getElementById('ytInline').classList.remove('active');
   document.getElementById('ytFrame').src='';
 }
 
