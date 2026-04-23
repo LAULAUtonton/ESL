@@ -103,6 +103,13 @@ button:disabled{opacity:.4;cursor:not-allowed}
 .modal-title{font-size:24px;font-weight:800;color:#fff;margin-bottom:8px;font-family:'Orbitron',sans-serif}
 .modal-score{font-size:40px;font-weight:800;background:linear-gradient(90deg,var(--fire1),var(--fire2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:16px}
 .modal-btn{padding:12px 24px;background:linear-gradient(135deg,var(--fire1),var(--fire2));color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer;margin:4px}
+/* YOUTUBE MODAL */
+.yt-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:2000;align-items:center;justify-content:center;flex-direction:column}
+.yt-modal.active{display:flex}
+.yt-modal-inner{position:relative;width:min(90vw,854px);max-height:90vh}
+.yt-modal-inner iframe{display:block;width:100%;aspect-ratio:16/9;border:none;border-radius:12px}
+.yt-close{position:absolute;top:-40px;right:0;background:rgba(255,255,255,.15);border:none;color:#fff;font-size:22px;width:36px;height:36px;border-radius:50%;cursor:pointer;line-height:36px;text-align:center;transition:background .2s}
+.yt-close:hover{background:rgba(239,68,68,.7)}
 </style>
 </head>
 <body>
@@ -240,6 +247,13 @@ button:disabled{opacity:.4;cursor:not-allowed}
 </div>
 </div>
 
+<div class="yt-modal" id="ytModal" onclick="closeYouTube(event)">
+  <div class="yt-modal-inner" id="ytModalInner">
+    <button class="yt-close" onclick="closeYouTube()" title="Close">✕</button>
+    <iframe id="ytFrame" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
+</div>
+
 <script src="pit-score.js"></script>
 <script src="karaoke-db.js"></script>
 <script>
@@ -375,7 +389,17 @@ function setupKaraoke(){
 }
 
 function tubeIt(){
-  if(currentSong&&currentSong.original)window.open(currentSong.original,'_blank','noopener,noreferrer');
+  if(!currentSong||!currentSong.original)return;
+  const m=currentSong.original.match(/[?&]v=([^&]+)/);
+  if(!m)return;
+  document.getElementById('ytFrame').src='https://www.youtube.com/embed/'+m[1]+'?autoplay=1&rel=0';
+  document.getElementById('ytModal').classList.add('active');
+}
+
+function closeYouTube(e){
+  if(e&&document.getElementById('ytModalInner').contains(e.target))return;
+  document.getElementById('ytModal').classList.remove('active');
+  document.getElementById('ytFrame').src='';
 }
 
 function listenKaraoke(){
@@ -609,6 +633,7 @@ function updateProgress(){
 }
 
 init();
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeYouTube();});
 </script>
 </body>
 </html>
