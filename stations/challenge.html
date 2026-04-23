@@ -100,6 +100,11 @@ button:disabled{opacity:.4;cursor:not-allowed}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;align-items:center;justify-content:center}
 .modal.active{display:flex}
 .modal-box{background:linear-gradient(145deg,#1a0000,#3b0000);border:2px solid rgba(239,68,68,.3);border-radius:20px;padding:32px;text-align:center;max-width:400px}
+.tube-modal-box{background:#000;border:2px solid rgba(239,68,68,.4);border-radius:16px;padding:16px;max-width:860px;width:90vw}
+.tube-modal-box iframe{display:block;width:100%;aspect-ratio:16/9;border:none;border-radius:8px}
+.tube-modal-title{color:#fff;font-family:'Orbitron',sans-serif;font-size:14px;margin-bottom:10px;letter-spacing:1px}
+.tube-modal-close{margin-top:12px;padding:8px 24px;background:rgba(239,68,68,.7);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px}
+.tube-modal-close:hover{background:var(--accent)}
 .modal-title{font-size:24px;font-weight:800;color:#fff;margin-bottom:8px;font-family:'Orbitron',sans-serif}
 .modal-score{font-size:40px;font-weight:800;background:linear-gradient(90deg,var(--fire1),var(--fire2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:16px}
 .modal-btn{padding:12px 24px;background:linear-gradient(135deg,var(--fire1),var(--fire2));color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer;margin:4px}
@@ -227,6 +232,14 @@ button:disabled{opacity:.4;cursor:not-allowed}
   </div>
 </div>
 </div>
+</div>
+</div>
+
+<div class="modal" id="tubeModal" onclick="if(event.target===this)closeTubeModal()">
+<div class="tube-modal-box">
+  <div class="tube-modal-title" id="tubeModalTitle"></div>
+  <iframe id="tubeModalFrame" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+  <button class="tube-modal-close" onclick="closeTubeModal()">✕ Close</button>
 </div>
 </div>
 
@@ -375,7 +388,18 @@ function setupKaraoke(){
 }
 
 function tubeIt(){
-  if(currentSong&&currentSong.original)window.open(currentSong.original,'_blank','noopener,noreferrer');
+  if(!currentSong||!currentSong.original)return;
+  const match=currentSong.original.match(/[?&]v=([^&]+)/);
+  if(!match)return;
+  const videoId=match[1];
+  const embedUrl='https://www.youtube.com/embed/'+videoId+'?rel=0&modestbranding=1&iv_load_policy=3&autoplay=1';
+  document.getElementById('tubeModalTitle').textContent=currentSong.title+' — '+currentSong.artist;
+  document.getElementById('tubeModalFrame').src=embedUrl;
+  document.getElementById('tubeModal').classList.add('active');
+}
+function closeTubeModal(){
+  document.getElementById('tubeModal').classList.remove('active');
+  document.getElementById('tubeModalFrame').src='';
 }
 
 function listenKaraoke(){
@@ -609,6 +633,7 @@ function updateProgress(){
 }
 
 init();
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeTubeModal();});
 </script>
 </body>
 </html>
