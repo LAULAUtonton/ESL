@@ -159,7 +159,7 @@ button:disabled{opacity:.4;cursor:not-allowed}
       <div class="karaoke-btns">
         <button data-testid="karaoke-listen-btn" onclick="listenKaraoke()">LISTEN</button>
         <button class="mic-btn" id="karaokeMic" data-testid="karaoke-mic-btn" onclick="micKaraoke()">MIC</button>
-        <button class="tube-btn" id="tubeItBtn" data-testid="karaoke-tube-btn" onclick="tubeIt()" style="display:none">▶ WATCH ON YOUTUBE</button>
+        <button class="tube-btn" id="tubeItBtn" data-testid="karaoke-tube-btn" onclick="tubeIt()" style="display:none" title="Opens on YouTube in a new tab">▶ WATCH ON YOUTUBE</button>
       </div>
       <input class="karaoke-input" id="karaokeInput" data-testid="karaoke-input" placeholder="Type or speak the lyrics..." onkeydown="if(event.key==='Enter')submitKaraoke()">
       <div style="margin-bottom:12px"><button data-testid="karaoke-submit-btn" onclick="submitKaraoke()">SUBMIT LINE</button></div>
