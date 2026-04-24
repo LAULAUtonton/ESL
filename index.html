@@ -165,74 +165,114 @@ body{
 }
 .section-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.06)}
 
+/* CONSOLE FRAME */
+.console-frame{
+  background:linear-gradient(170deg,#07071a,#050510);
+  border:2px solid rgba(139,92,246,.22);
+  border-radius:28px;
+  padding:36px 24px 26px;
+  margin-bottom:28px;
+  position:relative;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.05),
+    inset 0 -2px 0 rgba(0,0,0,.5),
+    0 0 60px rgba(139,92,246,.07),
+    0 24px 70px rgba(0,0,0,.55);
+}
+.console-frame::before{
+  content:'◉  STATION SELECT';
+  position:absolute;
+  top:0;left:50%;transform:translate(-50%,-50%);
+  background:linear-gradient(90deg,#7c3aed,#6366f1);
+  color:#fff;
+  font-family:'Orbitron',sans-serif;
+  font-size:9px;font-weight:700;letter-spacing:3px;
+  padding:6px 22px;border-radius:20px;
+  box-shadow:0 4px 18px rgba(139,92,246,.45);
+  white-space:nowrap;
+}
+.console-frame-divider{
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(139,92,246,.18),rgba(99,102,241,.14),transparent);
+  margin:6px 0 22px;
+}
+
 /* STATIONS GRID */
 .stations-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
-  gap:14px;margin-bottom:28px;
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:12px;margin-bottom:18px;
 }
 
 .station-card{
-  background:rgba(255,255,255,.03);
-  border:1px solid rgba(255,255,255,.06);
-  border-radius:14px;padding:22px;
+  background:linear-gradient(160deg,#141430,#0c0c22);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;
+  padding:22px 14px 16px;
   text-decoration:none;color:#fff;
-  transition:all .25s;cursor:pointer;
+  transition:all .18s cubic-bezier(.4,0,.2,1);cursor:pointer;
   position:relative;overflow:hidden;
+  text-align:center;
+  box-shadow:0 5px 0 rgba(0,0,0,.55),0 8px 20px rgba(0,0,0,.4);
 }
-
 .station-card:hover{
-  transform:translateY(-3px);
-  box-shadow:0 12px 30px rgba(0,0,0,.25);
-  border-color:rgba(255,255,255,.12);
+  transform:translateY(-5px);
+  box-shadow:0 10px 0 rgba(0,0,0,.5),0 18px 40px rgba(0,0,0,.3);
 }
-
+.station-card:active{
+  transform:translateY(2px);
+  box-shadow:0 2px 0 rgba(0,0,0,.55),0 3px 8px rgba(0,0,0,.35);
+  transition-duration:.06s;
+}
 .station-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:3px;
-  border-radius:14px 14px 0 0;
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  border-radius:16px 16px 0 0;
 }
 
-.station-card[data-color="purple"]::before{background:linear-gradient(90deg,#8b5cf6,#a78bfa)}
-.station-card[data-color="purple"]:hover{border-color:rgba(139,92,246,.3);background:rgba(139,92,246,.06)}
+.station-card[data-color="purple"]::before{background:linear-gradient(90deg,#7c3aed,#c4b5fd)}
+.station-card[data-color="purple"]:hover{border-color:rgba(139,92,246,.5);background:linear-gradient(160deg,#1c1845,#120e2e);box-shadow:0 10px 0 rgba(0,0,0,.5),0 18px 40px rgba(0,0,0,.3),0 0 28px rgba(139,92,246,.22);}
 
-.station-card[data-color="teal"]::before{background:linear-gradient(90deg,#14b8a6,#2dd4bf)}
-.station-card[data-color="teal"]:hover{border-color:rgba(20,184,166,.3);background:rgba(20,184,166,.06)}
+.station-card[data-color="teal"]::before{background:linear-gradient(90deg,#0d9488,#5eead4)}
+.station-card[data-color="teal"]:hover{border-color:rgba(20,184,166,.5);background:linear-gradient(160deg,#0e2828,#07191a);box-shadow:0 10px 0 rgba(0,0,0,.5),0 18px 40px rgba(0,0,0,.3),0 0 28px rgba(20,184,166,.22);}
 
-.station-card[data-color="green"]::before{background:linear-gradient(90deg,#22c55e,#4ade80)}
-.station-card[data-color="green"]:hover{border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
+.station-card[data-color="green"]::before{background:linear-gradient(90deg,#15803d,#86efac)}
+.station-card[data-color="green"]:hover{border-color:rgba(34,197,94,.5);background:linear-gradient(160deg,#0d2616,#071408);box-shadow:0 10px 0 rgba(0,0,0,.5),0 18px 40px rgba(0,0,0,.3),0 0 28px rgba(34,197,94,.22);}
 
-.station-card[data-color="blue"]::before{background:linear-gradient(90deg,#3b82f6,#60a5fa)}
-.station-card[data-color="blue"]:hover{border-color:rgba(59,130,246,.3);background:rgba(59,130,246,.06)}
+.station-card[data-color="blue"]::before{background:linear-gradient(90deg,#1d4ed8,#93c5fd)}
+.station-card[data-color="blue"]:hover{border-color:rgba(59,130,246,.5);background:linear-gradient(160deg,#0c1a3c,#080d22);box-shadow:0 10px 0 rgba(0,0,0,.5),0 18px 40px rgba(0,0,0,.3),0 0 28px rgba(59,130,246,.22);}
 
-.station-card[data-color="orange"]::before{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
-.station-card[data-color="orange"]:hover{border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.06)}
+.station-card[data-color="orange"]::before{background:linear-gradient(90deg,#b45309,#fcd34d)}
+.station-card[data-color="orange"]:hover{border-color:rgba(245,158,11,.5);background:linear-gradient(160deg,#251806,#140e03);box-shadow:0 10px 0 rgba(0,0,0,.5),0 18px 40px rgba(0,0,0,.3),0 0 28px rgba(245,158,11,.22);}
 
-.station-card[data-color="pink"]::before{background:linear-gradient(90deg,#ec4899,#f472b6)}
-.station-card[data-color="pink"]:hover{border-color:rgba(236,72,153,.3);background:rgba(236,72,153,.06)}
+.station-card[data-color="pink"]::before{background:linear-gradient(90deg,#be185d,#f9a8d4)}
+.station-card[data-color="pink"]:hover{border-color:rgba(236,72,153,.5);background:linear-gradient(160deg,#280e1e,#160712);box-shadow:0 10px 0 rgba(0,0,0,.5),0 18px 40px rgba(0,0,0,.3),0 0 28px rgba(236,72,153,.22);}
 
-.station-card[data-color="red"]::before{background:linear-gradient(90deg,#ef4444,#f87171)}
-.station-card[data-color="red"]:hover{border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.06)}
+.station-card[data-color="red"]::before{background:linear-gradient(90deg,#b91c1c,#fca5a5)}
+.station-card[data-color="red"]:hover{border-color:rgba(239,68,68,.5);background:linear-gradient(160deg,#26100e,#150706);box-shadow:0 10px 0 rgba(0,0,0,.5),0 18px 40px rgba(0,0,0,.3),0 0 28px rgba(239,68,68,.22);}
 
-.station-card[data-color="gray"]::before{background:linear-gradient(90deg,#6b7280,#9ca3af)}
-.station-card[data-color="gray"]:hover{border-color:rgba(107,114,128,.3);background:rgba(107,114,128,.06)}
+.station-card[data-color="gray"]::before{background:linear-gradient(90deg,#4b5563,#d1d5db)}
+.station-card[data-color="gray"]:hover{border-color:rgba(107,114,128,.5);background:linear-gradient(160deg,#161820,#0e0f16);box-shadow:0 10px 0 rgba(0,0,0,.5),0 18px 40px rgba(0,0,0,.3),0 0 28px rgba(107,114,128,.22);}
 
 .station-icon{
-  width:48px;height:48px;border-radius:11px;
+  width:58px;height:58px;border-radius:14px;
   display:flex;align-items:center;justify-content:center;
-  font-size:20px;font-weight:900;margin-bottom:12px;
+  font-size:17px;font-weight:900;
+  margin:0 auto 14px;
+  font-family:'Orbitron',sans-serif;
+  border:1px solid rgba(255,255,255,.07);
 }
 
-.station-card[data-color="purple"] .station-icon{background:rgba(139,92,246,.12);color:#a78bfa}
-.station-card[data-color="teal"] .station-icon{background:rgba(20,184,166,.12);color:#2dd4bf}
-.station-card[data-color="green"] .station-icon{background:rgba(34,197,94,.12);color:#4ade80}
-.station-card[data-color="blue"] .station-icon{background:rgba(59,130,246,.12);color:#60a5fa}
-.station-card[data-color="orange"] .station-icon{background:rgba(245,158,11,.12);color:#fbbf24}
-.station-card[data-color="pink"] .station-icon{background:rgba(236,72,153,.12);color:#f472b6}
-.station-card[data-color="red"] .station-icon{background:rgba(239,68,68,.12);color:#f87171}
-.station-card[data-color="gray"] .station-icon{background:rgba(107,114,128,.12);color:#9ca3af}
+.station-card[data-color="purple"] .station-icon{background:linear-gradient(145deg,rgba(139,92,246,.28),rgba(109,62,216,.12));color:#c4b5fd;box-shadow:0 0 18px rgba(139,92,246,.25);}
+.station-card[data-color="teal"] .station-icon{background:linear-gradient(145deg,rgba(20,184,166,.28),rgba(13,148,136,.12));color:#5eead4;box-shadow:0 0 18px rgba(20,184,166,.25);}
+.station-card[data-color="green"] .station-icon{background:linear-gradient(145deg,rgba(34,197,94,.28),rgba(21,128,61,.12));color:#86efac;box-shadow:0 0 18px rgba(34,197,94,.25);}
+.station-card[data-color="blue"] .station-icon{background:linear-gradient(145deg,rgba(59,130,246,.28),rgba(29,78,216,.12));color:#93c5fd;box-shadow:0 0 18px rgba(59,130,246,.25);}
+.station-card[data-color="orange"] .station-icon{background:linear-gradient(145deg,rgba(245,158,11,.28),rgba(180,83,9,.12));color:#fcd34d;box-shadow:0 0 18px rgba(245,158,11,.25);}
+.station-card[data-color="pink"] .station-icon{background:linear-gradient(145deg,rgba(236,72,153,.28),rgba(190,24,93,.12));color:#f9a8d4;box-shadow:0 0 18px rgba(236,72,153,.25);}
+.station-card[data-color="red"] .station-icon{background:linear-gradient(145deg,rgba(239,68,68,.28),rgba(185,28,28,.12));color:#fca5a5;box-shadow:0 0 18px rgba(239,68,68,.25);}
+.station-card[data-color="gray"] .station-icon{background:linear-gradient(145deg,rgba(107,114,128,.28),rgba(75,85,99,.12));color:#d1d5db;box-shadow:0 0 18px rgba(107,114,128,.25);}
 
-.station-name{font-weight:800;font-size:16px;margin-bottom:5px}
-.station-desc{font-size:13px;color:#64748b;line-height:1.45;margin-bottom:10px}
-.station-score{font-size:13px;font-weight:700;color:#4b5563}
+.station-name{font-weight:800;font-size:13px;margin-bottom:6px;font-family:'Orbitron',sans-serif;letter-spacing:.5px;line-height:1.3}
+.station-desc{font-size:11px;color:#64748b;line-height:1.4;margin-bottom:10px}
+.station-score{font-size:11px;font-weight:700;color:#374151;background:rgba(0,0,0,.35);border-radius:6px;padding:3px 10px;display:inline-block}
 .station-score span{color:#fbbf24}
 
 /* LEADERBOARD */
@@ -344,14 +384,17 @@ body{
 .view{display:none}
 .view.active{display:block}
 
+@media(max-width:900px){
+  .stations-grid{grid-template-columns:repeat(2,1fr)}
+}
 @media(max-width:600px){
-  .stations-grid{grid-template-columns:1fr 1fr}
   .score-value{font-size:32px}
   .score-banner{flex-direction:column;text-align:center}
   .header{justify-content:center;text-align:center}
   .tabs{flex-wrap:nowrap;overflow-x:auto}
   .tab{white-space:nowrap;flex:0 0 auto;padding:10px 14px}
   .lb-table{font-size:12px}
+  .console-frame{padding:28px 14px 20px;border-radius:22px}
 }
 </style>
 </head>
@@ -411,6 +454,9 @@ body{
       <div class="gp-bar"><div class="gp-fill" id="gpFill" data-testid="progress-fill"></div></div>
     </div>
 
+    <!-- LANGUAGE STATIONS + FUN & CHALLENGE — CONSOLE PANEL -->
+    <div class="console-frame">
+
     <!-- LANGUAGE STATIONS -->
     <div class="section-title">Language Stations</div>
     <div class="stations-grid" data-testid="core-stations">
@@ -435,7 +481,7 @@ body{
       <a href="./stations/speaking.html" class="station-card" data-color="blue" data-testid="station-speaking">
         <div class="station-icon">Sp</div>
         <div class="station-name">Speaking</div>
-        <div class="station-desc">16 dialogues with role play, listen & repeat, fill the gap.</div>
+        <div class="station-desc">16 dialogues with role play, listen &amp; repeat, fill the gap.</div>
         <div class="station-score">Score: <span id="sc-speaking">0</span></div>
       </a>
       <a href="./stations/listening.html" class="station-card" data-color="orange" data-testid="station-listening">
@@ -452,13 +498,15 @@ body{
       </a>
     </div>
 
+    <div class="console-frame-divider"></div>
+
     <!-- FUN & CHALLENGE -->
     <div class="section-title">Fun &amp; Challenge</div>
     <div class="stations-grid" data-testid="fun-stations">
       <a href="./stations/funnycorner.html" class="station-card" data-color="pink" data-testid="station-funnycorner">
         <div class="station-icon">Ha</div>
         <div class="station-name">The Funny Corner</div>
-        <div class="station-desc">25 idioms & expressions. Guess, match, and listen challenges.</div>
+        <div class="station-desc">25 idioms &amp; expressions. Guess, match, and listen challenges.</div>
         <div class="station-score">Score: <span id="sc-funnycorner">0</span></div>
       </a>
       <a href="./stations/games.html" class="station-card" data-color="red" data-testid="station-games">
@@ -468,12 +516,14 @@ body{
         <div class="station-score">Score: <span id="sc-games">0</span></div>
       </a>
       <a href="./stations/challenge.html" class="station-card" data-color="red" data-testid="station-challenge">
-        <div class="station-icon" style="background:rgba(239,68,68,.15);color:#f87171">Ch</div>
+        <div class="station-icon" style="background:linear-gradient(145deg,rgba(239,68,68,.28),rgba(185,28,28,.12));color:#fca5a5;box-shadow:0 0 18px rgba(239,68,68,.25)">Ch</div>
         <div class="station-name">Challenge</div>
         <div class="station-desc">Karaoke, tongue twisters, Who Am I, multi-skill blitz.</div>
         <div class="station-score">Score: <span id="sc-challenge">0</span></div>
       </a>
     </div>
+
+    </div><!-- /.console-frame -->
   </div>
 
   <!-- ===== LEADERBOARD VIEW ===== -->
