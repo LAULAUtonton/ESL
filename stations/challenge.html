@@ -103,7 +103,13 @@ button:disabled{opacity:.4;cursor:not-allowed}
 .modal-title{font-size:24px;font-weight:800;color:#fff;margin-bottom:8px;font-family:'Orbitron',sans-serif}
 .modal-score{font-size:40px;font-weight:800;background:linear-gradient(90deg,var(--fire1),var(--fire2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:16px}
 .modal-btn{padding:12px 24px;background:linear-gradient(135deg,var(--fire1),var(--fire2));color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer;margin:4px}
-
+/* INLINE VIDEO PLAYER */
+.yt-inline{display:none;margin-top:16px;border-radius:14px;overflow:hidden;border:2px solid rgba(239,68,68,.3)}
+.yt-inline.active{display:block}
+.yt-ratio{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}
+.yt-ratio iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+.yt-hide-btn{display:block;width:100%;padding:8px;background:rgba(0,0,0,.5);border:none;color:#94a3b8;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:1px;transition:background .2s}
+.yt-hide-btn:hover{background:rgba(239,68,68,.3);color:#fff}
 </style>
 </head>
 <body>
@@ -164,7 +170,14 @@ button:disabled{opacity:.4;cursor:not-allowed}
       <input class="karaoke-input" id="karaokeInput" data-testid="karaoke-input" placeholder="Type or speak the lyrics..." onkeydown="if(event.key==='Enter')submitKaraoke()">
       <div style="margin-bottom:12px"><button data-testid="karaoke-submit-btn" onclick="submitKaraoke()">SUBMIT LINE</button></div>
       <div class="fb info" id="karaokeFb" data-testid="karaoke-feedback">Choose a song and press START!</div>
-
+      <div class="yt-inline" id="ytInline">
+        <div class="yt-ratio">
+          <iframe id="ytFrame" title="Song video" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+        </div>
+        <button class="yt-hide-btn" onclick="closeYouTube()">▲ HIDE VIDEO</button>
+      </div>
     </div>
   </div>
 
@@ -374,11 +387,22 @@ function setupKaraoke(){
   document.getElementById('karaokeFb').className='fb info';
   document.getElementById('tipBox').textContent='Song: "'+currentSong.title+'". Listen to each line, then type or speak it. 70% match = points!';
   document.getElementById('tubeItBtn').style.display=currentSong.original?'':'none';
+  closeYouTube();
 }
 
 function tubeIt(){
   if(!currentSong||!currentSong.original)return;
-  window.open(currentSong.original,'_blank','noopener,noreferrer');
+  const m=currentSong.original.match(/[?&]v=([^&]+)/);
+  if(!m)return;
+  const inline=document.getElementById('ytInline');
+  if(inline.classList.contains('active')){closeYouTube();return;}
+  document.getElementById('ytFrame').src='https://www.youtube-nocookie.com/embed/'+m[1]+'?autoplay=1&rel=0';
+  inline.classList.add('active');
+}
+
+function closeYouTube(){
+  document.getElementById('ytInline').classList.remove('active');
+  document.getElementById('ytFrame').src='';
 }
 
 function listenKaraoke(){
@@ -612,6 +636,7 @@ function updateProgress(){
 }
 
 init();
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeYouTube();});
 </script>
 </body>
 </html>
