@@ -1,764 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>THE PIT - English Language Arena</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-
-body{
-  font-family:'Inter',system-ui,sans-serif;
-  background:#0a0a1a;
-  color:#fff;
-  min-height:100vh;
-  overflow-x:hidden;
-}
-
-/* ANIMATED BG */
-.bg-glow{
-  position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:
-    radial-gradient(ellipse 600px 400px at 20% 30%, rgba(139,92,246,.12) 0%, transparent 70%),
-    radial-gradient(ellipse 500px 350px at 80% 60%, rgba(236,72,153,.08) 0%, transparent 70%),
-    radial-gradient(ellipse 400px 300px at 50% 80%, rgba(245,158,11,.06) 0%, transparent 70%);
-}
-
-/* GRID PATTERN */
-.bg-grid{
-  position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
-  background-size:60px 60px;
-}
-
-.container{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:20px 16px}
-
-/* LOGIN */
-.login-overlay{
-  position:fixed;inset:0;z-index:9999;
-  background:rgba(5,5,20,.95);
-  display:flex;align-items:center;justify-content:center;
-  backdrop-filter:blur(20px);
-}
-
-.login-box{
-  background:linear-gradient(145deg,#12122a,#1a1a35);
-  border:1px solid rgba(139,92,246,.2);
-  border-radius:20px;padding:40px 36px;
-  text-align:center;max-width:440px;width:92%;
-  box-shadow:0 30px 80px rgba(0,0,0,.6);
-}
-
-.login-box h1{
-  font-family:'Orbitron',sans-serif;font-size:40px;font-weight:900;
-  background:linear-gradient(135deg,#f472b6,#a78bfa,#60a5fa);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  margin-bottom:6px;letter-spacing:3px;
-}
-
-.login-box .subtitle{
-  font-size:13px;color:#a78bfa;font-weight:700;letter-spacing:4px;
-  text-transform:uppercase;margin-bottom:16px;
-}
-
-.login-box p{color:#94a3b8;font-size:14px;margin-bottom:28px;line-height:1.6}
-
-.login-input{
-  width:100%;padding:14px 18px;border-radius:12px;
-  border:2px solid rgba(139,92,246,.25);background:rgba(255,255,255,.04);
-  color:#fff;font-size:16px;font-family:inherit;margin-bottom:16px;
-  transition:border-color .2s;
-}
-.login-input:focus{border-color:#a78bfa;outline:none;background:rgba(139,92,246,.06)}
-.login-input::placeholder{color:#4b5563}
-
-.login-btn{
-  width:100%;padding:15px;border:none;border-radius:12px;
-  background:linear-gradient(135deg,#8b5cf6,#6366f1);
-  color:#fff;font-size:15px;font-weight:800;cursor:pointer;
-  font-family:'Orbitron',sans-serif;letter-spacing:2px;
-  transition:all .2s;
-}
-.login-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(139,92,246,.4)}
-
-/* HEADER */
-.header{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:12px 0;margin-bottom:20px;flex-wrap:wrap;gap:12px;
-}
-
-.logo{
-  font-family:'Orbitron',sans-serif;font-size:26px;font-weight:900;
-  background:linear-gradient(135deg,#f472b6,#a78bfa,#60a5fa);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  letter-spacing:2px;
-}
-
-.header-right{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-
-.header-stat{
-  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
-  border-radius:10px;padding:8px 14px;font-size:12px;font-weight:600;color:#94a3b8;
-}
-.header-stat .val{color:#a78bfa;font-weight:800;margin-left:3px}
-
-.exit-btn{
-  padding:7px 14px;border-radius:8px;border:1px solid rgba(239,68,68,.3);
-  background:transparent;color:#ef4444;font-weight:700;font-size:11px;
-  cursor:pointer;transition:all .2s;letter-spacing:0.5px;
-}
-.exit-btn:hover{background:rgba(239,68,68,.15)}
-
-/* TAB NAV */
-.tabs{
-  display:flex;gap:4px;margin-bottom:24px;
-  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
-  border-radius:12px;padding:4px;
-}
-.tab{
-  padding:10px 20px;border-radius:9px;font-size:13px;font-weight:700;
-  color:#64748b;cursor:pointer;transition:all .2s;border:none;background:none;
-  flex:1;text-align:center;
-}
-.tab:hover{color:#a78bfa}
-.tab.active{background:linear-gradient(135deg,rgba(139,92,246,.2),rgba(99,102,241,.15));color:#a78bfa;border:1px solid rgba(139,92,246,.2)}
-
-/* SCORE BANNER */
-.score-banner{
-  background:linear-gradient(135deg,rgba(139,92,246,.1),rgba(99,102,241,.06));
-  border:1px solid rgba(139,92,246,.15);border-radius:16px;
-  padding:20px 24px;margin-bottom:24px;
-  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
-}
-
-.score-main{text-align:left}
-.score-label{font-size:11px;color:#64748b;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
-.score-value{
-  font-family:'Orbitron',sans-serif;font-size:40px;font-weight:900;
-  background:linear-gradient(135deg,#fbbf24,#f59e0b);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-}
-
-.score-details{display:flex;gap:24px;flex-wrap:wrap}
-.score-detail{text-align:center}
-.score-detail .num{font-size:22px;font-weight:800;color:#fff}
-.score-detail .lbl{font-size:10px;color:#4b5563;font-weight:600;margin-top:2px;text-transform:uppercase;letter-spacing:0.5px}
-
-/* PROGRESS BAR */
-.global-progress{margin-bottom:28px}
-.gp-label{display:flex;justify-content:space-between;font-size:11px;color:#64748b;font-weight:700;margin-bottom:6px}
-.gp-bar{height:8px;background:rgba(255,255,255,.06);border-radius:10px;overflow:hidden}
-.gp-fill{
-  height:100%;border-radius:10px;
-  background:linear-gradient(90deg,#8b5cf6,#6366f1,#3b82f6,#22c55e,#f59e0b,#ec4899);
-  background-size:200% 100%;animation:shimmer 3s linear infinite;
-  transition:width .5s;
-}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-
-/* SECTION TITLE */
-.section-title{
-  font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;
-  color:#4b5563;letter-spacing:3px;margin-bottom:14px;
-  display:flex;align-items:center;gap:10px;text-transform:uppercase;
-}
-.section-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.06)}
-
-/* CONSOLE FRAME */
-.console-frame{
-  background:linear-gradient(170deg,#07071a,#050510);
-  border:2px solid rgba(139,92,246,.22);
-  border-radius:28px;
-  padding:36px 24px 26px;
-  margin-bottom:28px;
-  position:relative;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.05),
-    inset 0 -2px 0 rgba(0,0,0,.5),
-    0 0 60px rgba(139,92,246,.07),
-    0 24px 70px rgba(0,0,0,.55);
-}
-.console-frame::before{
-  content:'◉  STATION SELECT';
-  position:absolute;
-  top:0;left:50%;transform:translate(-50%,-50%);
-  background:linear-gradient(90deg,#7c3aed,#6366f1);
-  color:#fff;
-  font-family:'Orbitron',sans-serif;
-  font-size:9px;font-weight:700;letter-spacing:3px;
-  padding:6px 22px;border-radius:20px;
-  box-shadow:0 4px 18px rgba(139,92,246,.45);
-  white-space:nowrap;
-}
-.console-frame-divider{
-  height:1px;
-  background:linear-gradient(90deg,transparent,rgba(139,92,246,.18),rgba(99,102,241,.14),transparent);
-  margin:6px 0 22px;
-}
-
-/* STATIONS GRID */
-.stations-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:12px;margin-bottom:18px;
-}
-
-.station-card{
-  background:linear-gradient(160deg,#141430,#0c0c22);
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:16px;
-  padding:22px 14px 16px;
-  text-decoration:none;color:#fff;
-  transition:all .18s cubic-bezier(.4,0,.2,1);cursor:pointer;
-  position:relative;overflow:hidden;
-  text-align:center;
-  box-shadow:0 5px 0 rgba(0,0,0,.55),0 8px 20px rgba(0,0,0,.4);
-}
-.station-card:hover{
-  transform:translateY(-5px);
-  box-shadow:0 10px 0 rgba(0,0,0,.5),0 18px 40px rgba(0,0,0,.3);
-}
-.station-card:active{
-  transform:translateY(2px);
-  box-shadow:0 2px 0 rgba(0,0,0,.55),0 3px 8px rgba(0,0,0,.35);
-  transition-duration:.06s;
-}
-.station-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:4px;
-  border-radius:16px 16px 0 0;
-}
-
-.station-card[data-color="purple"]::before{background:linear-gradient(90deg,#7c3aed,#c4b5fd)}
-.station-card[data-color="purple"]:hover{border-color:rgba(139,92,246,.5);background:linear-gradient(160deg,#1c1845,#120e2e);box-shadow:0 10px 0 rgba(0,0,0,.5),0 18px 40px rgba(0,0,0,.3),0 0 28px rgba(139,92,246,.22);}
-
-.station-card[data-color="teal"]::before{background:linear-gradient(90deg,#0d9488,#5eead4)}
-.station-card[data-color="teal"]:hover{border-color:rgba(20,184,166,.5);background:linear-gradient(160deg,#0e2828,#07191a);box-shadow:0 10px 0 rgba(0,0,0,.5),0 18px 40px rgba(0,0,0,.3),0 0 28px rgba(20,184,166,.22);}
-
-.station-card[data-color="green"]::before{background:linear-gradient(90deg,#15803d,#86efac)}
-.station-card[data-color="green"]:hover{border-color:rgba(34,197,94,.5);background:linear-gradient(160deg,#0d2616,#071408);box-shadow:0 10px 0 rgba(0,0,0,.5),0 18px 40px rgba(0,0,0,.3),0 0 28px rgba(34,197,94,.22);}
-
-.station-card[data-color="blue"]::before{background:linear-gradient(90deg,#1d4ed8,#93c5fd)}
-.station-card[data-color="blue"]:hover{border-color:rgba(59,130,246,.5);background:linear-gradient(160deg,#0c1a3c,#080d22);box-shadow:0 10px 0 rgba(0,0,0,.5),0 18px 40px rgba(0,0,0,.3),0 0 28px rgba(59,130,246,.22);}
-
-.station-card[data-color="orange"]::before{background:linear-gradient(90deg,#b45309,#fcd34d)}
-.station-card[data-color="orange"]:hover{border-color:rgba(245,158,11,.5);background:linear-gradient(160deg,#251806,#140e03);box-shadow:0 10px 0 rgba(0,0,0,.5),0 18px 40px rgba(0,0,0,.3),0 0 28px rgba(245,158,11,.22);}
-
-.station-card[data-color="pink"]::before{background:linear-gradient(90deg,#be185d,#f9a8d4)}
-.station-card[data-color="pink"]:hover{border-color:rgba(236,72,153,.5);background:linear-gradient(160deg,#280e1e,#160712);box-shadow:0 10px 0 rgba(0,0,0,.5),0 18px 40px rgba(0,0,0,.3),0 0 28px rgba(236,72,153,.22);}
-
-.station-card[data-color="red"]::before{background:linear-gradient(90deg,#b91c1c,#fca5a5)}
-.station-card[data-color="red"]:hover{border-color:rgba(239,68,68,.5);background:linear-gradient(160deg,#26100e,#150706);box-shadow:0 10px 0 rgba(0,0,0,.5),0 18px 40px rgba(0,0,0,.3),0 0 28px rgba(239,68,68,.22);}
-
-.station-card[data-color="gray"]::before{background:linear-gradient(90deg,#4b5563,#d1d5db)}
-.station-card[data-color="gray"]:hover{border-color:rgba(107,114,128,.5);background:linear-gradient(160deg,#161820,#0e0f16);box-shadow:0 10px 0 rgba(0,0,0,.5),0 18px 40px rgba(0,0,0,.3),0 0 28px rgba(107,114,128,.22);}
-
-.station-icon{
-  width:58px;height:58px;border-radius:14px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:17px;font-weight:900;
-  margin:0 auto 14px;
-  font-family:'Orbitron',sans-serif;
-  border:1px solid rgba(255,255,255,.07);
-}
-
-.station-card[data-color="purple"] .station-icon{background:linear-gradient(145deg,rgba(139,92,246,.28),rgba(109,62,216,.12));color:#c4b5fd;box-shadow:0 0 18px rgba(139,92,246,.25);}
-.station-card[data-color="teal"] .station-icon{background:linear-gradient(145deg,rgba(20,184,166,.28),rgba(13,148,136,.12));color:#5eead4;box-shadow:0 0 18px rgba(20,184,166,.25);}
-.station-card[data-color="green"] .station-icon{background:linear-gradient(145deg,rgba(34,197,94,.28),rgba(21,128,61,.12));color:#86efac;box-shadow:0 0 18px rgba(34,197,94,.25);}
-.station-card[data-color="blue"] .station-icon{background:linear-gradient(145deg,rgba(59,130,246,.28),rgba(29,78,216,.12));color:#93c5fd;box-shadow:0 0 18px rgba(59,130,246,.25);}
-.station-card[data-color="orange"] .station-icon{background:linear-gradient(145deg,rgba(245,158,11,.28),rgba(180,83,9,.12));color:#fcd34d;box-shadow:0 0 18px rgba(245,158,11,.25);}
-.station-card[data-color="pink"] .station-icon{background:linear-gradient(145deg,rgba(236,72,153,.28),rgba(190,24,93,.12));color:#f9a8d4;box-shadow:0 0 18px rgba(236,72,153,.25);}
-.station-card[data-color="red"] .station-icon{background:linear-gradient(145deg,rgba(239,68,68,.28),rgba(185,28,28,.12));color:#fca5a5;box-shadow:0 0 18px rgba(239,68,68,.25);}
-.station-card[data-color="gray"] .station-icon{background:linear-gradient(145deg,rgba(107,114,128,.28),rgba(75,85,99,.12));color:#d1d5db;box-shadow:0 0 18px rgba(107,114,128,.25);}
-
-.station-name{font-weight:800;font-size:13px;margin-bottom:6px;font-family:'Orbitron',sans-serif;letter-spacing:.5px;line-height:1.3}
-.station-desc{font-size:11px;color:#64748b;line-height:1.4;margin-bottom:10px}
-.station-score{font-size:11px;font-weight:700;color:#374151;background:rgba(0,0,0,.35);border-radius:6px;padding:3px 10px;display:inline-block}
-.station-score span{color:#fbbf24}
-
-/* LEADERBOARD */
-.lb-panel{
-  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
-  border-radius:16px;padding:24px;margin-bottom:24px;
-}
-
-.lb-header{
-  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
-  margin-bottom:20px;
-}
-
-.lb-actions{display:flex;gap:8px;flex-wrap:wrap}
-
-.lb-btn{
-  padding:8px 16px;border-radius:10px;font-size:12px;font-weight:700;
-  cursor:pointer;transition:all .2s;border:1px solid rgba(139,92,246,.3);
-  background:rgba(139,92,246,.1);color:#a78bfa;font-family:inherit;
-}
-.lb-btn:hover{background:rgba(139,92,246,.2);transform:translateY(-1px)}
-.lb-btn.accent{background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;border:none}
-.lb-btn.accent:hover{box-shadow:0 6px 20px rgba(139,92,246,.3)}
-
-.lb-table{width:100%;border-collapse:collapse}
-.lb-table th{
-  text-align:left;font-size:10px;color:#4b5563;font-weight:700;
-  letter-spacing:1px;text-transform:uppercase;padding:8px 12px;
-  border-bottom:1px solid rgba(255,255,255,.06);
-}
-.lb-table td{
-  padding:10px 12px;font-size:13px;font-weight:600;color:#e2e8f0;
-  border-bottom:1px solid rgba(255,255,255,.03);
-}
-.lb-table tr:hover td{background:rgba(255,255,255,.02)}
-.lb-rank{
-  width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;
-  border-radius:8px;font-size:12px;font-weight:800;
-}
-.lb-rank.gold{background:rgba(251,191,36,.15);color:#fbbf24}
-.lb-rank.silver{background:rgba(148,163,184,.15);color:#94a3b8}
-.lb-rank.bronze{background:rgba(245,158,11,.15);color:#f59e0b}
-.lb-rank.default{background:rgba(255,255,255,.05);color:#64748b}
-
-.lb-player-name{font-weight:800;color:#fff}
-.lb-player-name.you{color:#a78bfa}
-.lb-date{font-size:11px;color:#4b5563}
-
-.lb-empty{
-  text-align:center;padding:40px;color:#4b5563;font-size:14px;line-height:1.7;
-}
-
-/* SHARE CODE */
-.share-section{
-  background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);
-  border-radius:14px;padding:20px;margin-bottom:24px;
-}
-
-.share-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
-
-.share-input{
-  flex:1;min-width:200px;padding:10px 14px;border-radius:10px;
-  border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);
-  color:#fff;font-size:13px;font-family:'Courier New',monospace;
-}
-.share-input:focus{border-color:#a78bfa;outline:none}
-
-.share-label{
-  font-size:12px;font-weight:700;color:#94a3b8;margin-bottom:8px;
-  display:flex;align-items:center;gap:6px;
-}
-
-.toast{
-  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
-  background:#22c55e;color:#fff;padding:12px 24px;border-radius:12px;
-  font-size:13px;font-weight:700;z-index:10000;
-  transition:transform .3s;pointer-events:none;
-}
-.toast.show{transform:translateX(-50%) translateY(0)}
-
-/* ACHIEVEMENTS */
-.achievements-grid{
-  display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px;
-}
-
-.ach-badge{
-  display:flex;align-items:center;gap:8px;
-  padding:8px 14px;border-radius:10px;
-  border:1px solid rgba(255,255,255,.06);
-  background:rgba(255,255,255,.02);
-  font-size:11px;font-weight:600;color:#4b5563;
-}
-
-.ach-badge.unlocked{
-  border-color:rgba(251,191,36,.2);background:rgba(251,191,36,.06);color:#fbbf24;
-}
-
-.ach-icon{font-size:16px}
-
-/* FOOTER */
-.footer{
-  text-align:center;padding:20px 0;
-  font-size:11px;color:#1f2937;
-  border-top:1px solid rgba(255,255,255,.03);
-  margin-top:20px;letter-spacing:0.5px;
-}
-
-/* VIEW */
-.view{display:none}
-.view.active{display:block}
-
-@media(max-width:900px){
-  .stations-grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:600px){
-  .score-value{font-size:32px}
-  .score-banner{flex-direction:column;text-align:center}
-  .header{justify-content:center;text-align:center}
-  .tabs{flex-wrap:nowrap;overflow-x:auto}
-  .tab{white-space:nowrap;flex:0 0 auto;padding:10px 14px}
-  .lb-table{font-size:12px}
-  .console-frame{padding:28px 14px 20px;border-radius:22px}
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Portal de Juegos: The Pit y Scape Room</title>
+  <style>
+    body {
+      background: #222;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      justify-content: center;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    h1 {
+      margin-bottom: 1em;
+      font-size: 2.2em;
+      letter-spacing: 2px;
+    }
+    .portals {
+      display: flex;
+      gap: 3em;
+    }
+    .portal {
+      background: #252525;
+      border: 2px solid #444;
+      border-radius: 25px;
+      padding: 2em 2.5em;
+      text-align: center;
+      box-shadow: 0 6px 40px #000d 0;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .portal:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 60px #000f 0;
+      border-color: #6cf;
+    }
+    .portal-title {
+      margin: 0 0 0.6em 0;
+      font-size: 1.6em;
+      color: #7df;
+      letter-spacing: 1px;
+    }
+    .portal-btn {
+      background: #7df;
+      color: #222;
+      border: none;
+      border-radius: 7px;
+      padding: 0.75em 2em;
+      font-size: 1.1em;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .portal-btn:hover {
+      background: #3af;
+      color: #fff;
+    }
+    @media (max-width: 700px) {
+      .portals {
+        flex-direction: column;
+        gap: 2em;
+      }
+      .portal {
+        padding: 1.3em 1.5em;
+      }
+    }
+  </style>
 </head>
 <body>
-
-<div class="bg-glow"></div>
-<div class="bg-grid"></div>
-
-<!-- LOGIN -->
-<div class="login-overlay" id="loginOverlay" data-testid="login-overlay">
-  <div class="login-box">
-    <h1 data-testid="pit-title">THE PIT</h1>
-    <div class="subtitle">English Language Arena</div>
-    <p>Practice vocabulary, reading, writing, speaking, listening, grammar and more. Track your score and compete with classmates.</p>
-    <input class="login-input" type="text" id="nameInput" data-testid="name-input" placeholder="Enter your name to begin" onkeydown="if(event.key==='Enter')startGame()">
-    <button class="login-btn" data-testid="start-btn" onclick="startGame()">ENTER THE PIT</button>
-  </div>
-</div>
-
-<!-- MAIN -->
-<div class="container">
-  <div class="header">
-    <div class="logo" data-testid="logo">THE PIT</div>
-    <div class="header-right">
-      <div class="header-stat">Player: <span class="val" id="playerDisp" data-testid="player-display">-</span></div>
-      <div class="header-stat">Visited: <span class="val" id="stationsVisited" data-testid="stations-visited">0</span> / 9</div>
-      <button class="exit-btn" data-testid="exit-btn" onclick="exitGame()">LOG OUT</button>
+  <h1>Portal de Juegos</h1>
+  <div class="portals">
+    <div class="portal">
+      <div class="portal-title">The Pit</div>
+      <a href="./stations/index.html">
+        <button class="portal-btn">Entrar</button>
+      </a>
+    </div>
+    <div class="portal">
+      <div class="portal-title">Scape Room</div>
+      <a href="./scape-room/game.html">
+        <button class="portal-btn">Entrar</button>
+      </a>
     </div>
   </div>
-
-  <!-- TAB NAVIGATION -->
-  <div class="tabs" data-testid="tab-nav">
-    <button class="tab active" data-testid="tab-stations" onclick="switchView('stations')">Stations</button>
-    <button class="tab" data-testid="tab-leaderboard" onclick="switchView('leaderboard')">Leaderboard</button>
-    <button class="tab" data-testid="tab-achievements" onclick="switchView('achievements')">Achievements</button>
-  </div>
-
-  <!-- ===== STATIONS VIEW ===== -->
-  <div id="view-stations" class="view active">
-
-    <!-- SCORE BANNER -->
-    <div class="score-banner" data-testid="score-banner">
-      <div class="score-main">
-        <div class="score-label">Total Score</div>
-        <div class="score-value" id="totalScore" data-testid="total-score">0</div>
-      </div>
-      <div class="score-details">
-        <div class="score-detail"><div class="num" id="totalSessions" data-testid="total-sessions">0</div><div class="lbl">Sessions</div></div>
-        <div class="score-detail"><div class="num" id="totalAch" data-testid="total-achievements">0</div><div class="lbl">Badges</div></div>
-        <div class="score-detail"><div class="num" id="lastActive" data-testid="last-active">-</div><div class="lbl">Last Active</div></div>
-      </div>
-    </div>
-
-    <!-- GLOBAL PROGRESS -->
-    <div class="global-progress">
-      <div class="gp-label"><span>Overall Progress</span><span id="gpPct" data-testid="progress-pct">0%</span></div>
-      <div class="gp-bar"><div class="gp-fill" id="gpFill" data-testid="progress-fill"></div></div>
-    </div>
-
-    <!-- LANGUAGE STATIONS + FUN & CHALLENGE — CONSOLE PANEL -->
-    <div class="console-frame">
-
-    <!-- LANGUAGE STATIONS -->
-    <div class="section-title">Language Stations</div>
-    <div class="stations-grid" data-testid="core-stations">
-      <a href="./stations/vocabulary.html" class="station-card" data-color="purple" data-testid="station-vocabulary">
-        <div class="station-icon">Aa</div>
-        <div class="station-name">Vocabulary</div>
-        <div class="station-desc">336 words, 8 units. Flashcards, sorting, quizzes, hangman and more.</div>
-        <div class="station-score">Score: <span id="sc-vocabulary">0</span></div>
-      </a>
-      <a href="./stations/reading.html" class="station-card" data-color="green" data-testid="station-reading">
-        <div class="station-icon">Rd</div>
-        <div class="station-name">Reading</div>
-        <div class="station-desc">24 texts with manga illustrations and comprehension modes.</div>
-        <div class="station-score">Score: <span id="sc-reading">0</span></div>
-      </a>
-      <a href="./stations/writing.html" class="station-card" data-color="teal" data-testid="station-writing">
-        <div class="station-icon">Wr</div>
-        <div class="station-name">Writing</div>
-        <div class="station-desc">Practice writing with grammar tools and 6 creative modes.</div>
-        <div class="station-score">Score: <span id="sc-writing">0</span></div>
-      </a>
-      <a href="./stations/speaking.html" class="station-card" data-color="blue" data-testid="station-speaking">
-        <div class="station-icon">Sp</div>
-        <div class="station-name">Speaking</div>
-        <div class="station-desc">16 dialogues with role play, listen &amp; repeat, fill the gap.</div>
-        <div class="station-score">Score: <span id="sc-speaking">0</span></div>
-      </a>
-      <a href="./stations/listening.html" class="station-card" data-color="orange" data-testid="station-listening">
-        <div class="station-icon">Li</div>
-        <div class="station-name">Listening</div>
-        <div class="station-desc">16 audio exercises. Comprehension, dictation, note-taking.</div>
-        <div class="station-score">Score: <span id="sc-listening">0</span></div>
-      </a>
-      <a href="./stations/grammar.html" class="station-card" data-color="gray" data-testid="station-grammar">
-        <div class="station-icon">Gr</div>
-        <div class="station-name">Grammar</div>
-        <div class="station-desc">6 topics: To Be, Pronouns, Tenses, Question Words, Past Simple, Comparatives.</div>
-        <div class="station-score">Score: <span id="sc-grammar">0</span></div>
-      </a>
-    </div>
-
-    <div class="console-frame-divider"></div>
-
-    <!-- FUN & CHALLENGE -->
-    <div class="section-title">Fun &amp; Challenge</div>
-    <div class="stations-grid" data-testid="fun-stations">
-      <a href="./stations/funnycorner.html" class="station-card" data-color="pink" data-testid="station-funnycorner">
-        <div class="station-icon">Ha</div>
-        <div class="station-name">The Funny Corner</div>
-        <div class="station-desc">25 idioms &amp; expressions. Guess, match, and listen challenges.</div>
-        <div class="station-score">Score: <span id="sc-funnycorner">0</span></div>
-      </a>
-      <a href="./stations/games.html" class="station-card" data-color="red" data-testid="station-games">
-        <div class="station-icon">Gm</div>
-        <div class="station-name">Games</div>
-        <div class="station-desc">Fun language games to test your skills and compete.</div>
-        <div class="station-score">Score: <span id="sc-games">0</span></div>
-      </a>
-      <a href="./stations/challenge.html" class="station-card" data-color="red" data-testid="station-challenge">
-        <div class="station-icon" style="background:linear-gradient(145deg,rgba(239,68,68,.28),rgba(185,28,28,.12));color:#fca5a5;box-shadow:0 0 18px rgba(239,68,68,.25)">Ch</div>
-        <div class="station-name">Challenge</div>
-        <div class="station-desc">Karaoke, tongue twisters, Who Am I, multi-skill blitz.</div>
-        <div class="station-score">Score: <span id="sc-challenge">0</span></div>
-      </a>
-    </div>
-
-    </div><!-- /.console-frame -->
-  </div>
-
-  <!-- ===== LEADERBOARD VIEW ===== -->
-  <div id="view-leaderboard" class="view">
-    <div class="lb-panel">
-      <div class="lb-header">
-        <div>
-          <div class="section-title" style="margin-bottom:4px">Class Leaderboard</div>
-          <div style="font-size:12px;color:#4b5563">Share your code with classmates to compete!</div>
-        </div>
-        <div class="lb-actions">
-          <button class="lb-btn accent" data-testid="lb-save-btn" onclick="saveMyScore()">Save My Score</button>
-        </div>
-      </div>
-      <table class="lb-table" data-testid="leaderboard-table">
-        <thead><tr><th>#</th><th>Player</th><th>Score</th><th>Date</th></tr></thead>
-        <tbody id="lbBody" data-testid="leaderboard-body"></tbody>
-      </table>
-      <div class="lb-empty" id="lbEmpty" data-testid="leaderboard-empty" style="display:none">
-        No players yet! Save your score and share your code with classmates.
-      </div>
-    </div>
-
-    <!-- SHARE SECTION -->
-    <div class="share-section" data-testid="share-section">
-      <div class="share-label">Your Score Code (share this with classmates)</div>
-      <div class="share-row">
-        <input class="share-input" id="myCode" data-testid="my-code" readonly placeholder="Click 'Generate Code' to get your code">
-        <button class="lb-btn accent" data-testid="generate-code-btn" onclick="generateCode()">Generate Code</button>
-        <button class="lb-btn" data-testid="copy-code-btn" onclick="copyCode()">Copy</button>
-      </div>
-
-      <div class="share-label" style="margin-top:16px">Import a Classmate's Code</div>
-      <div class="share-row">
-        <input class="share-input" id="importInput" data-testid="import-input" placeholder="Paste your classmate's code here...">
-        <button class="lb-btn accent" data-testid="import-btn" onclick="importClassmate()">Import</button>
-      </div>
-      <div id="importMsg" data-testid="import-message" style="font-size:12px;color:#4b5563;margin-top:4px"></div>
-    </div>
-  </div>
-
-  <!-- ===== ACHIEVEMENTS VIEW ===== -->
-  <div id="view-achievements" class="view">
-    <div class="score-banner" style="margin-bottom:24px">
-      <div class="score-main">
-        <div class="score-label">Badges Unlocked</div>
-        <div class="score-value" id="achCount" data-testid="achievement-count">0</div>
-      </div>
-      <div style="font-size:13px;color:#94a3b8;max-width:400px;line-height:1.6">
-        Play across all stations to unlock achievements. Score points, maintain streaks, and explore every corner of THE PIT!
-      </div>
-    </div>
-
-    <div class="achievements-grid" id="achGrid" data-testid="achievements-grid"></div>
-  </div>
-
-  <div class="footer" data-testid="footer">THE PIT &mdash; English Language Arena &mdash; 2ESO Curriculum</div>
-</div>
-
-<!-- React root (hidden, not used) -->
-<div id="root"></div>
-
-<!-- TOAST -->
-<div class="toast" id="toast" data-testid="toast"></div>
-
-<script src="./stations/pit-score.js"></script>
-<script>
-const ACHIEVEMENTS = [
-  {id:'first_100',name:'First Steps',desc:'Score 100 points',icon:'&#9733;'},
-  {id:'score_500',name:'Rising Star',desc:'Score 500 points',icon:'&#9734;'},
-  {id:'score_1000',name:'Champion',desc:'Score 1000 points',icon:'&#127942;'},
-  {id:'all_stations',name:'Explorer',desc:'Visit all 9 stations',icon:'&#127758;'},
-  {id:'vocab_master',name:'Word Wizard',desc:'Score 200 in Vocabulary',icon:'&#128218;'},
-  {id:'writer',name:'Author',desc:'Complete 10 writing tasks',icon:'&#9997;'},
-  {id:'reader',name:'Bookworm',desc:'Read 5 texts',icon:'&#128214;'},
-  {id:'challenger',name:'Challenger',desc:'Complete 5 challenges',icon:'&#128293;'},
-  {id:'streak_10',name:'On Fire',desc:'Get a 10-answer streak',icon:'&#128165;'}
-];
-
-function startGame() {
-  const name = document.getElementById('nameInput').value.trim();
-  if (!name) { document.getElementById('nameInput').style.borderColor = '#ef4444'; return; }
-  if (typeof PIT_SCORE !== 'undefined') PIT_SCORE.setName(name);
-  document.getElementById('loginOverlay').style.display = 'none';
-  loadStats();
-}
-
-function exitGame() {
-  if (typeof PIT_SCORE !== 'undefined') PIT_SCORE.reset();
-  location.reload();
-}
-
-function switchView(view) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('view-' + view).classList.add('active');
-  document.querySelector('[data-testid="tab-' + view + '"]').classList.add('active');
-  if (view === 'leaderboard') loadLeaderboard();
-}
-
-function loadStats() {
-  if (typeof PIT_SCORE === 'undefined') return;
-  const player = PIT_SCORE.getPlayer();
-
-  document.getElementById('playerDisp').textContent = player.name || '-';
-
-  const stationKeys = ['vocabulary','writing','reading','speaking','listening','grammar','games','funnycorner','challenge'];
-  stationKeys.forEach(k => {
-    const el = document.getElementById('sc-' + k);
-    if (el && player.stations[k]) el.textContent = player.stations[k].score;
-  });
-
-  document.getElementById('totalScore').textContent = player.totalScore;
-
-  const totalSessions = Object.values(player.stations).reduce((s, st) => s + (st.sessions || 0), 0);
-  document.getElementById('totalSessions').textContent = totalSessions;
-
-  const visited = Object.values(player.stations).filter(s => s.sessions > 0).length;
-  document.getElementById('stationsVisited').textContent = visited;
-
-  if (player.lastActive) {
-    const d = new Date(player.lastActive);
-    document.getElementById('lastActive').textContent = d.toLocaleDateString('en-GB', {day:'numeric',month:'short'});
-  }
-
-  const maxScore = stationKeys.length * 200;
-  const pct = Math.min(Math.round(player.totalScore / maxScore * 100), 100);
-  document.getElementById('gpPct').textContent = pct + '%';
-  document.getElementById('gpFill').style.width = pct + '%';
-
-  // Achievements
-  const achGrid = document.getElementById('achGrid');
-  achGrid.innerHTML = ACHIEVEMENTS.map(a => {
-    const unlocked = player.achievements && player.achievements.includes(a.id);
-    return '<div class="ach-badge ' + (unlocked ? 'unlocked' : '') + '" data-testid="ach-' + a.id + '">' +
-      '<span class="ach-icon">' + a.icon + '</span>' +
-      '<span>' + a.name + '<br><small style="font-weight:400;font-size:10px;color:inherit;opacity:.7">' + a.desc + '</small></span>' +
-    '</div>';
-  }).join('');
-
-  const achUnlocked = (player.achievements || []).length;
-  document.getElementById('totalAch').textContent = achUnlocked;
-  document.getElementById('achCount').textContent = achUnlocked + ' / ' + ACHIEVEMENTS.length;
-
-  // Auto-save to leaderboard
-  PIT_SCORE.saveToLeaderboard();
-}
-
-// ===== LEADERBOARD =====
-function loadLeaderboard() {
-  const board = PIT_SCORE.getLeaderboard();
-  const player = PIT_SCORE.getPlayer();
-  const body = document.getElementById('lbBody');
-  const empty = document.getElementById('lbEmpty');
-
-  if (board.length === 0) {
-    body.innerHTML = '';
-    empty.style.display = 'block';
-    return;
-  }
-  empty.style.display = 'none';
-
-  body.innerHTML = board.map((e, i) => {
-    const rankClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : 'default';
-    const isYou = player.name && e.name.toLowerCase() === player.name.toLowerCase();
-    const date = e.date ? new Date(e.date).toLocaleDateString('en-GB', {day:'numeric',month:'short'}) : '-';
-    return '<tr>' +
-      '<td><span class="lb-rank ' + rankClass + '">' + (i + 1) + '</span></td>' +
-      '<td class="lb-player-name ' + (isYou ? 'you' : '') + '">' + esc(e.name) + (isYou ? ' (you)' : '') + '</td>' +
-      '<td style="color:#fbbf24;font-weight:800">' + e.score + '</td>' +
-      '<td class="lb-date">' + date + '</td>' +
-    '</tr>';
-  }).join('');
-}
-
-function saveMyScore() {
-  PIT_SCORE.saveToLeaderboard();
-  loadLeaderboard();
-  showToast('Score saved to leaderboard!');
-}
-
-function generateCode() {
-  const code = PIT_SCORE.exportCode();
-  document.getElementById('myCode').value = code;
-  showToast('Code generated! Share it with classmates.');
-}
-
-function copyCode() {
-  const input = document.getElementById('myCode');
-  if (!input.value) { generateCode(); return; }
-  navigator.clipboard.writeText(input.value).then(() => showToast('Copied to clipboard!')).catch(() => {
-    input.select();
-    document.execCommand('copy');
-    showToast('Copied!');
-  });
-}
-
-function importClassmate() {
-  const code = document.getElementById('importInput').value.trim();
-  if (!code) { document.getElementById('importMsg').textContent = 'Paste a code first!'; return; }
-  const name = PIT_SCORE.importCode(code);
-  if (name) {
-    document.getElementById('importMsg').textContent = 'Added ' + name + ' to the leaderboard!';
-    document.getElementById('importMsg').style.color = '#22c55e';
-    document.getElementById('importInput').value = '';
-    loadLeaderboard();
-    showToast(name + ' added to leaderboard!');
-  } else {
-    document.getElementById('importMsg').textContent = 'Invalid code. Ask your classmate to generate a new one.';
-    document.getElementById('importMsg').style.color = '#ef4444';
-  }
-}
-
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
-
-function esc(t) {
-  const d = document.createElement('div');
-  d.textContent = t;
-  return d.innerHTML;
-}
-
-// Auto-load
-window.addEventListener('DOMContentLoaded', () => {
-  if (typeof PIT_SCORE === 'undefined') return;
-  const player = PIT_SCORE.getPlayer();
-  if (player && player.name) {
-    document.getElementById('loginOverlay').style.display = 'none';
-    loadStats();
-  }
-});
-</script>
 </body>
 </html>
