@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Escape the Tech Lab</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#10131a; color:#eaf0ff; margin:0; padding:24px; }
+    .container { max-width: 900px; margin: 0 auto; }
+    h1 { margin-top: 0; }
+    .card { background:#1a2130; border:1px solid #2b3650; border-radius:12px; padding:16px; margin-bottom:16px; }
+    button { background:#4f7cff; color:#fff; border:none; border-radius:8px; padding:10px 14px; margin:6px 6px 0 0; cursor:pointer; }
+    button:hover { opacity:.95; }
+    .small { color:#b8c5e6; font-size:14px; }
+    .badge { display:inline-block; background:#263657; border-radius:999px; padding:4px 10px; margin-right:8px; font-size:12px; }
+    .hidden { display:none; }
+    input[type="text"] { width:100%; padding:8px; border-radius:8px; border:1px solid #3a4a70; background:#0f1420; color:#fff; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎮 Escape the Tech Lab</h1>
+    <p class="small">Play in pairs. English only. Make choices to reach one of 7 endings.</p>
+
+    <div class="card">
+      <span class="badge" id="room-badge">Room 1</span>
+      <span class="badge" id="grammar-badge">used to</span>
+      <h2 id="title">The Old vs Modern Device</h2>
+      <p id="prompt">Say: <strong>People used to use ___, now they use ___.</strong></p>
+      <label for="answer" class="small">Your team sentence:</label>
+      <input id="answer" type="text" placeholder="Write your sentence here" />
+      <div id="choices"></div>
+    </div>
+
+    <div class="card">
+      <h3>Route log</h3>
+      <ol id="log"></ol>
+    </div>
+  </div>
+
+  <script>
+    const rooms = {
+      room1: {
+        room: 'Room 1', grammar: 'used to', title: 'The Old vs Modern Device',
+        prompt: 'Say: People used to use ___, now they use ___.',
+        choices: [
+          { label: 'A: Explore old devices', next: 'room2a' },
+          { label: 'B: Go to AI control room', next: 'room2b' }
+        ]
+      },
+      room2a: {
+        room: 'Room 2A', grammar: 'past tenses', title: 'Broken Phone',
+        prompt: 'Describe what happened: The phone stopped working because...',
+        choices: [ { label: 'Continue', next: 'room3' } ]
+      },
+      room2b: {
+        room: 'Room 2B', grammar: 'modal verbs', title: 'AI Assistant',
+        prompt: 'Ask for help using: can / could / should / must.',
+        choices: [ { label: 'Continue', next: 'room3' } ]
+      },
+      room3: {
+        room: 'Room 3', grammar: 'first conditional', title: 'Security System',
+        prompt: 'Complete: If we press this button, ... / If we don\'t hurry, ...',
+        choices: [
+          { label: 'A: App design path', next: 'room4a' },
+          { label: 'B: Password path', next: 'room4b' }
+        ]
+      },
+      room4a: {
+        room: 'Room 4A', grammar: 'present perfect', title: 'App Design Room',
+        prompt: 'Say: We have created an app that... / It has helped people since...',
+        choices: [ { label: 'Enter final zone', next: 'final' } ]
+      },
+      room4b: {
+        room: 'Room 4B', grammar: 'tech vocabulary', title: 'Password Puzzle',
+        prompt: 'Use these words in sentences: charger, screen, app, download, message.',
+        choices: [ { label: 'Enter final zone', next: 'final' } ]
+      },
+      final: {
+        room: 'Final Zone', grammar: 'mixed', title: 'Exit Gate',
+        prompt: 'Produce: 1 used to + 1 present perfect + 1 modal + 1 conditional.',
+        choices: [
+          { label: 'Trust the system', ending: 'Helped by AI' },
+          { label: 'Escape manually', ending: 'Tech Heroes' },
+          { label: 'Random risky option', ending: 'System Crash' }
+        ]
+      }
+    };
+
+    const endings = [
+      'Perfect Escape', 'Tech Heroes', 'Slow Escape',
+      'Helped by AI', 'Locked Inside', 'System Crash', 'Lost in Time'
+    ];
+
+    let current = 'room1';
+
+    const roomBadge = document.getElementById('room-badge');
+    const grammarBadge = document.getElementById('grammar-badge');
+    const titleEl = document.getElementById('title');
+    const promptEl = document.getElementById('prompt');
+    const answerEl = document.getElementById('answer');
+    const choicesEl = document.getElementById('choices');
+    const logEl = document.getElementById('log');
+
+    function addLog(text) {
+      const li = document.createElement('li');
+      li.textContent = text;
+      logEl.appendChild(li);
+    }
+
+    function renderRoom() {
+      const data = rooms[current];
+      roomBadge.textContent = data.room;
+      grammarBadge.textContent = data.grammar;
+      titleEl.textContent = data.title;
+      promptEl.textContent = data.prompt;
+      answerEl.value = '';
+      choicesEl.innerHTML = '';
+
+      data.choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.textContent = choice.label;
+        btn.onclick = () => {
+          const ans = answerEl.value.trim() || '[No sentence entered]';
+          addLog(`${data.room}: ${ans}`);
+
+          if (choice.ending) {
+            const finalEnding = choice.ending === 'Tech Heroes' && Math.random() > 0.6
+              ? 'Perfect Escape'
+              : choice.ending;
+            showEnding(finalEnding);
+            return;
+          }
+
+          current = choice.next;
+          renderRoom();
+        };
+        choicesEl.appendChild(btn);
+      });
+    }
+
+    function showEnding(ending) {
+      roomBadge.textContent = 'Ending';
+      grammarBadge.textContent = 'result';
+      titleEl.textContent = `🏁 ${ending}`;
+      promptEl.textContent = `You escaped route result: ${ending}. Try again for another ending.`;
+      choicesEl.innerHTML = '';
+
+      const tryBtn = document.createElement('button');
+      tryBtn.textContent = 'Play Again';
+      tryBtn.onclick = () => {
+        current = 'room1';
+        logEl.innerHTML = '';
+        renderRoom();
+      };
+      choicesEl.appendChild(tryBtn);
+
+      const randomBtn = document.createElement('button');
+      randomBtn.textContent = 'Show Random Ending';
+      randomBtn.onclick = () => {
+        const rnd = endings[Math.floor(Math.random() * endings.length)];
+        titleEl.textContent = `🏁 ${rnd}`;
+        promptEl.textContent = `Alternate ending unlocked: ${rnd}`;
+      };
+      choicesEl.appendChild(randomBtn);
+    }
+
+    renderRoom();
+  </script>
+</body>
+</html>
