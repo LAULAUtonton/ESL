@@ -9,15 +9,82 @@
     .container { max-width: 900px; margin: 0 auto; }
     h1 { margin-top: 0; }
     .card { background:#1a2130; border:1px solid #2b3650; border-radius:12px; padding:16px; margin-bottom:16px; }
-    button { background:#4f7cff; color:#fff; border:none; border-radius:8px; padding:10px 14px; margin:6px 6px 0 0; cursor:pointer; }
+    .envelope-row {
+      display: flex;
+      gap: 18px;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .envelope-choice {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #25325c;
+      border: 2px solid #4f7cff;
+      border-radius: 18px;
+      min-width: 190px;
+      min-height: 90px;
+      padding: 15px 25px;
+      margin-bottom: 4px;
+      color: #fff;
+      font-size: 1.05em;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(79,124,255,0.2);
+      transition: transform 0.16s, background 0.23s, box-shadow 0.18s;
+      position: relative;
+    }
+    .envelope-choice:hover {
+      background: #3852a8;
+      transform: scale(1.06) rotate(-2deg);
+      box-shadow: 0 10px 28px rgba(79,124,255,0.36);
+      z-index: 3;
+    }
+    .envelope-choice::before {
+      content: "✉️";
+      font-size: 1.4em;
+      margin-bottom: 5px;
+      display: block;
+    }
+    button { 
+      background:#4f7cff; color:#fff; border:none; border-radius:8px; 
+      padding:10px 14px; margin:6px 6px 0 0; cursor:pointer;
+    }
     button:hover { opacity:.95; }
     .small { color:#b8c5e6; font-size:14px; }
     .badge { display:inline-block; background:#263657; border-radius:999px; padding:4px 10px; margin-right:8px; font-size:12px; }
     .hidden { display:none; }
     input[type="text"] { width:100%; padding:8px; border-radius:8px; border:1px solid #3a4a70; background:#0f1420; color:#fff; }
+    /* Back Button Style */
+    .back-btn {
+      background: #7df;
+      color: #222;
+      border: none;
+      border-radius: 7px;
+      padding: 0.75em 2em;
+      font-size: 1.1em;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 20px;
+      margin-top: 8px;
+      align-self: flex-start;
+      transition: background 0.2s;
+      box-shadow: 0 2px 10px #0002;
+    }
+    .back-btn:hover { background: #3af; color: #fff; }
+    /* Mejor UX mobile */
+    @media (max-width: 600px) {
+      .envelope-row { flex-direction: column; gap: 12px; }
+      .envelope-choice { min-width: 98%; }
+      .container { padding: 0; }
+    }
   </style>
 </head>
 <body>
+  <!-- Botón de volver al portal ESL -->
+  <button class="back-btn" onclick="location.href='../index.html'">Back to ESL Portals</button>
   <div class="container">
     <h1>🎮 Escape the Tech Lab</h1>
     <p class="small">Play in pairs. English only. Make choices to reach one of 7 endings.</p>
@@ -29,7 +96,8 @@
       <p id="prompt">Say: <strong>People used to use ___, now they use ___.</strong></p>
       <label for="answer" class="small">Your team sentence:</label>
       <input id="answer" type="text" placeholder="Write your sentence here" />
-      <div id="choices"></div>
+      <div class="envelope-row" id="envelope-choices"></div>
+      <div id="choices" style="display:none"></div>
     </div>
 
     <div class="card">
@@ -37,7 +105,6 @@
       <ol id="log"></ol>
     </div>
   </div>
-
   <script>
     const rooms = {
       room1: {
@@ -100,6 +167,7 @@
     const promptEl = document.getElementById('prompt');
     const answerEl = document.getElementById('answer');
     const choicesEl = document.getElementById('choices');
+    const envelopeChoicesEl = document.getElementById('envelope-choices');
     const logEl = document.getElementById('log');
 
     function addLog(text) {
@@ -115,15 +183,19 @@
       titleEl.textContent = data.title;
       promptEl.textContent = data.prompt;
       answerEl.value = '';
+      envelopeChoicesEl.innerHTML = '';
       choicesEl.innerHTML = '';
+      envelopeChoicesEl.style.display = 'flex';
+      choicesEl.style.display = 'none';
 
-      data.choices.forEach(choice => {
-        const btn = document.createElement('button');
-        btn.textContent = choice.label;
-        btn.onclick = () => {
+      // Para la visualización en sobres/cartas animadas:
+      data.choices.forEach((choice, idx) => {
+        const envBtn = document.createElement('div');
+        envBtn.className = 'envelope-choice';
+        envBtn.textContent = choice.label;
+        envBtn.onclick = () => {
           const ans = answerEl.value.trim() || '[No sentence entered]';
           addLog(`${data.room}: ${ans}`);
-
           if (choice.ending) {
             const finalEnding = choice.ending === 'Tech Heroes' && Math.random() > 0.6
               ? 'Perfect Escape'
@@ -131,12 +203,15 @@
             showEnding(finalEnding);
             return;
           }
-
           current = choice.next;
           renderRoom();
         };
-        choicesEl.appendChild(btn);
+        envelopeChoicesEl.appendChild(envBtn);
       });
+      // Si solo hay una opción (continuar), igual usar el sobre:
+      if (data.choices.length === 1) {
+        envelopeChoicesEl.firstChild.style.margin = "0 auto";
+      }
     }
 
     function showEnding(ending) {
@@ -144,6 +219,8 @@
       grammarBadge.textContent = 'result';
       titleEl.textContent = `🏁 ${ending}`;
       promptEl.textContent = `You escaped route result: ${ending}. Try again for another ending.`;
+      envelopeChoicesEl.innerHTML = '';
+      envelopeChoicesEl.style.display = 'none';
       choicesEl.innerHTML = '';
 
       const tryBtn = document.createElement('button');
@@ -163,6 +240,8 @@
         promptEl.textContent = `Alternate ending unlocked: ${rnd}`;
       };
       choicesEl.appendChild(randomBtn);
+
+      choicesEl.style.display = "block";
     }
 
     renderRoom();
