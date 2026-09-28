@@ -486,6 +486,174 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid rgba(
   .pit-center-help{display:none}
 }
 
+
+/* ===== THE PIT HUB DASHBOARD REFINEMENT ===== */
+.container{max-width:1180px!important;padding:22px 22px 42px!important}
+.header{
+  display:grid!important;
+  grid-template-columns:1fr auto!important;
+  align-items:center!important;
+  gap:18px!important;
+  padding:18px 20px!important;
+  margin-bottom:16px!important;
+  border:1px solid rgba(226,232,240,.12)!important;
+  border-radius:18px!important;
+  background:linear-gradient(145deg,#142136,#101b2c)!important;
+  box-shadow:0 16px 42px rgba(0,0,0,.18)!important;
+}
+.logo{
+  font-size:clamp(28px,4vw,38px)!important;
+  letter-spacing:.06em!important;
+}
+.header-right{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:8px!important;flex-wrap:wrap!important}
+.header-stat{
+  display:flex!important;
+  align-items:center!important;
+  gap:6px!important;
+  min-height:38px!important;
+  padding:8px 12px!important;
+  border-radius:11px!important;
+  background:#0e1929!important;
+  border:1px solid rgba(255,255,255,.09)!important;
+  color:#8fa1b8!important;
+  font-size:11px!important;
+}
+.header-stat .val{color:#fff!important;font-weight:900!important}
+.exit-btn{
+  min-height:38px!important;
+  padding:8px 13px!important;
+  border-radius:11px!important;
+  border:1px solid rgba(255,255,255,.11)!important;
+  background:#1b2b43!important;
+  color:#d9e3f0!important;
+}
+.exit-btn:hover{background:#243955!important}
+
+.tabs{
+  margin:0 0 18px!important;
+  padding:5px!important;
+  border-radius:14px!important;
+  background:#101c2d!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+}
+.tab{padding:10px 16px!important;border-radius:10px!important}
+.tab.active{background:#1b2b43!important;color:#fff!important;border:1px solid rgba(179,148,255,.22)!important}
+
+.pit-dashboard{
+  display:grid;
+  grid-template-columns:1.55fr repeat(3,minmax(0,.72fr));
+  gap:12px;
+  margin-bottom:14px;
+}
+.pit-hero-card,
+.pit-mini-card{
+  min-height:118px;
+  border-radius:20px;
+  border:1px solid rgba(226,232,240,.11);
+  background:linear-gradient(145deg,#17263d,#121f33);
+  box-shadow:0 14px 34px rgba(0,0,0,.14);
+}
+.pit-hero-card{
+  position:relative;
+  overflow:hidden;
+  padding:22px 24px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.pit-hero-card::after{
+  content:"";
+  position:absolute;
+  width:220px;height:220px;
+  border-radius:50%;
+  right:-80px;top:-95px;
+  background:radial-gradient(circle,rgba(179,148,255,.22),rgba(239,126,184,.08) 52%,transparent 72%);
+}
+.pit-dashboard-kicker{
+  position:relative;z-index:1;
+  color:#a99cff;
+  font:800 10px Orbitron,sans-serif;
+  letter-spacing:.20em;
+  text-transform:uppercase;
+}
+.pit-player-name{
+  position:relative;z-index:1;
+  margin-top:6px;
+  color:#fff;
+  font:900 clamp(24px,3.5vw,38px)/1.08 Orbitron,sans-serif;
+  letter-spacing:.02em;
+}
+.pit-player-sub{
+  position:relative;z-index:1;
+  margin-top:8px;
+  color:#9fb0c5;
+  font-size:12px;
+}
+.pit-mini-card{
+  padding:17px 18px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.pit-mini-label{
+  color:#8395ac;
+  font:800 9px Orbitron,sans-serif;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.pit-mini-value{
+  margin-top:6px;
+  color:#fff;
+  font:900 clamp(22px,3vw,32px) Orbitron,sans-serif;
+}
+.pit-mini-note{
+  margin-top:5px;
+  color:#8fa1b8;
+  font-size:10px;
+}
+.pit-mini-value.gold{color:#ffd877}
+.pit-mini-value.purple{color:#c6b7ff}
+.pit-mini-value.blue{color:#90c5ff}
+
+.global-progress{
+  margin:0 0 22px!important;
+  padding:14px 16px!important;
+  border-radius:15px!important;
+  background:#101c2d!important;
+  border:1px solid rgba(255,255,255,.08)!important;
+}
+.gp-label{margin-bottom:8px!important;color:#9fb0c5!important}
+.gp-bar{height:10px!important;background:#0a1422!important}
+.gp-fill{background:linear-gradient(90deg,#b394ff,#7aa7ff,#6bd6be,#f1c75b,#ef7eb8)!important}
+
+/* hide old banner content because dashboard replaces it */
+.score-banner{display:none!important}
+
+/* central nonagon console button */
+.pit-center-link{cursor:pointer}
+.pit-center-link .pit-center,
+.pit-center-link .pit-center-ring{transition:filter .18s ease,stroke .18s ease}
+.pit-center-link:hover .pit-center,
+.pit-center-link:focus .pit-center{filter:brightness(1.16);stroke:#b394ff}
+.pit-center-link:hover .pit-center-ring,
+.pit-center-link:focus .pit-center-ring{stroke:rgba(179,148,255,.34)}
+.pit-center-link:focus{outline:none}
+.pit-center-help{fill:#b7a9ff!important;font-weight:800!important;letter-spacing:.08em}
+
+@media(max-width:900px){
+  .pit-dashboard{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pit-hero-card{grid-column:1/-1}
+}
+@media(max-width:650px){
+  .header{grid-template-columns:1fr!important}
+  .header-right{justify-content:flex-start!important}
+  .pit-dashboard{grid-template-columns:1fr 1fr}
+}
+@media(max-width:440px){
+  .pit-dashboard{grid-template-columns:1fr}
+  .pit-hero-card{grid-column:auto}
+}
+
 </style>
 </head>
 <body>
@@ -526,18 +694,29 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid rgba(
   <!-- ===== STATIONS VIEW ===== -->
   <div id="view-stations" class="view active">
 
-    <!-- SCORE BANNER -->
-    <div class="score-banner" data-testid="score-banner">
-      <div class="score-main">
-        <div class="score-label">Total Score</div>
-        <div class="score-value" id="totalScore" data-testid="total-score">0</div>
+    <!-- PLAYER DASHBOARD -->
+    <section class="pit-dashboard" aria-label="Player dashboard">
+      <div class="pit-hero-card">
+        <div class="pit-dashboard-kicker">PLAYER PROFILE</div>
+        <div class="pit-player-name" id="playerHeroName">Welcome to THE PIT</div>
+        <div class="pit-player-sub">Choose a station, build your score and unlock achievements.</div>
       </div>
-      <div class="score-details">
-        <div class="score-detail"><div class="num" id="totalSessions" data-testid="total-sessions">0</div><div class="lbl">Sessions</div></div>
-        <div class="score-detail"><div class="num" id="totalAch" data-testid="total-achievements">0</div><div class="lbl">Badges</div></div>
-        <div class="score-detail"><div class="num" id="lastActive" data-testid="last-active">-</div><div class="lbl">Last Active</div></div>
+      <div class="pit-mini-card">
+        <div class="pit-mini-label">Total Score</div>
+        <div class="pit-mini-value gold" id="totalScore" data-testid="total-score">0</div>
+        <div class="pit-mini-note">points earned</div>
       </div>
-    </div>
+      <div class="pit-mini-card">
+        <div class="pit-mini-label">Sessions</div>
+        <div class="pit-mini-value blue" id="totalSessions" data-testid="total-sessions">0</div>
+        <div class="pit-mini-note">completed plays</div>
+      </div>
+      <div class="pit-mini-card">
+        <div class="pit-mini-label">Badges</div>
+        <div class="pit-mini-value purple" id="totalAch" data-testid="total-achievements">0</div>
+        <div class="pit-mini-note"><span id="lastActive" data-testid="last-active">-</span> last active</div>
+      </div>
+    </section>
 
     <!-- GLOBAL PROGRESS -->
     <div class="global-progress">
@@ -603,11 +782,13 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid rgba(
           <text class="pit-sector-score" x="248.9" y="246">Score · <tspan id="sc-grammar">0</tspan></text>
         </a>
 
-        <circle class="pit-center-ring" cx="400" cy="400" r="155"/>
-        <circle class="pit-center" cx="400" cy="400" r="132"/>
-        <text class="pit-center-title" x="400" y="392">THE PIT</text>
-        <text class="pit-center-sub" x="400" y="421">ENGLISH LANGUAGE ARENA</text>
-        <text class="pit-center-help" x="400" y="449">Choose a station</text>
+        <a class="pit-center-link" href="./index.html" aria-label="Back to main console">
+          <circle class="pit-center-ring" cx="400" cy="400" r="155"/>
+          <circle class="pit-center" cx="400" cy="400" r="132"/>
+          <text class="pit-center-title" x="400" y="382">THE PIT</text>
+          <text class="pit-center-sub" x="400" y="412">ENGLISH LANGUAGE ARENA</text>
+          <text class="pit-center-help" x="400" y="444">BACK TO MAIN CONSOLE</text>
+        </a>
       </svg>
     </div>
   </div>
@@ -715,6 +896,8 @@ function loadStats() {
   const player = PIT_SCORE.getPlayer();
 
   document.getElementById('playerDisp').textContent = player.name || '-';
+  const heroName = document.getElementById('playerHeroName');
+  if (heroName) heroName.textContent = player.name ? 'PLAYER · ' + player.name : 'Welcome to THE PIT';
 
   const stationKeys = ['vocabulary','writing','reading','speaking','listening','grammar','games','funnycorner','challenge'];
   stationKeys.forEach(k => {
