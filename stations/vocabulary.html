@@ -193,6 +193,39 @@ img.card-icon {
   background: none;
 }
 
+.card-letter-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 12px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  background: #f3e8ff;
+  border: 2px solid #d8b4fe;
+  color: var(--bg3);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 28px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.sound-btn {
+  margin-top: 12px;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 2px solid #d8b4fe;
+  background: #fff;
+  color: var(--bg3);
+  font-size: 19px;
+  line-height: 1;
+}
+.sound-btn:hover { background: #f3e8ff !important; color: var(--bg3) !important; }
+.sound-btn:focus-visible { outline: 3px solid #7c3aed; outline-offset: 3px; }
+
 .card-word {
   font-size: 22px;
   font-weight: 800;
@@ -1484,6 +1517,55 @@ function shuffle(arr) {
 function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function decode(s) { const t=document.createElement('textarea'); t.innerHTML=s; return t.value; }
 
+// Only show an image when its filename is an exact semantic match for the word.
+// This prevents approximate icons from teaching the wrong association.
+const BROKEN_ICON_ASSETS = new Set([
+  'emotions/calm.svg',
+  'emotions/serious.svg',
+  'emotions/in_love.svg',
+  'emotions/anxious.svg'
+]);
+
+function normaliseMediaKey(value) {
+  return String(value || '')
+    .toLowerCase()
+    .replace(/\.[a-z0-9]+$/i, '')
+    .replace(/^.*\//, '')
+    .replace(/[_-]+/g, ' ')
+    .replace(/[^a-z0-9 ]+/g, '')
+    .trim();
+}
+
+function getVerifiedIcon(word, iconPath) {
+  if (!iconPath || BROKEN_ICON_ASSETS.has(iconPath)) return '';
+  return normaliseMediaKey(word) === normaliseMediaKey(iconPath) ? iconPath : '';
+}
+
+let preferredEnglishVoice = null;
+function resolveEnglishVoice() {
+  const voices = window.speechSynthesis?.getVoices?.() || [];
+  preferredEnglishVoice = voices.find(v => /^en-GB$/i.test(v.lang))
+    || voices.find(v => /^en-(GB|US|AU|IE|CA)/i.test(v.lang))
+    || voices.find(v => /^en/i.test(v.lang))
+    || null;
+}
+if ('speechSynthesis' in window) {
+  resolveEnglishVoice();
+  window.speechSynthesis.onvoiceschanged = resolveEnglishVoice;
+}
+
+function speakWord(text, event) {
+  if (event) { event.preventDefault(); event.stopPropagation(); }
+  if (!('speechSynthesis' in window)) return;
+  const utterance = new SpeechSynthesisUtterance(String(text || ''));
+  utterance.lang = preferredEnglishVoice?.lang || 'en-GB';
+  if (preferredEnglishVoice) utterance.voice = preferredEnglishVoice;
+  utterance.rate = 0.9;
+  utterance.pitch = 1;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utterance);
+}
+
 function flattenVocab(unitF='all', catF='all') {
   const cards = [];
   for (const unit of VOCAB_DB.units) {
@@ -1495,21 +1577,20 @@ function flattenVocab(unitF='all', catF='all') {
           cards.push({ unit: unit.unit, unitTitle: unit.title, setLabel: set.label, category: set.category, color: set.color, front: p.a, back: p.b, pos: 'verb', example: '' });
         });
       } else {
-        const defaultIcon = "default.svg";
-set.items.forEach(i => {
-  cards.push({
-    unit: unit.unit,
-    unitTitle: unit.title,
-    setLabel: set.label,
-    category: set.category,
-    color: set.color,
-    front: i.word,
-    back: '',
-    pos: getPOS(set.category),
-    example: i.example || '',
-    icon: (i.icon && i.icon.length) ? i.icon : defaultIcon
-  });
-});
+        set.items.forEach(i => {
+          cards.push({
+            unit: unit.unit,
+            unitTitle: unit.title,
+            setLabel: set.label,
+            category: set.category,
+            color: set.color,
+            front: i.word,
+            back: '',
+            pos: getPOS(set.category),
+            example: i.example || '',
+            icon: getVerifiedIcon(i.word, i.icon)
+          });
+        });
       }
     }
   }
@@ -1572,9 +1653,10 @@ function renderFlashcards() {
     <div class="card ${flippedSet.has(i)?'flipped':''}" onclick="flipCard(${i})">
       <div class="card-inner">
         <div class="card-face card-front">
-          ${c.icon ? `<img class="card-icon" role="img" src="icons/${c.icon}" alt="${esc(c.front)}">` : `<div class="card-icon" style="background:${c.color}">&#128218;</div>`}
+          ${c.icon ? `<img class="card-icon" src="icons/${c.icon}" alt="${esc(c.front)}" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"><div class="card-letter-icon" style="display:none">${esc(c.front.charAt(0))}</div>` : `<div class="card-letter-icon">${esc(c.front.charAt(0))}</div>`}
           <div class="card-word">${esc(c.front)}</div>
           <div class="card-pos">${esc(c.pos)}</div>
+          <button class="sound-btn" type="button" aria-label="Hear ${esc(c.front)}" title="Hear ${esc(c.front)}" onclick="speakWord(decodeURIComponent('${encodeURIComponent(c.front)}'), event)">&#128264;</button>
         </div>
         <div class="card-face card-back">
           <div class="card-translation">${c.back ? esc(c.back) : esc(c.front)}</div>
