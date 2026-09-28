@@ -427,6 +427,54 @@ button:focus-visible,.topic-card:focus-visible,input:focus-visible{
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 
+
+/* ===== TOPIC ACTIVITY GRADIENTS ===== */
+body{
+  --topic-main:#7a6cf6;
+  --topic-soft:#f0edff;
+  --topic-soft2:#eef4ff;
+}
+body.quiz-active{
+  background:
+    radial-gradient(circle at 14% 8%,color-mix(in srgb,var(--topic-main) 24%,white),transparent 31rem),
+    radial-gradient(circle at 88% 78%,color-mix(in srgb,var(--topic-main) 14%,white),transparent 28rem),
+    linear-gradient(135deg,var(--topic-soft),#f8fafc 48%,var(--topic-soft2))!important;
+}
+body.quiz-active header{
+  background:linear-gradient(135deg,#ffffff 0%,color-mix(in srgb,var(--topic-main) 7%,white) 100%)!important;
+  border-color:color-mix(in srgb,var(--topic-main) 24%,#dfe5ee)!important;
+}
+body.quiz-active header::before{color:var(--topic-main)!important}
+body.quiz-active .hud-item{
+  background:linear-gradient(135deg,#fff,color-mix(in srgb,var(--topic-main) 5%,white))!important;
+  border-color:color-mix(in srgb,var(--topic-main) 18%,#dfe5ee)!important;
+}
+body.quiz-active .main-panel{
+  background:linear-gradient(145deg,#fff 0%,color-mix(in srgb,var(--topic-main) 6%,white) 100%)!important;
+  border-color:color-mix(in srgb,var(--topic-main) 22%,#dfe5ee)!important;
+  box-shadow:0 20px 50px color-mix(in srgb,var(--topic-main) 11%,transparent)!important;
+}
+body.quiz-active .q-card{
+  background:linear-gradient(135deg,color-mix(in srgb,var(--topic-main) 12%,white),#fff 68%)!important;
+  border-color:color-mix(in srgb,var(--topic-main) 24%,#dfe5ee)!important;
+}
+body.quiz-active .q-num{color:var(--topic-main)!important}
+body.quiz-active .pfill{background:linear-gradient(90deg,var(--topic-main),color-mix(in srgb,var(--topic-main) 55%,#ffffff))!important}
+body.quiz-active .opt{
+  border-color:color-mix(in srgb,var(--topic-main) 18%,#dce3ed)!important;
+}
+body.quiz-active .opt:hover:not(:disabled){
+  background:color-mix(in srgb,var(--topic-main) 8%,white)!important;
+  border-color:var(--topic-main)!important;
+}
+body.quiz-active .opt::before{
+  background:color-mix(in srgb,var(--topic-main) 11%,white)!important;
+  color:var(--topic-main)!important;
+}
+body.quiz-active .fb.info{
+  background:color-mix(in srgb,var(--topic-main) 7%,white)!important;
+  color:#58677c!important;
+}
 </style>
 </head>
 <body>
@@ -597,12 +645,17 @@ function startApp(){
 
 function showTopics(){
   closeModal();
+  document.body.classList.remove('quiz-active');
   document.getElementById('topicsView').style.display='block';
   document.getElementById('quizView').style.display='none';
 }
 
 function selectTopic(idx){
   currentTopic=TOPICS[idx];qIdx=0;
+  document.body.classList.add('quiz-active');
+  document.body.style.setProperty('--topic-main', currentTopic.color);
+  document.body.style.setProperty('--topic-soft', 'color-mix(in srgb,'+currentTopic.color+' 16%, white)');
+  document.body.style.setProperty('--topic-soft2', 'color-mix(in srgb,'+currentTopic.color+' 8%, white)');
   document.getElementById('hTopic').textContent=currentTopic.name;
   document.getElementById('topicsView').style.display='none';
   document.getElementById('quizView').style.display='block';
