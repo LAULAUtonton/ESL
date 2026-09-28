@@ -2072,17 +2072,20 @@ window.chooseUnit=function(unitNo){
   document.getElementById('activityMain').classList.remove('active');
   document.getElementById('pickerTitle').textContent='Unit '+u.unit+': '+u.title;
   document.getElementById('pickerMeta').textContent=countWords(u)+' words · choose one activity';
-  const hasPairs=u.sets.some(s=>s.type==='pairs');
   const choices=[
-    ['flashcards','PIC','Pictures & Words','Study the vocabulary with cards, pronunciation and visual support.'],
+    ['flashcards','PIC','Words + Pictures','Word on the front; visual support on the back when available.'],
+    ['meaning','MEAN','Words + Meaning','Word on the front; meaning or contextual definition on the back.'],
+    ['spanish','ES','Words + Spanish','Word on the front; Spanish translation practice on the back.'],
+    ['memory','MAT','Matching','Match vocabulary words with the correct pair or category.'],
     ['sorting','CAT','Categories','Sort vocabulary into the correct topic groups.'],
-    ['memory','MAT','Matching','Match vocabulary words with their categories.'],
-    ['quiz','QUIZ','Quick Quiz','Choose the correct category for each word.'],
-    ['hangman','SPELL','Spelling','Practise spelling by discovering the hidden word.'],
+    ['quiz','QUIZ','Quick Quiz','Choose the correct category or meaning.'],
     ['sentence','SENT','Sentences','Use the vocabulary in complete sentences.'],
-    ['explore','EXP','Explore Vocabulary','See all the vocabulary sets in this unit.']
+    ['hangman','SPELL','Hangman','Practise spelling by discovering the hidden word.'],
+    ['cognates','COG','Cognates','Find useful English–Spanish cognates in this unit.'],
+    ['falsefriends','FF','False Friends','Practise false friends connected with this unit.'],
+    ['synonyms','SYN','Synonyms','Practise words with similar meanings from this unit.'],
+    ['opposites','OPP','Opposites','Practise words with opposite meanings from this unit.']
   ];
-  if(hasPairs) choices.splice(1,0,['opposites','OPP','Opposites','Practise only the opposite or paired vocabulary in this unit.']);
   document.getElementById('activityGrid').innerHTML=choices.map(c=>
     '<button class="activity-choice '+(c[0]==='opposites'?'special':'')+'" onclick="startUnitActivity(\''+c[0]+'\')">'+
     '<span class="activity-code">'+c[1]+'</span><strong>'+c[2]+'</strong><small>'+c[3]+'</small></button>'
@@ -2102,22 +2105,43 @@ window.backToActivities=function(){
   if(selectedConsoleUnit) chooseUnit(selectedConsoleUnit); else backToUnits();
 };
 
+function getPairActivityCards(unitNo, kind){
+  const u=VOCAB_DB.units.find(x=>x.unit===unitNo);
+  if(!u) return [];
+  const out=[];
+  u.sets.filter(s=>s.type==='pairs').forEach(s=>{
+    const label=(s.label||'').toLowerCase();
+    const isOpposite=label.includes('opposite');
+    const include = kind==='opposites' ? isOpposite : !isOpposite;
+    if(!include) return;
+    s.items.forEach(p=>{
+      out.push({
+        unit:u.unit,unitTitle:u.title,setLabel:s.label,category:s.category,color:s.color,
+        front:p.a,back:p.b,pos:kind==='opposites'?'opposite':'synonym',example:''
+      });
+    });
+  });
+  return out;
+}
+
 window.startUnitActivity=function(mode){
-  specialActivity=mode==='opposites'?'opposites':'';
+  specialActivity=['opposites','synonyms','meaning','spanish','cognates','falsefriends'].includes(mode)?mode:'';
   currentUnit=String(selectedConsoleUnit);
   currentCategory='all';
   document.getElementById('unitSelect').value=currentUnit;
   document.getElementById('categorySelect').value='all';
   allCards=flattenVocab(currentUnit,'all');
   currentCards=allCards.slice();
-  if(specialActivity==='opposites'){
-    const u=VOCAB_DB.units.find(x=>x.unit===selectedConsoleUnit);
-    const pairCats=new Set(u.sets.filter(s=>s.type==='pairs').map(s=>s.category));
-    currentCards=currentCards.filter(c=>pairCats.has(c.category));
+
+  if(mode==='opposites' || mode==='synonyms'){
+    currentCards=getPairActivityCards(selectedConsoleUnit,mode);
+    currentMode='flashcards';
+  }else if(mode==='meaning' || mode==='spanish' || mode==='cognates' || mode==='falsefriends'){
     currentMode='flashcards';
   }else{
     currentMode=mode;
   }
+
   flippedSet.clear();
   updateCategorySelect();
   document.getElementById('activityPicker').classList.remove('active');
@@ -2125,6 +2149,10 @@ window.startUnitActivity=function(mode){
   document.getElementById('activityHeader').classList.add('active');
   document.getElementById('activityMain').classList.add('active');
   setMode(currentMode);
+  if((mode==='opposites'||mode==='synonyms') && currentCards.length===0){
+    const grid=document.getElementById('grid');
+    grid.innerHTML='<div style="grid-column:1/-1;background:white;border-radius:18px;padding:28px;text-align:center;color:#4b5563"><strong style="display:block;color:#581c87;font-size:18px;margin-bottom:8px">No dedicated '+(mode==='opposites'?'opposite':'synonym')+' pairs in this unit yet.</strong><span>Choose another activity for this unit.</span></div>';
+  }
 };
 
 // START
