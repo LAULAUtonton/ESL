@@ -140,3 +140,54 @@ const PIT_SCORE = {
 if (typeof module !== 'undefined') {
   module.exports = PIT_SCORE;
 }
+
+
+/* 2026 centered nonagon hub enhancement */
+(function(){
+  function buildNonagonHub(){
+    const view=document.getElementById('view-stations');
+    if(!view || view.dataset.nonagonReady==='1') return;
+    const grids=[...view.querySelectorAll('.stations-grid')];
+    const cards=grids.flatMap(g=>[...g.querySelectorAll('.station-card')]);
+    if(cards.length!==9) return;
+
+    const arena=document.createElement('div');
+    arena.className='pit-arena';
+    arena.setAttribute('data-testid','nonagon-hub');
+
+    const core=document.createElement('div');
+    core.className='pit-core';
+    core.innerHTML='<div><strong id="pitCoreScore">0</strong><span>Total Score</span><small><b id="pitCoreVisited">0</b> / 9 stations visited</small></div>';
+    arena.appendChild(core);
+
+    cards.forEach((card,i)=>{
+      card.classList.add('s'+(i+1));
+      arena.appendChild(card);
+    });
+
+    const firstGrid=grids[0];
+    firstGrid.parentNode.insertBefore(arena,firstGrid);
+    grids.forEach(g=>g.remove());
+    [...view.querySelectorAll('.section-title')].forEach(t=>t.remove());
+
+    const banner=view.querySelector('.score-banner');
+    const progress=view.querySelector('.global-progress');
+    if(banner) banner.style.display='none';
+    if(progress) progress.style.maxWidth='760px',progress.style.margin='0 auto 26px';
+
+    function syncCore(){
+      const total=document.getElementById('totalScore');
+      const visited=document.getElementById('stationsVisited');
+      const cScore=document.getElementById('pitCoreScore');
+      const cVisited=document.getElementById('pitCoreVisited');
+      if(total&&cScore) cScore.textContent=total.textContent;
+      if(visited&&cVisited) cVisited.textContent=visited.textContent;
+    }
+    syncCore();
+    new MutationObserver(syncCore).observe(view,{subtree:true,characterData:true,childList:true});
+    view.dataset.nonagonReady='1';
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',buildNonagonHub);
+  else buildNonagonHub();
+})();
