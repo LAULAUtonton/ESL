@@ -1677,9 +1677,60 @@ function normaliseMediaKey(value) {
     .trim();
 }
 
+const VERIFIED_ICON_MANIFEST = Object.freeze({
+  "happy": "emotions/happy.svg",
+  "sad": "emotions/sad.svg",
+  "scared": "emotions/scared.svg",
+  "surprised": "emotions/surprised.svg",
+  "excited": "emotions/excited.svg",
+  "worried": "emotions/worried.svg",
+  "relaxed": "emotions/relaxed.svg",
+  "angry": "emotions/angry.svg",
+  "nervous": "emotions/nervous.svg",
+  "confused": "emotions/confused.svg",
+  "cardboard": "materials/cardboard.svg",
+  "glass": "materials/glass.svg",
+  "leather": "materials/leather.svg",
+  "metal": "materials/metal.svg",
+  "plastic": "materials/plastic.svg",
+  "wool": "materials/wool.svg",
+  "painting": "activities/painting.svg",
+  "artist": "jobs/artist.svg",
+  "cycling": "activities/cycling.svg",
+  "jogging": "activities/jogging.svg",
+  "rowing": "activities/rowing.svg",
+  "kind": "personality/kind.svg",
+  "generous": "personality/generous.svg",
+  "patient": "emotions/patient.svg",
+  "polite": "personality/polite.svg",
+  "confident": "personality/confident.svg",
+  "helpful": "personality/helpful.svg",
+  "hardworking": "personality/hardworking.svg",
+  "lazy": "emotions/lazy.svg",
+  "mean": "personality/mean.svg",
+  "rude": "personality/rude.svg",
+  "impatient": "personality/impatient.svg",
+  "stretch": "activities/stretch.svg",
+  "train": "activities/train.svg",
+  "doctor": "jobs/doctor.svg",
+  "nurse": "jobs/nurse.svg",
+  "teacher": "jobs/teacher.svg",
+  "lawyer": "jobs/lawyer.svg",
+  "chef": "jobs/chef.svg",
+  "firefighter": "jobs/firefighter.svg",
+  "programmer": "jobs/programmer.svg",
+  "vet": "jobs/vet.svg",
+  "architect": "jobs/architect.svg",
+  "electrician": "jobs/electrician.svg"
+});
+
 function getVerifiedIcon(word, iconPath) {
-  if (!iconPath || BROKEN_ICON_ASSETS.has(iconPath)) return '';
-  return normaliseMediaKey(word) === normaliseMediaKey(iconPath) ? iconPath : '';
+  // 1) Honour an explicitly assigned asset only when it is an exact match.
+  if (iconPath && !BROKEN_ICON_ASSETS.has(iconPath) && normaliseMediaKey(word) === normaliseMediaKey(iconPath)) {
+    return iconPath;
+  }
+  // 2) Otherwise use the verified manifest of existing exact-name assets.
+  return VERIFIED_ICON_MANIFEST[word] || '';
 }
 
 let preferredEnglishVoice = null;
