@@ -455,73 +455,18 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid rgba(
       <div class="gp-bar"><div class="gp-fill" id="gpFill" data-testid="progress-fill"></div></div>
     </div>
 
-    <!-- CORE STATIONS -->
-    <div class="section-title">Core Stations</div>
-    <div class="stations-grid" data-testid="core-stations">
-      <a href="./stations/vocabulary.html" class="station-card" data-color="purple" data-testid="station-vocabulary">
-        <div class="station-icon">Aa</div>
-        <div class="station-name">Vocabulary</div>
-        <div class="station-desc">336 words, 8 units. Flashcards, sorting, quizzes, hangman and more.</div>
-        <div class="station-score">Score: <span id="sc-vocabulary">0</span></div>
-      </a>
-      <a href="./stations/writing.html" class="station-card" data-color="teal" data-testid="station-writing">
-        <div class="station-icon">Wr</div>
-        <div class="station-name">Writing</div>
-        <div class="station-desc">Practice writing with grammar tools and 6 creative modes.</div>
-        <div class="station-score">Score: <span id="sc-writing">0</span></div>
-      </a>
-      <a href="./stations/reading.html" class="station-card" data-color="green" data-testid="station-reading">
-        <div class="station-icon">Rd</div>
-        <div class="station-name">Reading</div>
-        <div class="station-desc">24 texts with manga illustrations and comprehension modes.</div>
-        <div class="station-score">Score: <span id="sc-reading">0</span></div>
-      </a>
-      <a href="./stations/speaking.html" class="station-card" data-color="blue" data-testid="station-speaking">
-        <div class="station-icon">Sp</div>
-        <div class="station-name">Speaking</div>
-        <div class="station-desc">16 dialogues with role play, listen & repeat, fill the gap.</div>
-        <div class="station-score">Score: <span id="sc-speaking">0</span></div>
-      </a>
-      <a href="./stations/listening.html" class="station-card" data-color="orange" data-testid="station-listening">
-        <div class="station-icon">Li</div>
-        <div class="station-name">Listening</div>
-        <div class="station-desc">16 audio exercises. Comprehension, dictation, note-taking.</div>
-        <div class="station-score">Score: <span id="sc-listening">0</span></div>
-      </a>
-    </div>
-
-    <!-- FUN STATIONS -->
-    <div class="section-title">Fun Stations</div>
-    <div class="stations-grid" data-testid="fun-stations">
-      <a href="./stations/funnycorner.html" class="station-card" data-color="pink" data-testid="station-funnycorner">
-        <div class="station-icon">Ha</div>
-        <div class="station-name">The Funny Corner</div>
-        <div class="station-desc">25 idioms & expressions. Guess, match, and listen challenges.</div>
-        <div class="station-score">Score: <span id="sc-funnycorner">0</span></div>
-      </a>
-      <a href="./stations/games.html" class="station-card" data-color="red" data-testid="station-games">
-        <div class="station-icon">Gm</div>
-        <div class="station-name">Games</div>
-        <div class="station-desc">Fun language games to test your skills and compete.</div>
-        <div class="station-score">Score: <span id="sc-games">0</span></div>
-      </a>
-      <a href="./stations/challenge.html" class="station-card" data-color="red" data-testid="station-challenge">
-        <div class="station-icon" style="background:rgba(239,68,68,.15);color:#f87171">Ch</div>
-        <div class="station-name">Challenge</div>
-        <div class="station-desc">Karaoke, tongue twisters, Who Am I, multi-skill blitz.</div>
-        <div class="station-score">Score: <span id="sc-challenge">0</span></div>
-      </a>
-    </div>
-
-    <!-- GRAMMAR -->
-    <div class="section-title">Grammar Practice</div>
-    <div class="stations-grid" data-testid="grammar-stations">
-      <a href="./stations/grammar.html" class="station-card" data-color="gray" data-testid="station-grammar">
-        <div class="station-icon">Gr</div>
-        <div class="station-name">Grammar</div>
-        <div class="station-desc">6 topics: To Be, Pronouns, Tenses, Question Words, Past Simple, Comparatives.</div>
-        <div class="station-score">Score: <span id="sc-grammar">0</span></div>
-      </a>
+    <div class="arena-label">Nine stations · one arena</div>
+    <div class="pit-arena" data-testid="pit-nonagon">
+      <div class="pit-core"><div><strong>THE PIT</strong><span>ENGLISH LANGUAGE ARENA</span><small>Choose a station</small></div></div>
+      <a class="pit-node n1" href="./stations/vocabulary.html"><b>01 · Aa</b><strong>Vocabulary</strong><small>Score · <span id="sc-vocabulary">0</span></small></a>
+      <a class="pit-node n2" href="./stations/writing.html"><b>02 · Wr</b><strong>Writing</strong><small>Score · <span id="sc-writing">0</span></small></a>
+      <a class="pit-node n3" href="./stations/reading.html"><b>03 · Rd</b><strong>Reading</strong><small>Score · <span id="sc-reading">0</span></small></a>
+      <a class="pit-node n4" href="./stations/speaking.html"><b>04 · Sp</b><strong>Speaking</strong><small>Score · <span id="sc-speaking">0</span></small></a>
+      <a class="pit-node n5" href="./stations/listening.html"><b>05 · Li</b><strong>Listening</strong><small>Score · <span id="sc-listening">0</span></small></a>
+      <a class="pit-node n6" href="./stations/funnycorner.html"><b>06 · Ha</b><strong>Funny Corner</strong><small>Score · <span id="sc-funnycorner">0</span></small></a>
+      <a class="pit-node n7" href="./stations/games.html"><b>07 · Gm</b><strong>Games</strong><small>Score · <span id="sc-games">0</span></small></a>
+      <a class="pit-node n8" href="./stations/challenge.html"><b>08 · Ch</b><strong>Challenge</strong><small>Score · <span id="sc-challenge">0</span></small></a>
+      <a class="pit-node n9" href="./stations/grammar.html"><b>09 · Gr</b><strong>Grammar</strong><small>Score · <span id="sc-grammar">0</span></small></a>
     </div>
   </div>
 
