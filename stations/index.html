@@ -353,6 +353,10 @@ body{
   .tab{white-space:nowrap;flex:0 0 auto;padding:10px 14px}
   .lb-table{font-size:12px}
 }
+
+/* ===== 2026 readability & accessibility refinement ===== */
+:root{color-scheme:dark;--pit-bg:#111827;--pit-text:#f8fafc;--pit-muted:#b8c4d6;--pit-subtle:#94a3b8;--pit-border:rgba(203,213,225,.16);--pit-focus:#c4b5fd}
+body{background:radial-gradient(circle at 15% 10%,rgba(124,58,237,.13),transparent 34rem),radial-gradient(circle at 85% 75%,rgba(37,99,235,.10),transparent 32rem),var(--pit-bg);color:var(--pit-text);line-height:1.5}.bg-glow{opacity:.72}.bg-grid{opacity:.45}.login-overlay{background:rgba(11,18,32,.92);padding:20px}.login-box{background:linear-gradient(145deg,rgba(31,42,64,.98),rgba(19,29,48,.98));border-color:rgba(167,139,250,.38)}.login-box p{color:#cbd5e1;font-size:15px}.login-input{background:rgba(15,23,42,.82);border-color:rgba(196,181,253,.46);color:#fff}.login-input::placeholder{color:#94a3b8}.header-stat,.tabs,.station-card,.lb-panel,.share-section,.ach-badge{border-color:var(--pit-border)}.header-stat{background:rgba(30,41,59,.74);color:#cbd5e1}.tab{color:#a8b5c8}.score-label,.gp-label,.station-desc,.share-label{color:var(--pit-muted)}.score-detail .lbl,.station-score,.section-title,.lb-table th,.lb-date,.lb-empty,#importMsg{color:var(--pit-subtle)}.station-card{background:rgba(30,41,59,.72)}.station-card:hover{background:rgba(39,52,75,.92);border-color:rgba(226,232,240,.24)}.station-desc{font-size:12px;line-height:1.55}.station-score{font-size:12px}.lb-panel,.share-section{background:rgba(30,41,59,.64)}.share-input{background:rgba(15,23,42,.72);border-color:rgba(203,213,225,.2)}button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--pit-focus);outline-offset:3px}@media(max-width:430px){.stations-grid{grid-template-columns:1fr}.header-right{justify-content:center}.score-banner{padding:18px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -414,31 +418,31 @@ body{
     <!-- CORE STATIONS -->
     <div class="section-title">Core Stations</div>
     <div class="stations-grid" data-testid="core-stations">
-      <a href="./stations/vocabulary.html" class="station-card" data-color="purple" data-testid="station-vocabulary">
+      <a href="./vocabulary.html" class="station-card" data-color="purple" data-testid="station-vocabulary">
         <div class="station-icon">Aa</div>
         <div class="station-name">Vocabulary</div>
         <div class="station-desc">336 words, 8 units. Flashcards, sorting, quizzes, hangman and more.</div>
         <div class="station-score">Score: <span id="sc-vocabulary">0</span></div>
       </a>
-      <a href="./stations/writing.html" class="station-card" data-color="teal" data-testid="station-writing">
+      <a href="./writing.html" class="station-card" data-color="teal" data-testid="station-writing">
         <div class="station-icon">Wr</div>
         <div class="station-name">Writing</div>
         <div class="station-desc">Practice writing with grammar tools and 6 creative modes.</div>
         <div class="station-score">Score: <span id="sc-writing">0</span></div>
       </a>
-      <a href="./stations/reading.html" class="station-card" data-color="green" data-testid="station-reading">
+      <a href="./reading.html" class="station-card" data-color="green" data-testid="station-reading">
         <div class="station-icon">Rd</div>
         <div class="station-name">Reading</div>
         <div class="station-desc">24 texts with manga illustrations and comprehension modes.</div>
         <div class="station-score">Score: <span id="sc-reading">0</span></div>
       </a>
-      <a href="./stations/speaking.html" class="station-card" data-color="blue" data-testid="station-speaking">
+      <a href="./speaking.html" class="station-card" data-color="blue" data-testid="station-speaking">
         <div class="station-icon">Sp</div>
         <div class="station-name">Speaking</div>
         <div class="station-desc">16 dialogues with role play, listen & repeat, fill the gap.</div>
         <div class="station-score">Score: <span id="sc-speaking">0</span></div>
       </a>
-      <a href="./stations/listening.html" class="station-card" data-color="orange" data-testid="station-listening">
+      <a href="./listening.html" class="station-card" data-color="orange" data-testid="station-listening">
         <div class="station-icon">Li</div>
         <div class="station-name">Listening</div>
         <div class="station-desc">16 audio exercises. Comprehension, dictation, note-taking.</div>
@@ -449,19 +453,19 @@ body{
     <!-- FUN STATIONS -->
     <div class="section-title">Fun Stations</div>
     <div class="stations-grid" data-testid="fun-stations">
-      <a href="./stations/funnycorner.html" class="station-card" data-color="pink" data-testid="station-funnycorner">
+      <a href="./funnycorner.html" class="station-card" data-color="pink" data-testid="station-funnycorner">
         <div class="station-icon">Ha</div>
         <div class="station-name">The Funny Corner</div>
         <div class="station-desc">25 idioms & expressions. Guess, match, and listen challenges.</div>
         <div class="station-score">Score: <span id="sc-funnycorner">0</span></div>
       </a>
-      <a href="./stations/games.html" class="station-card" data-color="red" data-testid="station-games">
+      <a href="./games.html" class="station-card" data-color="red" data-testid="station-games">
         <div class="station-icon">Gm</div>
         <div class="station-name">Games</div>
         <div class="station-desc">Fun language games to test your skills and compete.</div>
         <div class="station-score">Score: <span id="sc-games">0</span></div>
       </a>
-      <a href="./stations/challenge.html" class="station-card" data-color="red" data-testid="station-challenge">
+      <a href="./challenge.html" class="station-card" data-color="red" data-testid="station-challenge">
         <div class="station-icon" style="background:rgba(239,68,68,.15);color:#f87171">Ch</div>
         <div class="station-name">Challenge</div>
         <div class="station-desc">Karaoke, tongue twisters, Who Am I, multi-skill blitz.</div>
@@ -472,7 +476,7 @@ body{
     <!-- GRAMMAR -->
     <div class="section-title">Grammar Practice</div>
     <div class="stations-grid" data-testid="grammar-stations">
-      <a href="./stations/grammar.html" class="station-card" data-color="gray" data-testid="station-grammar">
+      <a href="./grammar.html" class="station-card" data-color="gray" data-testid="station-grammar">
         <div class="station-icon">Gr</div>
         <div class="station-name">Grammar</div>
         <div class="station-desc">6 topics: To Be, Pronouns, Tenses, Question Words, Past Simple, Comparatives.</div>
@@ -544,7 +548,7 @@ body{
 <!-- TOAST -->
 <div class="toast" id="toast" data-testid="toast"></div>
 
-<script src="./stations/pit-score.js"></script>
+<script src="./pit-score.js"></script>
 <script>
 const ACHIEVEMENTS = [
   {id:'first_100',name:'First Steps',desc:'Score 100 points',icon:'&#9733;'},
