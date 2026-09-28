@@ -765,6 +765,42 @@ img.card-icon {
 .picture-placeholder{width:128px;height:128px;border-radius:24px;display:grid;place-items:center;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.28);font:900 48px Orbitron,sans-serif;color:#fff}
 .meaning-back{font-size:15px;line-height:1.6;max-width:210px}
 .spanish-back{font-size:27px;font-weight:900;line-height:1.2;margin-bottom:10px}
+
+/* ===== UNIT VOCABULARY PAGE VISUAL ===== */
+.unit-visual{
+  --unit:#8b5cf6;
+  position:relative;
+  min-height:210px;
+  margin-bottom:18px;
+  padding:24px;
+  border-radius:22px;
+  overflow:hidden;
+  color:#fff;
+  background:
+    radial-gradient(circle at 82% 24%,rgba(255,255,255,.22),transparent 18rem),
+    linear-gradient(135deg,var(--unit),color-mix(in srgb,var(--unit) 58%,#24113b));
+  box-shadow:0 18px 44px color-mix(in srgb,var(--unit) 24%,transparent);
+}
+.unit-visual::after{
+  content:"";
+  position:absolute;
+  right:-35px;bottom:-55px;
+  width:230px;height:230px;border-radius:50%;
+  border:34px solid rgba(255,255,255,.08);
+}
+.unit-visual-kicker{font:800 9px Orbitron,sans-serif;letter-spacing:.18em;opacity:.82}
+.unit-visual h2{position:relative;z-index:1;margin:18px 0 9px;font:900 clamp(27px,4vw,42px)/1.05 Orbitron,sans-serif}
+.unit-visual p{position:relative;z-index:1;max-width:620px;margin:0;color:rgba(255,255,255,.88);font-size:13px;line-height:1.6}
+.unit-visual-mosaic{position:absolute;right:24px;top:50%;transform:translateY(-50%);display:grid;grid-template-columns:repeat(2,70px);gap:10px;z-index:1}
+.unit-visual-chip{height:70px;border-radius:18px;display:grid;place-items:center;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.20);font-size:28px}
+.lexical-panel{grid-column:1/-1;background:#fff;border-radius:20px;padding:24px;box-shadow:0 16px 38px rgba(70,35,105,.12)}
+.lexical-panel h3{margin:0 0 8px;color:#581c87;font:900 20px Orbitron,sans-serif}
+.lexical-panel p{margin:0 0 18px;color:#6b7280;font-size:13px}
+.lexical-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.lexical-card{padding:16px;border-radius:14px;background:linear-gradient(145deg,#faf7ff,#f4edff);border:1px solid #e6d9f5}
+.lexical-card strong{display:block;color:#3b175c;font-size:15px}
+.lexical-card span{display:block;margin-top:6px;color:#6b7280;font-size:12px;line-height:1.5}
+@media(max-width:720px){.unit-visual-mosaic{display:none}.lexical-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -790,6 +826,12 @@ img.card-icon {
           <div class="activity-picker-meta" id="pickerMeta"></div>
         </div>
         <button onclick="backToUnits()">BACK TO UNITS</button>
+      </div>
+      <div class="unit-visual" id="unitVisual">
+        <div class="unit-visual-kicker" id="unitVisualKicker">UNIT</div>
+        <h2 id="unitVisualTitle">Vocabulary</h2>
+        <p id="unitVisualText"></p>
+        <div class="unit-visual-mosaic" id="unitVisualMosaic"></div>
       </div>
       <div class="activity-grid" id="activityGrid"></div>
     </div>
@@ -1771,6 +1813,57 @@ const SPANISH_TRANSLATIONS = {
 "look after":"cuidar","take care of":"cuidar de","give up":"rendirse / dejar","stop trying":"dejar de intentarlo","carry on":"continuar","continue":"continuar","find out":"averiguar","discover":"descubrir","set up":"establecer / montar","establish":"establecer","take part":"participar","participate":"participar","look for":"buscar","search":"buscar","put off":"posponer","postpone":"posponer","turn down":"rechazar","exercise/solve":"hacer ejercicio / resolver"
 };
 
+const UNIT_LEXICAL_SUPPORT = {
+  1:{
+    cognates:[['recently','recientemente'],['connect','conectar'],['disconnect','desconectar']],
+    falseFriends:[['actually','en realidad (not actualmente)'],['remember','recordar (not recordar = record)']],
+    synonyms:[['start','begin'],['finish','end'],['happy','glad']],
+    opposites:[['agree','disagree'],['appear','disappear'],['buy','sell'],['lose','win'],['save','spend'],['remember','forget'],['start','finish'],['arrive','leave'],['allow','forbid'],['accept','refuse'],['succeed','fail']]
+  },
+  2:{
+    cognates:[['artist','artista'],['designer','diseñador'],['sculpture','escultura'],['photography','fotografía'],['plastic','plástico'],['metal','metal']],
+    falseFriends:[['fabric','tela (not fábrica)']],
+    synonyms:[['create','make'],['draw','sketch']],
+    opposites:[['bright','dark']]
+  },
+  3:{
+    cognates:[['nature','naturaleza'],['climate','clima'],['conservation','conservación'],['sustainable','sostenible']],
+    falseFriends:[['actually','en realidad']],
+    synonyms:[['trail','path'],['coast','shore']],
+    opposites:[['pollution','clean environment']]
+  },
+  4:{
+    cognates:[['generous','generoso'],['patient','paciente'],['honest','honesto'],['cooperate','cooperar'],['contribute','contribuir']],
+    falseFriends:[['assist','ayudar (not asistir)']],
+    synonyms:[['kind','caring'],['helpful','supportive'],['reliable','dependable']],
+    opposites:[['kind','mean'],['patient','impatient'],['polite','rude'],['honest','dishonest'],['friendly','unfriendly'],['hardworking','lazy']]
+  },
+  5:{
+    cognates:[['competition','competición'],['player','jugador'],['challenge','reto']],
+    falseFriends:[['competition','competición (not competencia as ability)']],
+    synonyms:[['winner','champion'],['rules','instructions']],
+    opposites:[['winner','loser'],['loud','quiet'],['bright','dark'],['soft','hard'],['smooth','rough'],['sweet','sour']]
+  },
+  6:{
+    cognates:[['muscles','músculos'],['nutrition','nutrición'],['energy','energía'],['flexibility','flexibilidad']],
+    falseFriends:[['injury','lesión (not injuria)']],
+    synonyms:[['fit','healthy'],['rest','relax']],
+    opposites:[['healthy','unhealthy'],['strong','weak']]
+  },
+  7:{
+    cognates:[['organise','organizar'],['communicate','comunicar'],['prioritise','priorizar']],
+    falseFriends:[['actually','en realidad']],
+    synonyms:[['repair','fix'],['plan','organise'],['continue','carry on'],['participate','take part']],
+    opposites:[['continue','stop'],['accept','refuse']]
+  },
+  8:{
+    cognates:[['doctor','doctor'],['engineer','ingeniero'],['architect','arquitecto'],['journalist','periodista'],['presentation','presentación'],['celebration','celebración']],
+    falseFriends:[['career','carrera profesional (not carrera universitaria only)']],
+    synonyms:[['holiday','vacation'],['relax','rest'],['achievement','success']],
+    opposites:[['winner','loser']]
+  }
+};
+
 function getSpanish(word){
   return SPANISH_TRANSLATIONS[String(word||'').toLowerCase()] || 'Translation not added yet';
 }
@@ -2155,6 +2248,13 @@ window.chooseUnit=function(unitNo){
   document.getElementById('activityMain').classList.remove('active');
   document.getElementById('pickerTitle').textContent='Unit '+u.unit+': '+u.title;
   document.getElementById('pickerMeta').textContent=countWords(u)+' words · choose one activity';
+  const palette=['#7c3aed','#8b5cf6','#16a34a','#0f9f8e','#e08417','#ef4f91','#2878dc','#b3275c'];
+  const visual=document.getElementById('unitVisual');
+  visual.style.setProperty('--unit',palette[(u.unit-1)%palette.length]);
+  document.getElementById('unitVisualKicker').textContent='UNIT '+String(u.unit).padStart(2,'0')+' · VOCABULARY';
+  document.getElementById('unitVisualTitle').textContent=u.title;
+  document.getElementById('unitVisualText').textContent=u.sets.map(s=>s.label).join(' · ');
+  document.getElementById('unitVisualMosaic').innerHTML=u.sets.slice(0,4).map(s=>'<div class="unit-visual-chip">'+decode(s.emoji||'&#8226;')+'</div>').join('');
   const choices=[
     ['flashcards','PIC','Words + Pictures','Word on the front; visual support on the back when available.'],
     ['meaning','MEAN','Words + Meaning','Word on the front; meaning or contextual definition on the back.'],
@@ -2207,6 +2307,27 @@ function getPairActivityCards(unitNo, kind){
   return out;
 }
 
+function renderLexicalActivity(mode){
+  const support=UNIT_LEXICAL_SUPPORT[selectedConsoleUnit]||{};
+  const map={cognates:'Cognates',falsefriends:'False Friends',synonyms:'Synonyms',opposites:'Opposites'};
+  const key=mode==='falsefriends'?'falseFriends':mode;
+  const items=support[key]||[];
+  const grid=document.getElementById('grid');
+  const banner=document.getElementById('activityModeBanner');
+  if(banner){
+    banner.classList.add('active');
+    document.getElementById('activityModeTitle').textContent=(map[mode]||mode).toUpperCase();
+    document.getElementById('activityModeHelp').textContent='Unit '+selectedConsoleUnit+' · '+(map[mode]||mode);
+  }
+  if(!items.length){
+    grid.innerHTML='<div class="lexical-panel"><h3>'+map[mode]+'</h3><p>No dedicated items have been added for this unit yet.</p></div>';
+    return;
+  }
+  grid.innerHTML='<div class="lexical-panel"><h3>'+map[mode]+'</h3><p>Vocabulary relationships for this unit.</p><div class="lexical-grid">'+
+    items.map(x=>'<div class="lexical-card"><strong>'+esc(x[0])+'</strong><span>'+esc(x[1])+'</span></div>').join('')+
+    '</div></div>';
+}
+
 window.startUnitActivity=function(mode){
   specialActivity=['opposites','synonyms','meaning','spanish','cognates','falsefriends'].includes(mode)?mode:'';
   currentUnit=String(selectedConsoleUnit);
@@ -2216,10 +2337,9 @@ window.startUnitActivity=function(mode){
   allCards=flattenVocab(currentUnit,'all');
   currentCards=allCards.slice();
 
-  if(mode==='opposites' || mode==='synonyms'){
-    currentCards=getPairActivityCards(selectedConsoleUnit,mode);
+  if(mode==='opposites' || mode==='synonyms' || mode==='cognates' || mode==='falsefriends'){
     currentMode='flashcards';
-  }else if(mode==='meaning' || mode==='spanish' || mode==='cognates' || mode==='falsefriends'){
+  }else if(mode==='meaning' || mode==='spanish'){
     currentMode='flashcards';
   }else{
     currentMode=mode;
@@ -2232,9 +2352,8 @@ window.startUnitActivity=function(mode){
   document.getElementById('activityHeader').classList.add('active');
   document.getElementById('activityMain').classList.add('active');
   setMode(currentMode);
-  if((mode==='opposites'||mode==='synonyms') && currentCards.length===0){
-    const grid=document.getElementById('grid');
-    grid.innerHTML='<div style="grid-column:1/-1;background:white;border-radius:18px;padding:28px;text-align:center;color:#4b5563"><strong style="display:block;color:#581c87;font-size:18px;margin-bottom:8px">No dedicated '+(mode==='opposites'?'opposite':'synonym')+' pairs in this unit yet.</strong><span>Choose another activity for this unit.</span></div>';
+  if(['opposites','synonyms','cognates','falsefriends'].includes(mode)){
+    renderLexicalActivity(mode);
   }
 };
 
