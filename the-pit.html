@@ -385,115 +385,105 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid rgba(
 /* ===== PIT NONAGON HUB ===== */
 .arena-label{
   text-align:center;
-  margin:10px 0 18px;
+  margin:10px 0 14px;
   font:800 11px Orbitron,sans-serif;
   letter-spacing:.24em;
   color:#9fb0c5;
   text-transform:uppercase;
 }
 .pit-arena{
-  position:relative;
-  width:min(720px,84vw);
-  aspect-ratio:1;
-  margin:0 auto 42px;
+  width:min(760px,92vw);
+  margin:0 auto 36px;
 }
-.pit-arena::before{
-  content:"";
-  position:absolute;
-  inset:11%;
-  clip-path:polygon(50% 0%,82.14% 11.7%,99.24% 41.32%,93.3% 75%,67.1% 96.98%,32.9% 96.98%,6.7% 75%,.76% 41.32%,17.86% 11.7%);
-  background:linear-gradient(145deg,rgba(179,148,255,.10),rgba(80,110,170,.03));
-  outline:1px solid rgba(255,255,255,.13);
-  filter:drop-shadow(0 18px 34px rgba(0,0,0,.28));
-}
-.pit-arena::after{
-  content:"";
-  position:absolute;
-  inset:28%;
-  border:1px dashed rgba(203,213,225,.11);
-  border-radius:50%;
-}
-.pit-core{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  z-index:2;
-  width:188px;
-  aspect-ratio:1;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  text-align:center;
-  padding:20px;
-  background:radial-gradient(circle at 35% 30%,#263a59,#111c2d 72%);
-  border:1px solid rgba(226,232,240,.18);
-  box-shadow:0 18px 48px rgba(0,0,0,.32),0 0 42px rgba(179,148,255,.10);
-}
-.pit-core strong{display:block;font:900 30px/1 Orbitron,sans-serif;letter-spacing:.06em;color:#fff}
-.pit-core span{display:block;margin-top:7px;font:700 8px/1.45 Orbitron,sans-serif;letter-spacing:.17em;color:#b8c6d8}
-.pit-core small{display:block;margin-top:11px;color:#8fa0b6;font-size:10px;font-weight:700}
-.pit-node{
-  position:absolute;
-  z-index:3;
-  width:158px;
-  min-height:84px;
-  transform:translate(-50%,-50%);
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:flex-start;
-  padding:12px 14px;
-  border-radius:16px;
-  color:#fff!important;
-  text-decoration:none!important;
-  border:1px solid rgba(255,255,255,.24);
-  box-shadow:0 14px 32px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.16);
-  transition:transform .18s ease,filter .18s ease,box-shadow .18s ease;
-}
-.pit-node:hover,.pit-node:focus-visible{
-  transform:translate(-50%,-50%) scale(1.06);
-  filter:brightness(1.08);
-  box-shadow:0 20px 42px rgba(0,0,0,.38);
-  outline:none;
-}
-.pit-node b{
+.pit-map{
   display:block;
-  margin-bottom:4px;
-  font:800 9px Orbitron,sans-serif;
-  letter-spacing:.15em;
-  color:rgba(255,255,255,.78);
+  width:100%;
+  height:auto;
+  filter:drop-shadow(0 22px 42px rgba(0,0,0,.28));
 }
-.pit-node strong{
-  display:block;
-  font-size:16px;
-  line-height:1.15;
-  color:#fff;
+.pit-sector{
+  stroke:#0e1726;
+  stroke-width:8;
+  stroke-linejoin:round;
+  transition:filter .18s ease,opacity .18s ease;
+  cursor:pointer;
 }
-.pit-node small{
-  display:block;
-  margin-top:5px;
+.pit-sector-link:hover .pit-sector,
+.pit-sector-link:focus .pit-sector{
+  filter:brightness(1.12);
+}
+.pit-sector-link:focus{outline:none}
+.pit-sector-label{
+  fill:#fff;
+  text-anchor:middle;
+  pointer-events:none;
+  font-family:Inter,system-ui,sans-serif;
+  font-size:18px;
+  font-weight:800;
+}
+.pit-sector-code{
+  fill:rgba(255,255,255,.78);
+  text-anchor:middle;
+  pointer-events:none;
+  font-family:Orbitron,Inter,sans-serif;
   font-size:10px;
-  color:rgba(255,255,255,.78);
+  font-weight:800;
+  letter-spacing:1.5px;
 }
-.pit-node small span{color:#fff;font-weight:900}
-.n1{left:50%;top:8%;background:#7c3aed}
-.n2{left:78%;top:18%;background:#0f9f8e}
-.n3{left:92%;top:43%;background:#22a447}
-.n4{left:86%;top:71%;background:#2f7bdc}
-.n5{left:64%;top:89%;background:#d78b09}
-.n6{left:36%;top:89%;background:#d9438c}
-.n7{left:14%;top:71%;background:#d94848}
-.n8{left:8%;top:43%;background:#b62f63}
-.n9{left:22%;top:18%;background:#596579}
-@media(max-width:820px){
-  .pit-arena{width:100%;aspect-ratio:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0 34px}
-  .pit-arena::before,.pit-arena::after,.pit-core{display:none}
-  .pit-node{position:relative;left:auto!important;top:auto!important;transform:none;width:auto;min-height:92px}
-  .pit-node:hover,.pit-node:focus-visible{transform:translateY(-3px)}
+.pit-sector-score{
+  fill:rgba(255,255,255,.78);
+  text-anchor:middle;
+  pointer-events:none;
+  font-family:Inter,system-ui,sans-serif;
+  font-size:10px;
+  font-weight:700;
 }
-@media(max-width:480px){
-  .pit-arena{grid-template-columns:1fr}
+.pit-center{
+  fill:#142136;
+  stroke:rgba(255,255,255,.18);
+  stroke-width:2;
+}
+.pit-center-ring{
+  fill:none;
+  stroke:rgba(255,255,255,.08);
+  stroke-width:2;
+  stroke-dasharray:4 8;
+}
+.pit-center-title{
+  fill:#fff;
+  text-anchor:middle;
+  font-family:Orbitron,Inter,sans-serif;
+  font-size:38px;
+  font-weight:900;
+  letter-spacing:2px;
+}
+.pit-center-sub{
+  fill:#aebdd1;
+  text-anchor:middle;
+  font-family:Orbitron,Inter,sans-serif;
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:2px;
+}
+.pit-center-help{
+  fill:#8799b0;
+  text-anchor:middle;
+  font-family:Inter,system-ui,sans-serif;
+  font-size:11px;
+  font-weight:700;
+}
+@media(max-width:650px){
+  .pit-sector-label{font-size:15px}
+  .pit-sector-code{font-size:8px}
+  .pit-sector-score{font-size:8px}
+  .pit-center-title{font-size:30px}
+  .pit-center-sub{font-size:8px}
+}
+@media(max-width:470px){
+  .pit-sector-label{font-size:12px}
+  .pit-sector-code,.pit-sector-score{display:none}
+  .pit-center-title{font-size:25px}
+  .pit-center-help{display:none}
 }
 
 </style>
@@ -557,16 +547,68 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid rgba(
 
     <div class="arena-label">Nine stations · one arena</div>
     <div class="pit-arena" data-testid="pit-nonagon">
-      <div class="pit-core"><div><strong>THE PIT</strong><span>ENGLISH LANGUAGE ARENA</span><small>Choose a station</small></div></div>
-      <a class="pit-node n1" href="./stations/vocabulary.html"><b>01 · Aa</b><strong>Vocabulary</strong><small>Score · <span id="sc-vocabulary">0</span></small></a>
-      <a class="pit-node n2" href="./stations/writing.html"><b>02 · Wr</b><strong>Writing</strong><small>Score · <span id="sc-writing">0</span></small></a>
-      <a class="pit-node n3" href="./stations/reading.html"><b>03 · Rd</b><strong>Reading</strong><small>Score · <span id="sc-reading">0</span></small></a>
-      <a class="pit-node n4" href="./stations/speaking.html"><b>04 · Sp</b><strong>Speaking</strong><small>Score · <span id="sc-speaking">0</span></small></a>
-      <a class="pit-node n5" href="./stations/listening.html"><b>05 · Li</b><strong>Listening</strong><small>Score · <span id="sc-listening">0</span></small></a>
-      <a class="pit-node n6" href="./stations/funnycorner.html"><b>06 · Ha</b><strong>Funny Corner</strong><small>Score · <span id="sc-funnycorner">0</span></small></a>
-      <a class="pit-node n7" href="./stations/games.html"><b>07 · Gm</b><strong>Games</strong><small>Score · <span id="sc-games">0</span></small></a>
-      <a class="pit-node n8" href="./stations/challenge.html"><b>08 · Ch</b><strong>Challenge</strong><small>Score · <span id="sc-challenge">0</span></small></a>
-      <a class="pit-node n9" href="./stations/grammar.html"><b>09 · Gr</b><strong>Grammar</strong><small>Score · <span id="sc-grammar">0</span></small></a>
+      <svg class="pit-map" viewBox="0 0 800 800" role="img" aria-label="THE PIT station selector">
+        <a class="pit-sector-link" href="./stations/vocabulary.html" aria-label="Vocabulary">
+          <polygon class="pit-sector" fill="#7c3aed" points="287.1,89.9 512.9,89.9 451.3,259 348.7,259"/>
+          <text class="pit-sector-code" x="400" y="143">01 · Aa</text>
+          <text class="pit-sector-label" x="400" y="169">Vocabulary</text>
+          <text class="pit-sector-score" x="400" y="191">Score · <tspan id="sc-vocabulary">0</tspan></text>
+        </a>
+        <a class="pit-sector-link" href="./stations/writing.html" aria-label="Writing">
+          <polygon class="pit-sector" fill="#0f9f8e" points="512.9,89.9 685.8,235 529.9,325 451.3,259"/>
+          <text class="pit-sector-code" x="551.1" y="198">02 · Wr</text>
+          <text class="pit-sector-label" x="551.1" y="224">Writing</text>
+          <text class="pit-sector-score" x="551.1" y="246">Score · <tspan id="sc-writing">0</tspan></text>
+        </a>
+        <a class="pit-sector-link" href="./stations/reading.html" aria-label="Reading">
+          <polygon class="pit-sector" fill="#22a447" points="685.8,235 725,457.3 547.7,426 529.9,325"/>
+          <text class="pit-sector-code" x="631.4" y="337">03 · Rd</text>
+          <text class="pit-sector-label" x="631.4" y="363">Reading</text>
+          <text class="pit-sector-score" x="631.4" y="385">Score · <tspan id="sc-reading">0</tspan></text>
+        </a>
+        <a class="pit-sector-link" href="./stations/speaking.html" aria-label="Speaking">
+          <polygon class="pit-sector" fill="#2f7bdc" points="725,457.3 612.1,652.8 496.4,514.9 547.7,426"/>
+          <text class="pit-sector-code" x="603.5" y="495">04 · Sp</text>
+          <text class="pit-sector-label" x="603.5" y="521">Speaking</text>
+          <text class="pit-sector-score" x="603.5" y="543">Score · <tspan id="sc-speaking">0</tspan></text>
+        </a>
+        <a class="pit-sector-link" href="./stations/listening.html" aria-label="Listening">
+          <polygon class="pit-sector" fill="#d78b09" points="612.1,652.8 400,730 400,550 496.4,514.9"/>
+          <text class="pit-sector-code" x="480.4" y="599">05 · Li</text>
+          <text class="pit-sector-label" x="480.4" y="625">Listening</text>
+          <text class="pit-sector-score" x="480.4" y="647">Score · <tspan id="sc-listening">0</tspan></text>
+        </a>
+        <a class="pit-sector-link" href="./stations/funnycorner.html" aria-label="Funny Corner">
+          <polygon class="pit-sector" fill="#d9438c" points="400,730 187.9,652.8 303.6,514.9 400,550"/>
+          <text class="pit-sector-code" x="319.6" y="599">06 · Ha</text>
+          <text class="pit-sector-label" x="319.6" y="625">Funny Corner</text>
+          <text class="pit-sector-score" x="319.6" y="647">Score · <tspan id="sc-funnycorner">0</tspan></text>
+        </a>
+        <a class="pit-sector-link" href="./stations/games.html" aria-label="Games">
+          <polygon class="pit-sector" fill="#d94848" points="187.9,652.8 75,457.3 252.3,426 303.6,514.9"/>
+          <text class="pit-sector-code" x="196.5" y="495">07 · Gm</text>
+          <text class="pit-sector-label" x="196.5" y="521">Games</text>
+          <text class="pit-sector-score" x="196.5" y="543">Score · <tspan id="sc-games">0</tspan></text>
+        </a>
+        <a class="pit-sector-link" href="./stations/challenge.html" aria-label="Challenge">
+          <polygon class="pit-sector" fill="#b62f63" points="75,457.3 114.2,235 270.1,325 252.3,426"/>
+          <text class="pit-sector-code" x="168.6" y="337">08 · Ch</text>
+          <text class="pit-sector-label" x="168.6" y="363">Challenge</text>
+          <text class="pit-sector-score" x="168.6" y="385">Score · <tspan id="sc-challenge">0</tspan></text>
+        </a>
+        <a class="pit-sector-link" href="./stations/grammar.html" aria-label="Grammar">
+          <polygon class="pit-sector" fill="#596579" points="114.2,235 287.1,89.9 348.7,259 270.1,325"/>
+          <text class="pit-sector-code" x="248.9" y="198">09 · Gr</text>
+          <text class="pit-sector-label" x="248.9" y="224">Grammar</text>
+          <text class="pit-sector-score" x="248.9" y="246">Score · <tspan id="sc-grammar">0</tspan></text>
+        </a>
+
+        <circle class="pit-center-ring" cx="400" cy="400" r="155"/>
+        <circle class="pit-center" cx="400" cy="400" r="132"/>
+        <text class="pit-center-title" x="400" y="392">THE PIT</text>
+        <text class="pit-center-sub" x="400" y="421">ENGLISH LANGUAGE ARENA</text>
+        <text class="pit-center-help" x="400" y="449">Choose a station</text>
+      </svg>
     </div>
   </div>
 
