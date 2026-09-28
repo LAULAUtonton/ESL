@@ -696,16 +696,92 @@ img.card-icon {
   cursor: pointer;
 }
 
+
+/* ===== VOCABULARY CONSOLE NAVIGATION ===== */
+.vocab-console{max-width:1180px;margin:0 auto}
+.vocab-console-top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:20px}
+.vocab-console-title{font:900 clamp(30px,5vw,52px)/1 Orbitron,sans-serif;color:#fff;letter-spacing:.035em}
+.vocab-console-sub{margin-top:8px;color:rgba(255,255,255,.82);font-size:14px}
+.vocab-back{background:rgba(255,255,255,.12)!important;color:#fff!important;border:1px solid rgba(255,255,255,.32)!important}
+.units-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.unit-card{
+  --unit:#8b5cf6;
+  min-height:220px;
+  padding:20px;
+  border-radius:22px;
+  border:1px solid rgba(255,255,255,.28);
+  background:linear-gradient(145deg,color-mix(in srgb,var(--unit) 88%,#ffffff 0%),color-mix(in srgb,var(--unit) 66%,#24113b));
+  color:#fff;
+  cursor:pointer;
+  box-shadow:0 16px 38px rgba(55,20,95,.20);
+  transition:transform .18s ease,box-shadow .18s ease;
+  display:flex;flex-direction:column;text-align:left;
+}
+.unit-card:hover,.unit-card:focus-visible{transform:translateY(-5px);box-shadow:0 24px 48px rgba(50,20,85,.28);outline:3px solid rgba(255,255,255,.36);outline-offset:2px}
+.unit-kicker{font:800 9px Orbitron,sans-serif;letter-spacing:.18em;opacity:.78}
+.unit-card h2{margin:25px 0 8px;font-size:21px;line-height:1.15;color:#fff}
+.unit-card p{margin:0;color:rgba(255,255,255,.82);font-size:12px;line-height:1.5}
+.unit-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:20px}
+.unit-tags span{padding:6px 8px;border-radius:999px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.17);font-size:9px;font-weight:800}
+.activity-picker{display:none;max-width:980px;margin:0 auto}
+.activity-picker.active{display:block}
+.activity-picker-shell{background:rgba(255,255,255,.96);border-radius:24px;padding:24px;box-shadow:0 20px 52px rgba(0,0,0,.18)}
+.activity-picker-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:18px}
+.activity-picker-kicker{font:800 10px Orbitron,sans-serif;letter-spacing:.18em;color:#8b5cf6}
+.activity-picker-title{margin:5px 0 4px;font:900 clamp(24px,4vw,36px) Orbitron,sans-serif;color:#3b175c}
+.activity-picker-meta{color:#6b7280;font-size:12px}
+.activity-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.activity-choice{
+  min-height:132px;padding:18px;border-radius:17px;border:1px solid #e7ddf3;background:linear-gradient(145deg,#fff,#f7f0ff);
+  color:#3b175c;text-align:left;cursor:pointer;transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease
+}
+.activity-choice:hover,.activity-choice:focus-visible{transform:translateY(-3px);border-color:#a855f7;box-shadow:0 14px 26px rgba(90,45,120,.12);outline:none}
+.activity-code{font:800 9px Orbitron,sans-serif;letter-spacing:.15em;color:#a855f7}
+.activity-choice strong{display:block;margin:10px 0 6px;font-size:15px}
+.activity-choice small{display:block;color:#6b7280;line-height:1.45}
+.activity-choice.special{background:linear-gradient(145deg,#f6efff,#eadcff)}
+#activityHeader,#activityMain{display:none}
+#activityHeader.active,#activityMain.active{display:block}
+.activity-context{font-size:11px;color:#6b7280;font-weight:700}
+@media(max-width:1000px){.units-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.activity-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.vocab-console-top{align-items:flex-start;flex-direction:column}}
+@media(max-width:520px){.units-grid,.activity-grid{grid-template-columns:1fr}.unit-card{min-height:185px}}
 </style>
 </head>
 <body>
 
 <div class="container">
-  <header>
+  <section id="unitConsole" class="vocab-console">
+    <div class="vocab-console-top">
+      <div>
+        <div class="vocab-console-title">VOCABULARY STATION</div>
+        <div class="vocab-console-sub">Choose a unit first. Then choose how you want to practise its vocabulary.</div>
+      </div>
+      <button class="vocab-back" onclick="location.href='../the-pit.html'">PIT HUB</button>
+    </div>
+    <div class="units-grid" id="unitsGrid"></div>
+  </section>
+
+  <section id="activityPicker" class="activity-picker">
+    <div class="activity-picker-shell">
+      <div class="activity-picker-head">
+        <div>
+          <div class="activity-picker-kicker">VOCABULARY UNIT</div>
+          <div class="activity-picker-title" id="pickerTitle">Choose an activity</div>
+          <div class="activity-picker-meta" id="pickerMeta"></div>
+        </div>
+        <button onclick="backToUnits()">BACK TO UNITS</button>
+      </div>
+      <div class="activity-grid" id="activityGrid"></div>
+    </div>
+  </section>
+
+  <header id="activityHeader">
     <h1>VOCABULARY STATION</h1>
     
     <div class="controls">
-      <button class="back-btn" onclick="location.href='../index.html'">PIT HUB</button>
+      <button class="back-btn" onclick="location.href='../the-pit.html'">PIT HUB</button>
+      <button onclick="backToActivities()">ACTIVITIES</button>
       <select id="unitSelect"><option value="all">All Units</option></select>
       <select id="categorySelect"><option value="all">All Categories</option></select>
       <button id="shuffleBtn">Shuffle</button>
@@ -713,11 +789,11 @@ img.card-icon {
     </div>
     
     <div class="mode-tabs">
-      <button class="mode-tab active" data-mode="flashcards">Flashcards</button>
-      <button class="mode-tab" data-mode="sorting">Sorting</button>
-      <button class="mode-tab" data-mode="quiz">Quiz</button>
-      <button class="mode-tab" data-mode="hangman">Hangman</button>
-      <button class="mode-tab" data-mode="memory">Memory</button>
+      <button class="mode-tab active" data-mode="flashcards">Pictures & Words</button>
+      <button class="mode-tab" data-mode="sorting">Categories</button>
+      <button class="mode-tab" data-mode="quiz">Quick Quiz</button>
+      <button class="mode-tab" data-mode="hangman">Spelling</button>
+      <button class="mode-tab" data-mode="memory">Matching</button>
       <button class="mode-tab" data-mode="sentence">Sentences</button>
       <button class="mode-tab" data-mode="explore">Explore</button>
     </div>
@@ -729,7 +805,7 @@ img.card-icon {
     </div>
   </header>
 
-  <main>
+  <main id="activityMain">
     <div id="flashcards-screen" class="activity-screen active"><div class="grid" id="grid"></div></div>
     <div id="sorting-screen" class="activity-screen">
       <div class="sorting-container">
@@ -1970,9 +2046,95 @@ document.getElementById('categorySelect').addEventListener('change', loadCards);
 document.getElementById('shuffleBtn').addEventListener('click', () => { currentCards = shuffle(currentCards); flippedSet.clear(); setMode(currentMode); });
 document.getElementById('resetBtn').addEventListener('click', () => { score = 0; streak = 0; loadCards(); });
 
+// VOCABULARY CONSOLE FLOW
+let selectedConsoleUnit = null;
+let specialActivity = '';
+
+function renderUnitConsole(){
+  const palette=['#7c3aed','#8b5cf6','#16a34a','#0f9f8e','#e08417','#ef4f91','#2878dc','#b3275c'];
+  document.getElementById('unitsGrid').innerHTML=VOCAB_DB.units.map((u,i)=>{
+    const tags=u.sets.slice(0,3).map(s=>'<span>'+esc(s.label)+'</span>').join('');
+    return '<button class="unit-card" style="--unit:'+palette[i%palette.length]+'" onclick="chooseUnit('+u.unit+')">'+
+      '<span class="unit-kicker">UNIT '+String(u.unit).padStart(2,'0')+'</span>'+
+      '<h2>'+esc(u.title)+'</h2>'+
+      '<p>'+countWords(u)+' vocabulary items · '+u.sets.length+' topic groups</p>'+
+      '<div class="unit-tags">'+tags+'</div></button>';
+  }).join('');
+}
+
+window.chooseUnit=function(unitNo){
+  selectedConsoleUnit=unitNo;
+  const u=VOCAB_DB.units.find(x=>x.unit===unitNo);
+  if(!u)return;
+  document.getElementById('unitConsole').style.display='none';
+  document.getElementById('activityPicker').classList.add('active');
+  document.getElementById('activityHeader').classList.remove('active');
+  document.getElementById('activityMain').classList.remove('active');
+  document.getElementById('pickerTitle').textContent='Unit '+u.unit+': '+u.title;
+  document.getElementById('pickerMeta').textContent=countWords(u)+' words · choose one activity';
+  const hasPairs=u.sets.some(s=>s.type==='pairs');
+  const choices=[
+    ['flashcards','PIC','Pictures & Words','Study the vocabulary with cards, pronunciation and visual support.'],
+    ['sorting','CAT','Categories','Sort vocabulary into the correct topic groups.'],
+    ['memory','MAT','Matching','Match vocabulary words with their categories.'],
+    ['quiz','QUIZ','Quick Quiz','Choose the correct category for each word.'],
+    ['hangman','SPELL','Spelling','Practise spelling by discovering the hidden word.'],
+    ['sentence','SENT','Sentences','Use the vocabulary in complete sentences.'],
+    ['explore','EXP','Explore Vocabulary','See all the vocabulary sets in this unit.']
+  ];
+  if(hasPairs) choices.splice(1,0,['opposites','OPP','Opposites','Practise only the opposite or paired vocabulary in this unit.']);
+  document.getElementById('activityGrid').innerHTML=choices.map(c=>
+    '<button class="activity-choice '+(c[0]==='opposites'?'special':'')+'" onclick="startUnitActivity(\''+c[0]+'\')">'+
+    '<span class="activity-code">'+c[1]+'</span><strong>'+c[2]+'</strong><small>'+c[3]+'</small></button>'
+  ).join('');
+};
+
+window.backToUnits=function(){
+  selectedConsoleUnit=null;
+  specialActivity='';
+  document.getElementById('activityPicker').classList.remove('active');
+  document.getElementById('activityHeader').classList.remove('active');
+  document.getElementById('activityMain').classList.remove('active');
+  document.getElementById('unitConsole').style.display='block';
+};
+
+window.backToActivities=function(){
+  if(selectedConsoleUnit) chooseUnit(selectedConsoleUnit); else backToUnits();
+};
+
+window.startUnitActivity=function(mode){
+  specialActivity=mode==='opposites'?'opposites':'';
+  currentUnit=String(selectedConsoleUnit);
+  currentCategory='all';
+  document.getElementById('unitSelect').value=currentUnit;
+  document.getElementById('categorySelect').value='all';
+  allCards=flattenVocab(currentUnit,'all');
+  currentCards=allCards.slice();
+  if(specialActivity==='opposites'){
+    const u=VOCAB_DB.units.find(x=>x.unit===selectedConsoleUnit);
+    const pairCats=new Set(u.sets.filter(s=>s.type==='pairs').map(s=>s.category));
+    currentCards=currentCards.filter(c=>pairCats.has(c.category));
+    currentMode='flashcards';
+  }else{
+    currentMode=mode;
+  }
+  flippedSet.clear();
+  updateCategorySelect();
+  document.getElementById('activityPicker').classList.remove('active');
+  document.getElementById('unitConsole').style.display='none';
+  document.getElementById('activityHeader').classList.add('active');
+  document.getElementById('activityMain').classList.add('active');
+  setMode(currentMode);
+};
+
 // START
 initSelects();
-loadCards();
+renderUnitConsole();
+currentUnit='all';
+currentCategory='all';
+allCards=flattenVocab('all','all');
+currentCards=allCards.slice();
+updateHUD();
 </script>
 </body>
 </html>
