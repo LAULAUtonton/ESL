@@ -746,6 +746,25 @@ img.card-icon {
 @media(max-width:1000px){.units-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.activity-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.vocab-console-top{align-items:flex-start;flex-direction:column}}
 @media(max-width:520px){.units-grid,.activity-grid{grid-template-columns:1fr}.unit-card{min-height:185px}}
+
+/* ===== VOCAB CARD MODES ===== */
+.activity-mode-banner{
+  display:none;
+  margin:0 0 14px;
+  padding:13px 16px;
+  border-radius:14px;
+  background:rgba(255,255,255,.94);
+  border:1px solid rgba(88,28,135,.15);
+  box-shadow:0 8px 20px rgba(70,35,105,.09);
+}
+.activity-mode-banner.active{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.activity-mode-banner strong{color:#581c87;font:800 13px Orbitron,sans-serif;letter-spacing:.05em}
+.activity-mode-banner span{color:#6b7280;font-size:12px}
+.picture-back{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.picture-back img{max-width:150px;max-height:130px;object-fit:contain;border-radius:16px;background:#fff;padding:8px}
+.picture-placeholder{width:128px;height:128px;border-radius:24px;display:grid;place-items:center;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.28);font:900 48px Orbitron,sans-serif;color:#fff}
+.meaning-back{font-size:15px;line-height:1.6;max-width:210px}
+.spanish-back{font-size:27px;font-weight:900;line-height:1.2;margin-bottom:10px}
 </style>
 </head>
 <body>
@@ -805,6 +824,10 @@ img.card-icon {
     </div>
   </header>
 
+  <div class="activity-mode-banner" id="activityModeBanner">
+    <strong id="activityModeTitle">WORDS + PICTURES</strong>
+    <span id="activityModeHelp">Flip the card to reveal the visual.</span>
+  </div>
   <main id="activityMain">
     <div id="flashcards-screen" class="activity-screen active"><div class="grid" id="grid"></div></div>
     <div id="sorting-screen" class="activity-screen">
@@ -1706,6 +1729,8 @@ function updateHUD() {
 // MODE SWITCHING
 function setMode(mode) {
   currentMode = mode;
+  const modeBanner=document.getElementById('activityModeBanner');
+  if(modeBanner && mode!=='flashcards') modeBanner.classList.remove('active');
   document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
   document.querySelector(`.mode-tab[data-mode="${mode}"]`)?.classList.add('active');
   document.querySelectorAll('.activity-screen').forEach(s => s.classList.remove('active'));
@@ -1723,25 +1748,83 @@ function setMode(mode) {
 document.querySelectorAll('.mode-tab').forEach(t => t.addEventListener('click', () => setMode(t.dataset.mode)));
 
 // FLASHCARDS
+
+const SPANISH_TRANSLATIONS = {
+"happy":"feliz","sad":"triste","scared":"asustado/a","surprised":"sorprendido/a","tired":"cansado/a","bored":"aburrido/a","excited":"emocionado/a","worried":"preocupado/a","relaxed":"relajado/a","angry":"enfadado/a","nervous":"nervioso/a","proud":"orgulloso/a","disappointed":"decepcionado/a","confused":"confundido/a","embarrassed":"avergonzado/a","jealous":"celoso/a",
+"yesterday":"ayer","last week":"la semana pasada","ago":"hace","in the past":"en el pasado","nowadays":"hoy en día","recently":"recientemente","already":"ya","yet":"todavía / aún","just":"acabar de / justo","still":"todavía",
+"cardboard":"cartón","cotton":"algodón","glass":"vidrio","leather":"cuero","metal":"metal","paper":"papel","plastic":"plástico","wood":"madera","wool":"lana","stone":"piedra","clay":"arcilla","fabric":"tela","rubber":"goma","silk":"seda","concrete":"hormigón",
+"painting":"pintura / cuadro","sculpture":"escultura","photography":"fotografía","drawing":"dibujo","portrait":"retrato","landscape":"paisaje","exhibition":"exposición","gallery":"galería","artist":"artista","painter":"pintor/a","sculptor":"escultor/a","designer":"diseñador/a","masterpiece":"obra maestra","canvas":"lienzo","brush":"pincel","paint":"pintar","draw":"dibujar","design":"diseñar","create":"crear","sculpt":"esculpir","sketch":"hacer un boceto","carve":"tallar","exhibit":"exponer","illustrate":"ilustrar","photograph":"fotografiar",
+"cycling":"ciclismo","jogging":"correr suavemente","hiking":"senderismo","climbing":"escalada","swimming":"natación","skateboarding":"monopatín","camping":"acampada","fishing":"pesca","bird watching":"observación de aves","gardening":"jardinería","rowing":"remo","surfing":"surf","kayaking":"piragüismo","running":"correr",
+"park":"parque","playground":"parque infantil","forest":"bosque","beach":"playa","mountain":"montaña","lake":"lago","river":"río","garden":"jardín","trail":"sendero","campsite":"camping / zona de acampada","cliff":"acantilado","valley":"valle","coast":"costa","recycle":"reciclar","pollution":"contaminación","climate":"clima","wildlife":"vida silvestre","nature":"naturaleza","sustainable":"sostenible","eco-friendly":"ecológico/a","renewable":"renovable","conservation":"conservación","endangered":"en peligro de extinción",
+"kind":"amable","generous":"generoso/a","patient":"paciente","polite":"educado/a","confident":"seguro/a de sí mismo/a","helpful":"servicial","honest":"honesto/a","friendly":"amistoso/a","caring":"atento/a","reliable":"fiable","hardworking":"trabajador/a","respectful":"respetuoso/a","cheerful":"alegre","thoughtful":"considerado/a",
+"lazy":"perezoso/a","mean":"malo/a / cruel","rude":"maleducado/a","impatient":"impaciente","selfish":"egoísta","dishonest":"deshonesto/a","unfriendly":"antipático/a","careless":"descuidado/a","stubborn":"terco/a","arrogant":"arrogante","volunteer":"ser voluntario/a","donate":"donar","support":"apoyar","assist":"ayudar","encourage":"animar","comfort":"consolar","protect":"proteger","share":"compartir","cooperate":"cooperar","contribute":"contribuir",
+"sight":"vista","hearing":"oído","smell":"olfato","taste":"gusto","touch":"tacto","see":"ver","hear":"oír","feel":"sentir","listen":"escuchar","notice":"notar","loud":"fuerte / ruidoso","quiet":"silencioso","bright":"brillante","dark":"oscuro","soft":"suave","hard":"duro","sweet":"dulce","sour":"ácido","bitter":"amargo","salty":"salado","smooth":"liso","rough":"áspero","spicy":"picante","delicious":"delicioso",
+"player":"jugador/a","team":"equipo","score":"puntuación","rules":"reglas","challenge":"reto","winner":"ganador/a","loser":"perdedor/a","turn":"turno","dice":"dado","board game":"juego de mesa","puzzle":"rompecabezas","competition":"competición","throw":"lanzar","catch":"atrapar","roll":"tirar / rodar","guess":"adivinar","hide":"esconder","seek":"buscar","race":"carrera","compete":"competir","collect":"recoger / coleccionar",
+"brain":"cerebro","heart":"corazón","lungs":"pulmones","muscles":"músculos","bones":"huesos","stomach":"estómago","skin":"piel","blood":"sangre","spine":"columna vertebral","joints":"articulaciones","nerves":"nervios","stretch":"estirar","warm up":"calentar","cool down":"enfriar / vuelta a la calma","work out":"hacer ejercicio","rest":"descansar","breathe":"respirar","lift":"levantar","run":"correr","jump":"saltar","squat":"sentadilla","push-up":"flexión","train":"entrenar",
+"healthy":"saludable","fit":"en forma","injury":"lesión","diet":"dieta","energy":"energía","sleep":"dormir / sueño","strength":"fuerza","balance":"equilibrio","stamina":"resistencia","flexibility":"flexibilidad","nutrition":"nutrición","shower":"ducha","brush teeth":"cepillarse los dientes","wash hands":"lavarse las manos","clean":"limpio / limpiar","soap":"jabón","towel":"toalla","shampoo":"champú","toothpaste":"pasta de dientes",
+"cook":"cocinar","sew":"coser","repair":"reparar","budget":"presupuesto","organise":"organizar","communicate":"comunicar","problem-solve":"resolver problemas","plan":"planificar","research":"investigar","manage":"gestionar","prioritise":"priorizar","first":"primero","then":"después","next":"a continuación","after that":"después de eso","finally":"finalmente","step":"paso","tip":"consejo","warning":"advertencia","meanwhile":"mientras tanto","make sure":"asegurarse","should":"debería","shouldn't":"no debería","must":"deber / tener que","mustn't":"no deber / estar prohibido","have to":"tener que","need to":"necesitar","could":"podría","ought to":"debería",
+"knife":"cuchillo","scissors":"tijeras","hammer":"martillo","screwdriver":"destornillador","measuring cup":"vaso medidor","bowl":"cuenco","pan":"sartén","oven":"horno","tape":"cinta adhesiva","needle":"aguja",
+"doctor":"médico/a","nurse":"enfermero/a","teacher":"profesor/a","engineer":"ingeniero/a","lawyer":"abogado/a","chef":"cocinero/a","firefighter":"bombero/a","police officer":"policía","scientist":"científico/a","journalist":"periodista","programmer":"programador/a","vet":"veterinario/a","pilot":"piloto","architect":"arquitecto/a","electrician":"electricista","plumber":"fontanero/a",
+"holiday":"vacaciones","vacation":"vacaciones","sunscreen":"protector solar","sunglasses":"gafas de sol","swimming pool":"piscina","ice cream":"helado","barbecue":"barbacoa","travel":"viajar","relax":"relajarse","adventure":"aventura","sunshine":"luz del sol","tan":"bronceado","classmate":"compañero/a de clase","friend":"amigo/a","project":"proyecto","exam":"examen","trip":"viaje / excursión","presentation":"presentación","celebration":"celebración","achievement":"logro","memory":"recuerdo","graduation":"graduación","report":"informe / boletín","certificate":"certificado",
+"myself":"yo mismo/a","yourself":"tú mismo/a","himself":"él mismo","herself":"ella misma","itself":"sí mismo/a","ourselves":"nosotros/as mismos/as","yourselves":"vosotros/as mismos/as","themselves":"ellos/as mismos/as",
+"agree":"estar de acuerdo","disagree":"estar en desacuerdo","appear":"aparecer","disappear":"desaparecer","borrow":"pedir prestado","lend":"prestar","buy":"comprar","sell":"vender","connect":"conectar","disconnect":"desconectar","lose":"perder","win":"ganar","save":"ahorrar / guardar","spend":"gastar","send":"enviar","receive":"recibir","remember":"recordar","forget":"olvidar","start":"empezar","finish":"terminar","arrive":"llegar","leave":"salir / marcharse","allow":"permitir","forbid":"prohibir","accept":"aceptar","refuse":"rechazar","succeed":"tener éxito","fail":"fracasar",
+"look after":"cuidar","take care of":"cuidar de","give up":"rendirse / dejar","stop trying":"dejar de intentarlo","carry on":"continuar","continue":"continuar","find out":"averiguar","discover":"descubrir","set up":"establecer / montar","establish":"establecer","take part":"participar","participate":"participar","look for":"buscar","search":"buscar","put off":"posponer","postpone":"posponer","turn down":"rechazar","exercise/solve":"hacer ejercicio / resolver"
+};
+
+function getSpanish(word){
+  return SPANISH_TRANSLATIONS[String(word||'').toLowerCase()] || 'Translation not added yet';
+}
+
+function getMeaning(card){
+  if(card.example) return card.example;
+  if(card.back) return card.back;
+  return card.setLabel + ' · ' + card.pos;
+}
+
+function getModeLabel(){
+  if(specialActivity==='meaning') return ['WORDS + MEANING','Flip the card to see meaning in context.'];
+  if(specialActivity==='spanish') return ['WORDS + SPANISH','Flip the card to see the Spanish translation.'];
+  if(specialActivity==='opposites') return ['OPPOSITES','Flip the card to see the opposite.'];
+  if(specialActivity==='synonyms') return ['SYNONYMS','Flip the card to see the synonym.'];
+  return ['WORDS + PICTURES','Flip the card to reveal the visual.'];
+}
+
 function renderFlashcards() {
   const grid = document.getElementById('grid');
-  grid.innerHTML = currentCards.map((c, i) => `
-    <div class="card ${flippedSet.has(i)?'flipped':''}" onclick="flipCard(${i})">
-      <div class="card-inner">
-        <div class="card-face card-front">
-          ${c.icon ? `<img class="card-icon" src="icons/${c.icon}" alt="${esc(c.front)}" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"><div class="card-letter-icon" style="display:none">${esc(c.front.charAt(0))}</div>` : `<div class="card-letter-icon">${esc(c.front.charAt(0))}</div>`}
-          <div class="card-word">${esc(c.front)}</div>
-          <div class="card-pos">${esc(c.pos)}</div>
-          <button class="sound-btn" type="button" aria-label="Hear ${esc(c.front)}" title="Hear ${esc(c.front)}" onclick="speakWord(decodeURIComponent('${encodeURIComponent(c.front)}'), event)">&#128264;</button>
-        </div>
-        <div class="card-face card-back">
-          <div class="card-translation">${c.back ? esc(c.back) : esc(c.front)}</div>
-          <div class="card-category">${esc(c.setLabel)}</div>
-          <div class="card-unit">Unit ${c.unit}</div>
-        </div>
-      </div>
-    </div>
-  `).join('');
+  const modeInfo=getModeLabel();
+  const banner=document.getElementById('activityModeBanner');
+  if(banner){
+    banner.classList.add('active');
+    document.getElementById('activityModeTitle').textContent=modeInfo[0];
+    document.getElementById('activityModeHelp').textContent=modeInfo[1];
+  }
+
+  grid.innerHTML = currentCards.map((c, i) => {
+    let backHtml='';
+    if(specialActivity==='meaning'){
+      backHtml='<div class="meaning-back">'+esc(getMeaning(c))+'</div><div class="card-category">'+esc(c.setLabel)+'</div>';
+    }else if(specialActivity==='spanish'){
+      backHtml='<div class="spanish-back">'+esc(getSpanish(c.front))+'</div><div class="card-category">Spanish</div>';
+    }else if(specialActivity==='opposites' || specialActivity==='synonyms'){
+      backHtml='<div class="spanish-back">'+esc(c.back||'—')+'</div><div class="card-category">'+esc(c.setLabel)+'</div>';
+    }else{
+      const visual=c.icon
+        ? '<img src="icons/'+c.icon+'" alt="'+esc(c.front)+'" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'grid\';"><div class="picture-placeholder" style="display:none">'+esc(c.front.charAt(0))+'</div>'
+        : '<div class="picture-placeholder">'+esc(c.front.charAt(0))+'</div>';
+      backHtml='<div class="picture-back">'+visual+'<div class="card-category">'+esc(c.setLabel)+'</div></div>';
+    }
+
+    return '<div class="card '+(flippedSet.has(i)?'flipped':'')+'" onclick="flipCard('+i+')">'+
+      '<div class="card-inner">'+
+        '<div class="card-face card-front">'+
+          '<div class="card-word">'+esc(c.front)+'</div>'+
+          '<div class="card-pos">'+esc(c.pos)+'</div>'+
+          '<button class="sound-btn" type="button" aria-label="Hear '+esc(c.front)+'" title="Hear '+esc(c.front)+'" onclick="speakWord(decodeURIComponent(\''+encodeURIComponent(c.front)+'\'), event)">&#128264;</button>'+
+        '</div>'+
+        '<div class="card-face card-back">'+backHtml+'<div class="card-unit">Unit '+c.unit+'</div></div>'+
+      '</div>'+
+    '</div>';
+  }).join('');
   updateHUD();
 }
 
