@@ -723,6 +723,73 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid rgba(
   #view-stations .pit-hero-card{grid-column:auto}
 }
 
+
+/* ===== SKY TECH THE PIT HUB ===== */
+:root{
+  color-scheme:light;
+  --sky-bg:#DDEBFA;
+  --sky-top:#CBDDF3;
+  --sky-card:#F9FCFF;
+  --sky-text:#193755;
+  --sky-muted:#4E6B86;
+  --sky-line:#AFC6DE;
+  --pit-accent:#8D73D9;
+}
+body{
+  background:linear-gradient(145deg,var(--sky-bg) 0%,var(--sky-top) 46%,#EFF7FF 100%) !important;
+  color:var(--sky-text) !important;
+}
+.bg-glow{opacity:.16 !important}
+.bg-grid{opacity:.22 !important}
+.login-overlay{background:rgba(221,235,250,.92) !important}
+.login-box,.score-banner,.station-card,.lb-panel,.share-section,.tabs,.header-stat{
+  background:var(--sky-card) !important;
+  color:var(--sky-text) !important;
+  border-color:var(--sky-line) !important;
+  box-shadow:0 14px 32px rgba(65,99,138,.13) !important;
+}
+.login-box h1,.logo,.station-name,.score-value,.score-detail .num,.tab.active{
+  color:var(--sky-text) !important;
+  -webkit-text-fill-color:initial !important;
+  background:none !important;
+}
+.login-box .subtitle,.login-box p,.score-label,.gp-label,.station-desc,.share-label,.score-detail .lbl,.station-score,.section-title,.lb-table th,.lb-date,.lb-empty,#importMsg,.footer,.tab{
+  color:var(--sky-muted) !important;
+}
+.login-input,.share-input{
+  background:#fff !important;
+  color:var(--sky-text) !important;
+  border:2px solid var(--sky-line) !important;
+}
+.login-btn,.tab.active{
+  background:var(--pit-accent) !important;
+  color:#fff !important;
+  border-color:var(--pit-accent) !important;
+}
+.tabs{border:2px solid var(--sky-line) !important}
+.station-card{
+  border:3px solid var(--sky-line) !important;
+}
+.station-card:hover{
+  background:#fff !important;
+  border-color:var(--pit-accent) !important;
+  box-shadow:0 18px 38px rgba(65,99,138,.18) !important;
+}
+.gp-bar{background:#E8F1FB !important;border:1px solid var(--sky-line) !important}
+.gp-fill{filter:saturate(.9) brightness(1.03)}
+.header{border-bottom-color:var(--sky-line) !important}
+.exit-btn{
+  background:#fff !important;
+  color:var(--sky-text) !important;
+  border:2px solid var(--sky-line) !important;
+  font-weight:800 !important;
+}
+.exit-btn:hover{border-color:var(--pit-accent) !important}
+button:focus-visible,a:focus-visible,input:focus-visible{
+  outline:3px solid var(--pit-accent) !important;
+  outline-offset:3px !important;
+}
+
 </style>
 </head>
 <body>
