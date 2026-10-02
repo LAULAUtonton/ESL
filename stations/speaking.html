@@ -613,6 +613,72 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
   cursor: pointer;
   margin: 4px;
 }
+
+/* ===== SKY TECH SYSTEM — shared accessible station palette ===== */
+:root{
+  --sky-bg:#DDEBFA;
+  --sky-top:#CBDDF3;
+  --sky-card:#F9FCFF;
+  --sky-text:#193755;
+  --sky-muted:#4E6B86;
+  --sky-line:#AFC6DE;
+  --station-accent:#3B82F6;
+}
+html{color-scheme:light}
+body{
+  background:linear-gradient(145deg,var(--sky-bg) 0%,var(--sky-top) 46%,#EFF7FF 100%) !important;
+  color:var(--sky-text) !important;
+  font-weight:600;
+}
+body::before{
+  opacity:.18 !important;
+}
+.container,.main-container,.app,.wrapper{color:var(--sky-text)}
+.login-box,.main-panel,.panel,.card,.exercise-card,.mode-panel,.content-panel,.game-panel,.hud,.controls,.sidebar,.modal-content{
+  background:var(--sky-card) !important;
+  color:var(--sky-text) !important;
+  border-color:var(--sky-line) !important;
+  box-shadow:0 12px 28px rgba(62,100,140,.12) !important;
+}
+h1,h2,h3,h4,.title,.ex-title,.card-word,.idiom-text,.question,.prompt{
+  color:var(--sky-text) !important;
+  text-shadow:none !important;
+}
+.sub,.subtitle,.small,.desc,.description,.ex-meta,.meta,.hint,.helper,.muted{
+  color:var(--sky-muted) !important;
+}
+button,.btn,.back-btn,.start-btn,.play-btn,.mode-tab,.quiz-option,.action-btn{
+  border-width:2px !important;
+  font-weight:800 !important;
+}
+.back-btn,.start-btn,.play-btn,.btn-primary,.mode-tab.active{
+  background:var(--station-accent) !important;
+  color:#fff !important;
+  border-color:var(--station-accent) !important;
+}
+.mode-tab:not(.active),.quiz-option,.action-btn{
+  background:#fff !important;
+  color:var(--sky-text) !important;
+  border-color:var(--sky-line) !important;
+}
+.mode-tab:not(.active):hover,.quiz-option:hover,.action-btn:hover{
+  border-color:var(--station-accent) !important;
+}
+input,select,textarea{
+  background:#fff !important;
+  color:var(--sky-text) !important;
+  border:2px solid var(--sky-line) !important;
+}
+input::placeholder,textarea::placeholder{color:#7189A2 !important}
+.badge,.pill,.tag{
+  border:2px solid var(--sky-line) !important;
+  color:var(--sky-text) !important;
+}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+  outline:3px solid var(--station-accent) !important;
+  outline-offset:3px !important;
+}
+
 </style>
 </head>
 <body>
