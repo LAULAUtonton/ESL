@@ -83,6 +83,81 @@ background-size:auto,auto,auto,72px 72px,72px 72px}
 .game.escape:hover,.game.escape:focus-visible{
   box-shadow:0 34px 84px rgba(0,0,0,.30),0 0 34px rgba(102,240,168,.18)!important;
 }
+
+/* ===== SKY TECH ACCESSIBILITY PALETTE ===== */
+:root{
+  color-scheme:light;
+  --bg:#DDEBFA;
+  --top:#CBDDF3;
+  --card:#F9FCFF;
+  --text:#193755;
+  --muted:#425F7C;
+  --line:#AFC6DE;
+  --pit:#8D73D9;
+  --trivial:#28B8E0;
+  --scape:#3FC58B;
+}
+body{
+  color:var(--text);
+  background:linear-gradient(145deg,#DDEBFA 0%,#CBDDF3 44%,#EEF6FF 100%);
+  font-weight:700;
+}
+body:before{
+  background:
+    radial-gradient(circle at 15% 12%,rgba(141,115,217,.18),transparent 30%),
+    radial-gradient(circle at 84% 73%,rgba(40,184,224,.15),transparent 32%),
+    linear-gradient(rgba(25,55,85,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(25,55,85,.035) 1px,transparent 1px);
+  background-size:auto,auto,72px 72px,72px 72px;
+}
+.topline,.kicker,.subtitle,.option,.desc,.meta,.bottom{color:var(--text);text-shadow:none}
+.title{color:var(--text);text-shadow:none}
+.system-dot{background:var(--scape);box-shadow:0 0 0 5px rgba(63,197,139,.16)}
+.game{
+  background:var(--card);
+  border:3px solid var(--line);
+  box-shadow:0 16px 36px rgba(73,108,145,.18);
+}
+.game:hover,.game:focus-visible{
+  transform:translateY(-6px);
+  box-shadow:0 22px 44px rgba(73,108,145,.24);
+}
+.game:before,.game:after{opacity:.2}
+.game.pit{border-color:#B7A8E8}
+.game.trivial{border-color:#8EDCED}
+.game.escape{border-color:#91DEBB}
+.game.pit:hover,.game.pit:focus-visible{border-color:var(--pit)}
+.game.trivial:hover,.game.trivial:focus-visible{border-color:var(--trivial)}
+.game.escape:hover,.game.escape:focus-visible{border-color:var(--scape)}
+.game h2{color:var(--text)!important;text-shadow:none}
+.pit h2{color:var(--pit)!important}
+.trivial h2{color:#168FB0!important}
+.escape h2{color:#24885F!important}
+.badge{
+  background:#FFFFFF;
+  color:var(--text);
+  border:2px solid var(--line);
+  box-shadow:none;
+}
+.pit .badge{border-color:#B7A8E8}
+.trivial .badge{border-color:#8EDCED}
+.escape .badge{border-color:#91DEBB}
+.desc{color:#274966;font-weight:800}
+.meta{color:#52708C;font-weight:900}
+.enter{color:var(--text)}
+.arrow{
+  background:#FFFFFF;
+  color:var(--text);
+  border:2px solid var(--line);
+  box-shadow:0 7px 16px rgba(73,108,145,.14);
+}
+.pit .arrow{background:var(--pit);color:#fff;border-color:var(--pit)}
+.trivial .arrow{background:var(--trivial);color:#fff;border-color:var(--trivial)}
+.escape .arrow{background:var(--scape);color:#fff;border-color:var(--scape)}
+@media(max-width:760px){
+  .game{background:#F9FCFF}
+}
+
 </style>
 </head>
 <body>
